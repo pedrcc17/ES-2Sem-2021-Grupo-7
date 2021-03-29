@@ -11,7 +11,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
-			BufferedReader javaFile = new BufferedReader(new FileReader("C:\\Users\\pedro\\eclipse-workspace\\EngenhariaDeSoftware\\src\\Default\\RandomizedQueue.java"));
+			BufferedReader javaFile = new BufferedReader(new FileReader("src\\Default\\RandomizedQueue.java"));
 			if(javaFile.readLine().split(" ")[0] != "import") {
 				System.out.println("Hooray");
 			}
