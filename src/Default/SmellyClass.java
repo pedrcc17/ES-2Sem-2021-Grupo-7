@@ -27,63 +27,54 @@ public class SmellyClass {
 				line = javaFile.readLine();
 			}
 			javaFile.close();
-			System.out.println("The class has "+method+ " methods.");
+			System.out.println("The class has " + method + " methods.");
 		} catch (IOException e) {
 			System.out.println("End of class");
 		}
 	}
 
-
-
 	public void WMC(BufferedReader file) {
-        javaFile = file;
-        try {
-            line = javaFile.readLine();
-            while (line != null) {
-                if (((line.contains("private") || line.contains("public")) && line.endsWith("{")
-                        && !line.contains("class"))) {
-                    cyclo_methods++;
-                }
-                if ((line.contains("while") || line.contains("for") || line.contains("if")) && line.endsWith("{")) {
-                    cyclo_methods++;
-                }
-                line = javaFile.readLine();
-            }
-            javaFile.close();
-            System.out.println(cyclo_methods);
-        } catch (IOException e) {
-            System.out.println("End of class");
-        }
-    }
+		javaFile = file;
+		try {
+			line = javaFile.readLine();
+			while (line != null) {
+				if (((line.contains("private") || line.contains("public")) && line.endsWith("{")
+						&& !line.contains("class"))) {
+					cyclo_methods++;
+				}
+				if ((line.contains("while") || line.contains("for") || line.contains("if")) && line.endsWith("{")) {
+					cyclo_methods++;
+				}
+				line = javaFile.readLine();
+			}
+
+			System.out.println(cyclo_methods);
+		} catch (IOException e) {
+			System.out.println("End of class");
+		}
+	}
 
 	public void CYCLO(BufferedReader file) {
 		javaFile = file;
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-
 				if (((line.contains("private") || line.contains("public")) && line.endsWith("{")
 						&& !line.contains("class"))) {
 					cyclo_methods++;
-
-				if ((line.contains("private") || line.contains("public")) && line.endsWith("{")
-						&& !line.contains("class")) {
-					System.out.println("WTFF");
-
+					if ((line.contains("private") || line.contains("public")) && line.endsWith("{")
+							&& !line.contains("class")) {
+						System.out.println("WTFF");
+					}
+					if ((line.contains("while") || line.contains("for") || line.contains("if")) && line.endsWith("{")) {
+						cyclo_methods++;
+					}
+					line = javaFile.readLine();
 				}
-
-				if ((line.contains("while") || line.contains("for") || line.contains("if")) && line.endsWith("{")) {
-					cyclo_methods++;
-				}
-
 				line = javaFile.readLine();
+				System.out.println(cyclo_methods);
+				javaFile.close();
 			}
-
-			System.out.println(cyclo_methods);
-
-			javaFile.close();
-			}
-
 		} catch (IOException e) {
 			System.out.println("End of class");
 		}
