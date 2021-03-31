@@ -8,15 +8,10 @@ public class SmellyClass {
 	private String line = "";
 	private int method = 0;
 	private int lines_of_code = 0;
+	private int cyclo_methods = 1;
 
-	
-	public SmellyClass(BufferedReader in) {
-		javaFile = in;
-		startSmelling();
-	}
+	public SmellyClass() {
 
-	private void startSmelling() {
-		NOM();
 	}
 
 	public void NOM(BufferedReader file) {
@@ -38,11 +33,16 @@ public class SmellyClass {
 		}
 	}
 
-	private void WMC(BufferedReader file) {
+	public void WMC(BufferedReader file) {
 		javaFile = file;
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
+				if ((line.contains("while") || line.contains("for")) && line.contains("if")
+						&& line.endsWith("{")) {
+					System.out.println("Cyclo add");
+					cyclo_methods++;
+				}
 			}
 		} catch (IOException e) {
 			System.out.println("End of class");

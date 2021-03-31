@@ -16,8 +16,9 @@ public class Main {
 			}
 			System.out.println(word[1]);
 			if (word[1].equals("class")) {
-				SmellyClass classy = new SmellyClass(javaFile);
+				SmellyClass classy = new SmellyClass();
 				classy.NOM(javaFile);
+				classy.WMC(javaFile);
 			}
 		} catch (Exception e) {
 			System.out.println("Erro a abrir o ficheiro");
