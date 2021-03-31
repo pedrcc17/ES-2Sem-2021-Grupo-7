@@ -17,6 +17,7 @@ public class Main {
 			System.out.println(word[1]);
 			if (word[1].equals("class")) {
 				SmellyClass classy = new SmellyClass(javaFile);
+				classy.NOM(javaFile);
 			}
 		} catch (Exception e) {
 			System.out.println("Erro a abrir o ficheiro");
