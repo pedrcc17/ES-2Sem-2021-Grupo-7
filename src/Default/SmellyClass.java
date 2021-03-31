@@ -19,8 +19,8 @@ public class SmellyClass {
 		NOM();
 	}
 
-	public void NOM(BufferedReader javaFile) {
-		this.javaFile = javaFile;
+	public void NOM(BufferedReader file) {
+		javaFile = file;
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
@@ -38,12 +38,11 @@ public class SmellyClass {
 		}
 	}
 
-	private void WMC() {
+	private void WMC(BufferedReader file) {
+		javaFile = file;
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				
-				
 			}
 		} catch (IOException e) {
 			System.out.println("End of class");
