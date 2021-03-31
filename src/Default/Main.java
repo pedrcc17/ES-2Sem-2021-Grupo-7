@@ -28,5 +28,6 @@ public class Main {
         SmellyClass classy = new SmellyClass();
         classy.NOM(restartReading());
         classy.WMC(restartReading());
+        classy.CYCLO(restartReading());
     }
 }
