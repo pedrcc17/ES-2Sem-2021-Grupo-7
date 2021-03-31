@@ -46,7 +46,7 @@ public class SmellyClass {
 						&& !line.contains("class"))) {
 					cyclo_methods++;
 				}
-				if ((line.contains("while") || line.contains("for") || line.contains("if")) && line.endsWith("{")) {
+				if ((line.contains("while") || line.contains("else")|| line.contains("for") || line.contains("if")) && line.endsWith("{")) {
 					cyclo_methods++;
 				}
 				line = javaFile.readLine();
@@ -74,7 +74,7 @@ public class SmellyClass {
 					num_method++;
 					line = javaFile.readLine();
 				}
-				if ((line.contains("while") || line.contains("for") || line.contains("if"))
+				if ((line.contains("while") || line.contains("for") || line.contains("if") || line.contains("else"))
 						&& line.endsWith("{")) {
 					cyclo_methods++;
 				}
