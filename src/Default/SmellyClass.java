@@ -2,6 +2,7 @@ package Default;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SmellyClass {
 	private BufferedReader javaFile;
@@ -9,6 +10,8 @@ public class SmellyClass {
 	private int method = 0;
 	private int lines_of_code = 0;
 	private int cyclo_methods = 1;
+	private ArrayList<Integer> methodrec=new ArrayList<>();
+	
 
 	public SmellyClass() {
 
@@ -24,6 +27,7 @@ public class SmellyClass {
 					method++;
 				}
 				lines_of_code++;
+				methodrec.add(lines_of_code);
 				line = javaFile.readLine();
 			}
 			javaFile.close();
@@ -84,4 +88,45 @@ public class SmellyClass {
 			System.out.println("End of class");
 		}
 	}
+	
+	private void LOC_method() {
+		try {
+			int num_line;
+			for(int ite :methodrec) {
+				
+				num_line=0;
+				for (int i = 1; i <= ite; i++) {
+						javaFile.readLine();
+						num_line++;
+					} 
+					
+				
+				boolean end = true; 
+				int acc=0;
+				int final_line = num_line;
+				while(!end) {
+					String line = javaFile.readLine();
+					final_line++;
+					if(line.contains("{")) {
+						acc++;
+					}	
+					else if(line.contains("}")) {
+						acc--;
+						if(acc==0)
+							end = false;
+					}
+				}
+				
+				final_line = final_line - num_line;
+				System.out.println("o numero de linhas do metodo um e "+final_line);
+			}
+			
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
 }
