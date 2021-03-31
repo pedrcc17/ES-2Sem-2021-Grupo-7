@@ -33,7 +33,9 @@ public class SmellyClass {
 		}
 	}
 
-	public void WMC(BufferedReader file) {
+
+
+	public void WMC_Class(BufferedReader file) {
 		javaFile = file;
 		try {
 			line = javaFile.readLine();
