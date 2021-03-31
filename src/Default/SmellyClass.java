@@ -37,10 +37,12 @@ public class SmellyClass {
 		javaFile = file;
 		try {
 			line = javaFile.readLine();
-			System.out.println("here");
 			while (line != null) {
-				if ((line.contains("while") || line.contains("for") || line.contains("if"))
-						&& line.endsWith("{")) {
+				if (((line.contains("private") || line.contains("public")) && line.endsWith("{")
+						&& !line.contains("class"))) {
+					cyclo_methods++;
+				}
+				if ((line.contains("while") || line.contains("for") || line.contains("if")) && line.endsWith("{")) {
 					cyclo_methods++;
 				}
 				line = javaFile.readLine();
