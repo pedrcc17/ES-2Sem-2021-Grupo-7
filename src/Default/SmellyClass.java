@@ -102,7 +102,6 @@ public class SmellyClass {
 						acc--;
 						if(acc==0)
 							end = false;
-					
 					}
 				}
 				
