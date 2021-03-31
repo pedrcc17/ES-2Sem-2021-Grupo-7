@@ -50,7 +50,7 @@ public class SmellyClass {
                 line = javaFile.readLine();
             }
             javaFile.close();
-            System.out.println(cyclo_methods);
+            System.out.println("The class has a complexity of "+cyclo_methods+".");
         } catch (IOException e) {
             System.out.println("End of class");
         }
