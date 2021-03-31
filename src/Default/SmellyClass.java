@@ -37,13 +37,15 @@ public class SmellyClass {
 		javaFile = file;
 		try {
 			line = javaFile.readLine();
+			System.out.println("here");
 			while (line != null) {
-				if ((line.contains("while") || line.contains("for")) && line.contains("if")
+				if ((line.contains("while") || line.contains("for") || line.contains("if"))
 						&& line.endsWith("{")) {
-					System.out.println("Cyclo add");
 					cyclo_methods++;
 				}
+				line = javaFile.readLine();
 			}
+			System.out.println(cyclo_methods);
 		} catch (IOException e) {
 			System.out.println("End of class");
 		}
