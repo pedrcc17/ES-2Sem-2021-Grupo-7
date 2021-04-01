@@ -30,5 +30,7 @@ public class Main {
         classy.CYCLO_Method(restartReading());
         System.out.println("-------------------------");
         classy.LOC_Method(restartReading());
+        System.out.println("-------------------------");
+        classy.LOC_Class(restartReading());
     }
 }

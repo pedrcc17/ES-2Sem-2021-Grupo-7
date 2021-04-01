@@ -14,7 +14,10 @@ public class SmellyClass {
 	private ArrayList<Integer> linesPerMethod = new ArrayList<>();
 	private ArrayList<Boolean> areLongMethods = new ArrayList<>();
 	private ArrayList<Integer> cyclosPerMethod = new ArrayList<>();
+	private int Loc_Class_var;
 
+	
+	
 	public SmellyClass() {
 
 	}
@@ -29,7 +32,6 @@ public class SmellyClass {
 					method++;
 				}
 				lines_of_code++;
-				methodrec.add(lines_of_code);
 				line = javaFile.readLine();
 			}
 			javaFile.close();
@@ -142,33 +144,38 @@ public class SmellyClass {
 			System.out.println("End of class");
 		}
 	}
-	
+
 	public void isGodClass() {
-		
+
 	}
 
 	public void isLongMethod(int locTreshold, int cycloTreshold, boolean loc, boolean cyclo) {
-		if(loc && !cyclo) {
+		if (loc && !cyclo) {
 			for (int a : linesPerMethod) {
 				if (a >= locTreshold) {
 					areLongMethods.add(true);
 				} else {
 					areLongMethods.add(false);
 				}
-			}	
+			}
 		}
-		if(!loc && cyclo) {
+		if (!loc && cyclo) {
 			for (int a : cyclosPerMethod) {
 				if (a >= cycloTreshold) {
 					areLongMethods.add(true);
 				} else {
 					areLongMethods.add(false);
 				}
-			}	
+			}
 		}
-		if(loc && cyclo) {
-			
-		
+		if (loc && cyclo) {
+
 		}
 	}
+
+	public void LOC_Class(BufferedReader file) {
+		javaFile = file;
+		Loc_Class_var = (int) javaFile.lines().count();
+	}
+
 }
