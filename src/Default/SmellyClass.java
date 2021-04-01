@@ -8,12 +8,14 @@ public class SmellyClass {
 	private BufferedReader javaFile;
 	private String line = "";
 	private int method = 0;
-	private int lines_of_code = 0;
+	private int linesOfCode = 0;
 	private int cyclo_methods = 1;
 	private ArrayList<Integer> methodrec = new ArrayList<>();
 	private ArrayList<Integer> linesPerMethod = new ArrayList<>();
 	private ArrayList<Boolean> areLongMethods = new ArrayList<>();
 	private ArrayList<Integer> cyclosPerMethod = new ArrayList<>();
+	private boolean isGodClass;
+	private int wmcCount;
 	private int Loc_Class_var;
 
 	public SmellyClass() {
@@ -29,7 +31,7 @@ public class SmellyClass {
 						&& !line.contains("class")) {
 					method++;
 				}
-				lines_of_code++;
+				linesOfCode++;
 				line = javaFile.readLine();
 			}
 			javaFile.close();
@@ -57,6 +59,7 @@ public class SmellyClass {
 			}
 			javaFile.close();
 			System.out.println("The class has a complexity of " + cyclo_methods + ".");
+			wmcCount = cyclo_methods;
 		} catch (IOException e) {
 			System.out.println("End of class");
 		}
@@ -75,6 +78,7 @@ public class SmellyClass {
 					if (num_method != 0 && inMethod) {
 						System.out.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
 						inMethod = false;
+						linesPerMethod.add(linesOfCode);
 					}
 					linesOfCode = 0;
 					linesOfCode++;
@@ -87,6 +91,7 @@ public class SmellyClass {
 							System.out
 									.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
 							inMethod = false;
+							linesPerMethod.add(linesOfCode);
 						}
 						linesOfCode = 0;
 						linesOfCode++;
@@ -122,6 +127,7 @@ public class SmellyClass {
 						&& !line.contains("class")) {
 					if (num_method != 0) {
 						System.out.println("O " + num_method + "º método tem complexidade de " + cyclo_methods + ".");
+						cyclosPerMethod.add(cyclo_methods);
 					}
 					cyclo_methods = 1;
 					num_method++;
@@ -143,7 +149,100 @@ public class SmellyClass {
 		}
 	}
 
-	public void isGodClass() {
+	public void isGodClass(int wmcThreshold, int nomThreshold, int locThreshold, boolean wmc, boolean nom, boolean loc,
+			boolean isOr, boolean isOrAgain) {
+		if (wmc && !nom && !loc) {
+			if (wmcCount >= wmcThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if (!wmc && nom && !loc) {
+			if (method >= nomThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if (!wmc && !nom && loc) {
+			if (linesOfCode >= locThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if(wmc && nom && !loc && !isOr && !isOrAgain) {
+			if ( wmcCount >= wmcThreshold && method >= nomThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if(wmc && nom && !loc && isOr && !isOrAgain) {
+			if ( wmcCount >= wmcThreshold || method >= nomThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if (wmc && !nom && loc && !isOr && !isOrAgain) {
+			if (wmcCount >= wmcThreshold && linesOfCode >= locThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if (wmc && !nom && loc && isOr && !isOrAgain) {
+			if (wmcCount >= wmcThreshold || linesOfCode >= locThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if (!wmc && nom && loc && !isOr && !isOrAgain) {
+			if (method >= nomThreshold && linesOfCode >= locThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if (!wmc && nom && loc && isOr && !isOrAgain) {
+			if (method >= nomThreshold || linesOfCode >= locThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if (wmc && nom && loc && !isOr && !isOrAgain) {
+			if(wmcCount >= wmcThreshold && method >= nomThreshold && linesOfCode >= locThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if (wmc && nom && loc && isOr && !isOrAgain) {
+			if(wmcCount >= wmcThreshold || method >= nomThreshold || linesOfCode >= locThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if (wmc && nom && loc && !isOr && !isOrAgain) {
+			if(wmcCount >= wmcThreshold && method >= nomThreshold || linesOfCode >= locThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		if (wmc && nom && loc && isOr && isOrAgain) {
+			if(wmcCount >= wmcThreshold || method >= nomThreshold && linesOfCode >= locThreshold) {
+				System.out.println("Esta classe é uma god class.");
+			} else {
+				System.out.println("Esta classe não é uma god class.");
+			}
+		}
+		
 
 	}
 
@@ -156,6 +255,9 @@ public class SmellyClass {
 					areLongMethods.add(false);
 				}
 			}
+			for (int i = 0; i < areLongMethods.size(); i++) {
+				System.out.println((i + 1) + "º método -> isLong(" + areLongMethods.get(i) + ")");
+			}
 		}
 		if (!loc && cyclo) {
 			for (int a : cyclosPerMethod) {
@@ -164,6 +266,9 @@ public class SmellyClass {
 				} else {
 					areLongMethods.add(false);
 				}
+			}
+			for (int i = 0; i < areLongMethods.size(); i++) {
+				System.out.println((i + 1) + "º método -> isLong(" + areLongMethods.get(i) + ")");
 			}
 		}
 		if (loc && cyclo && !isOr) {
@@ -174,6 +279,9 @@ public class SmellyClass {
 					areLongMethods.add(false);
 				}
 			}
+			for (int i = 0; i < areLongMethods.size(); i++) {
+				System.out.println((i + 1) + "º método -> isLong(" + areLongMethods.get(i) + ")");
+			}
 		}
 		if (loc && cyclo && isOr) {
 			for (int i = 0; i != method; i++) {
@@ -183,12 +291,16 @@ public class SmellyClass {
 					areLongMethods.add(false);
 				}
 			}
+			for (int i = 0; i < areLongMethods.size(); i++) {
+				System.out.println((i + 1) + "º método -> isLong(" + areLongMethods.get(i) + ")");
+			}
 		}
 	}
 
 	public void LOC_Class(BufferedReader file) {
 		javaFile = file;
-		Loc_Class_var = (int) javaFile.lines().count();
+		linesOfCode = (int) javaFile.lines().count();
+		System.out.println("A classe tem " + linesOfCode + " linhas de código.");
 	}
 
 }

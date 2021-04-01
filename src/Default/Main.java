@@ -32,5 +32,9 @@ public class Main {
         classy.LOC_Method(restartReading());
         System.out.println("-------------------------");
         classy.LOC_Class(restartReading());
+        System.out.println("-------------------------");
+        classy.isLongMethod(5, 2, true, true, false);
+        System.out.println("-------------------------");
+        classy.isGodClass(15, 10, 100, true, true, true, true, true);
     }
 }
