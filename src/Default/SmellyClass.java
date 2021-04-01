@@ -21,7 +21,7 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if ((line.contains("private") || line.contains("public")) && line.endsWith("{")
+				if ((line.contains("private") || line.contains("public"))  && !line.endsWith(";")
 						&& !line.contains("class")) {
 					method++;
 				}
@@ -42,12 +42,12 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if (((line.contains("private") || line.contains("public")) && line.endsWith("{")
+				if (((line.contains("private") || line.contains("public")) && !line.endsWith(";")
 						&& !line.contains("class"))) {
 					cyclo_methods++;
 				}
 				if ((line.contains("while") || line.contains("else") || line.contains("for") || line.contains("if"))
-						&& line.endsWith("{")) {
+						&& !line.endsWith(";")) {
 					cyclo_methods++;
 				}
 				line = javaFile.readLine();
@@ -67,7 +67,7 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if (((line.contains("private") || line.contains("public"))) && line.endsWith("{")
+				if (((line.contains("private") || line.contains("public"))) && !line.endsWith(";")
 						&& !line.contains("class")) {
 					if (num_method != 0 && inMethod) {
 						System.out.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
@@ -113,7 +113,7 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if ((line.contains("private") || line.contains("public")) && line.endsWith("{")
+				if ((line.contains("private") || line.contains("public")) && !line.endsWith(";")
 						&& !line.contains("class")) {
 					if (num_method != 0) {
 						System.out.println("O " + num_method + "º método tem complexidade de " + cyclo_methods + ".");
@@ -137,7 +137,7 @@ public class SmellyClass {
 		}
 	}
 
-	private void LOC_method() {
+	/*private void LOC_method() {
 		try {
 			int num_line;
 			for (int ite : methodrec) {
@@ -171,6 +171,6 @@ public class SmellyClass {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 }
