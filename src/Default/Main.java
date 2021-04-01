@@ -23,12 +23,13 @@ public class Main {
 
     public static void main(String[] args) {
         SmellyClass classy = new SmellyClass();
-        classy.NOM(restartReading());
+        /*classy.NOM(restartReading());
         System.out.println("-------------------------");
         classy.WMC(restartReading());
         System.out.println("-------------------------");
         classy.CYCLO_Method(restartReading());
         System.out.println("-------------------------");
-        classy.LOC_Method(restartReading());
+        classy.LOC_Method(restartReading());*/
+        classy.LOC_class(restartReading());
     }
 }
