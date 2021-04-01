@@ -172,42 +172,42 @@ public class SmellyClass {
 				System.out.println("Esta classe não é uma god class.");
 			}
 		}
-		if(wmc && nom && !loc && !isOr && !isOrAgain) {
+		if(wmc && nom && !loc && !isOr) {
 			if ( wmcCount >= wmcThreshold && method >= nomThreshold) {
 				System.out.println("Esta classe é uma god class.");
 			} else {
 				System.out.println("Esta classe não é uma god class.");
 			}
 		}
-		if(wmc && nom && !loc && isOr && !isOrAgain) {
+		if(wmc && nom && !loc && isOr) {
 			if ( wmcCount >= wmcThreshold || method >= nomThreshold) {
 				System.out.println("Esta classe é uma god class.");
 			} else {
 				System.out.println("Esta classe não é uma god class.");
 			}
 		}
-		if (wmc && !nom && loc && !isOr && !isOrAgain) {
+		if (wmc && !nom && loc && !isOr) {
 			if (wmcCount >= wmcThreshold && linesOfCode >= locThreshold) {
 				System.out.println("Esta classe é uma god class.");
 			} else {
 				System.out.println("Esta classe não é uma god class.");
 			}
 		}
-		if (wmc && !nom && loc && isOr && !isOrAgain) {
+		if (wmc && !nom && loc && isOr) {
 			if (wmcCount >= wmcThreshold || linesOfCode >= locThreshold) {
 				System.out.println("Esta classe é uma god class.");
 			} else {
 				System.out.println("Esta classe não é uma god class.");
 			}
 		}
-		if (!wmc && nom && loc && !isOr && !isOrAgain) {
+		if (!wmc && nom && loc && !isOr) {
 			if (method >= nomThreshold && linesOfCode >= locThreshold) {
 				System.out.println("Esta classe é uma god class.");
 			} else {
 				System.out.println("Esta classe não é uma god class.");
 			}
 		}
-		if (!wmc && nom && loc && isOr && !isOrAgain) {
+		if (!wmc && nom && loc && isOr) {
 			if (method >= nomThreshold || linesOfCode >= locThreshold) {
 				System.out.println("Esta classe é uma god class.");
 			} else {
@@ -228,7 +228,7 @@ public class SmellyClass {
 				System.out.println("Esta classe não é uma god class.");
 			}
 		}
-		if (wmc && nom && loc && !isOr && !isOrAgain) {
+		if (wmc && nom && loc && !isOr && isOrAgain) {
 			if(wmcCount >= wmcThreshold && method >= nomThreshold || linesOfCode >= locThreshold) {
 				System.out.println("Esta classe é uma god class.");
 			} else {
