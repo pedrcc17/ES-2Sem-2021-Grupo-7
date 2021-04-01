@@ -166,7 +166,7 @@ public class SmellyClass {
 				}
 			}
 		}
-		if (loc && cyclo) {
+		if (loc && cyclo && !isOr) {
 			for (int i = 0; i != method; i++) {
 				if (linesPerMethod.get(i) >= locTreshold && cyclosPerMethod.get(i) >= cycloTreshold) {
 					areLongMethods.add(true);
