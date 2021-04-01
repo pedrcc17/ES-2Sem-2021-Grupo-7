@@ -9,7 +9,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	private Item[] randomQueue;
 
 	// construct an empty randomized queue
-	public RandomizedQueue() {
+	public RandomizedQueue() 
+	{
 		randomQueue = (Item[]) new Object[2];
 		size = 0;
 	}
@@ -41,7 +42,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 
 	// remove and return a random item
-	public Item dequeue() {
+	public Item dequeue()
+	{
 		if (isEmpty()) {
 			System.out.println("The queue is empty");
 		}

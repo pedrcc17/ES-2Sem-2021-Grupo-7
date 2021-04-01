@@ -10,8 +10,7 @@ public class SmellyClass {
 	private int method = 0;
 	private int lines_of_code = 0;
 	private int cyclo_methods = 1;
-	private ArrayList<Integer> methodrec=new ArrayList<>();
-	
+	private ArrayList<Integer> methodrec = new ArrayList<>();
 
 	public SmellyClass() {
 
@@ -47,13 +46,61 @@ public class SmellyClass {
 						&& !line.contains("class"))) {
 					cyclo_methods++;
 				}
-				if ((line.contains("while") || line.contains("else")|| line.contains("for") || line.contains("if")) && line.endsWith("{")) {
+				if ((line.contains("while") || line.contains("else") || line.contains("for") || line.contains("if"))
+						&& line.endsWith("{")) {
 					cyclo_methods++;
 				}
 				line = javaFile.readLine();
 			}
 			javaFile.close();
 			System.out.println("The class has a complexity of " + cyclo_methods + ".");
+		} catch (IOException e) {
+			System.out.println("End of class");
+		}
+	}
+
+	public void LOC_Method(BufferedReader file) {
+		javaFile = file;
+		int linesOfCode = 0;
+		int num_method = 0;
+		boolean inMethod = false;
+		try {
+			line = javaFile.readLine();
+			while (line != null) {
+				if (((line.contains("private") || line.contains("public"))) && line.endsWith("{")
+						&& !line.contains("class")) {
+					if (num_method != 0 && inMethod) {
+						System.out.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
+						inMethod=false;
+					}
+					linesOfCode=0;
+					linesOfCode++;
+					num_method++;
+					inMethod=true;
+				}else {
+					if(((line.contains("private") || line.contains("public"))) && (line.endsWith(")") 
+							|| line.endsWith(" ")) && !line.contains("class")) {
+						if (num_method != 0 && inMethod) {
+							System.out.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
+							inMethod=false;
+						}
+						linesOfCode=0;
+						linesOfCode++;
+						num_method++;
+						inMethod=true;
+					}else {
+						String[] word = line.split(" ");
+						if(inMethod && !line.isEmpty() && !word[0].contains("//") && !line.contains("@Override")) {
+							linesOfCode++;
+						}
+					}
+				}
+				line = javaFile.readLine();
+				if (line == null) {
+					System.out.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
+				}
+			}
+			javaFile.close();
 		} catch (IOException e) {
 			System.out.println("End of class");
 		}
@@ -80,7 +127,7 @@ public class SmellyClass {
 					cyclo_methods++;
 				}
 				line = javaFile.readLine();
-				if(line == null) {
+				if (line == null) {
 					System.out.println("O " + num_method + "º método tem complexidade de " + cyclo_methods + ".");
 				}
 			}
@@ -89,45 +136,41 @@ public class SmellyClass {
 			System.out.println("End of class");
 		}
 	}
-	
+
 	private void LOC_method() {
 		try {
 			int num_line;
-			for(int ite :methodrec) {
-				
-				num_line=0;
+			for (int ite : methodrec) {
+
+				num_line = 0;
 				for (int i = 1; i <= ite; i++) {
-						javaFile.readLine();
-						num_line++;
-					} 
-					
-				
-				boolean end = true; 
-				int acc=0;
+					javaFile.readLine();
+					num_line++;
+				}
+
+				boolean end = true;
+				int acc = 0;
 				int final_line = num_line;
-				while(!end) {
+				while (!end) {
 					String line = javaFile.readLine();
 					final_line++;
-					if(line.contains("{")) {
+					if (line.contains("{")) {
 						acc++;
-					}	
-					else if(line.contains("}")) {
+					} else if (line.contains("}")) {
 						acc--;
-						if(acc==0)
+						if (acc == 0)
 							end = false;
 					}
 				}
-				
+
 				final_line = final_line - num_line;
-				System.out.println("o numero de linhas do metodo um e "+final_line);
+				System.out.println("o numero de linhas do metodo um e " + final_line);
 			}
-			
-		}
-		catch (IOException e) {
+
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	
 }
