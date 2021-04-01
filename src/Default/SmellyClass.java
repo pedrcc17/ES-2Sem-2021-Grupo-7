@@ -13,6 +13,7 @@ public class SmellyClass {
 	private ArrayList<Integer> methodrec = new ArrayList<>();
 	private ArrayList<Integer> linesPerMethod = new ArrayList<>();
 	private ArrayList<Boolean> areLongMethods = new ArrayList<>();
+	private ArrayList<Integer> cyclosPerMethod = new ArrayList<>();
 
 	public SmellyClass() {
 
@@ -133,6 +134,7 @@ public class SmellyClass {
 				line = javaFile.readLine();
 				if (line == null) {
 					System.out.println("O " + num_method + "º método tem complexidade de " + cyclo_methods + ".");
+					cyclosPerMethod.add(cyclo_methods);
 				}
 			}
 			javaFile.close();
@@ -140,14 +142,33 @@ public class SmellyClass {
 			System.out.println("End of class");
 		}
 	}
+	
+	public void isGodClass() {
+		
+	}
 
-	public void isLongMethod(int treshold) {
-		for (int a : linesPerMethod) {
-			if (a >= treshold) {
-				areLongMethods.add(true);
-			} else {
-				areLongMethods.add(false);
-			}
+	public void isLongMethod(int locTreshold, int cycloTreshold, boolean loc, boolean cyclo) {
+		if(loc && !cyclo) {
+			for (int a : linesPerMethod) {
+				if (a >= locTreshold) {
+					areLongMethods.add(true);
+				} else {
+					areLongMethods.add(false);
+				}
+			}	
+		}
+		if(!loc && cyclo) {
+			for (int a : cyclosPerMethod) {
+				if (a >= cycloTreshold) {
+					areLongMethods.add(true);
+				} else {
+					areLongMethods.add(false);
+				}
+			}	
+		}
+		if(loc && cyclo) {
+			
+		
 		}
 	}
 }
