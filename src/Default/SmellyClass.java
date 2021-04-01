@@ -11,7 +11,10 @@ public class SmellyClass {
 	private int lines_of_code = 0;
 	private int cyclo_methods = 1;
 	private ArrayList<Integer> methodrec = new ArrayList<>();
-
+	private ArrayList<Integer> linesPerMethod = new ArrayList<>();
+	private ArrayList<Boolean> areLongMethods = new ArrayList<>();
+	private int Loc_Class_var;
+	
 	public SmellyClass() {
 
 	}
@@ -21,7 +24,7 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if ((line.contains("private") || line.contains("public"))  && !line.endsWith(";")
+				if ((line.contains("private") || line.contains("public")) && !line.endsWith(";")
 						&& !line.contains("class")) {
 					method++;
 				}
@@ -70,26 +73,27 @@ public class SmellyClass {
 						&& !line.contains("class")) {
 					if (num_method != 0 && inMethod) {
 						System.out.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
-						inMethod=false;
+						inMethod = false;
 					}
-					linesOfCode=0;
+					linesOfCode = 0;
 					linesOfCode++;
 					num_method++;
-					inMethod=true;
-				}else {
-					if(((line.contains("private") || line.contains("public"))) && (line.endsWith(")") 
-							|| line.endsWith(" ")) && !line.contains("class")) {
+					inMethod = true;
+				} else {
+					if (((line.contains("private") || line.contains("public")))
+							&& (line.endsWith(")") || line.endsWith(" ")) && !line.contains("class")) {
 						if (num_method != 0 && inMethod) {
-							System.out.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
-							inMethod=false;
+							System.out
+									.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
+							inMethod = false;
 						}
-						linesOfCode=0;
+						linesOfCode = 0;
 						linesOfCode++;
 						num_method++;
-						inMethod=true;
-					}else {
+						inMethod = true;
+					} else {
 						String[] word = line.split(" ");
-						if(inMethod && !line.isEmpty() && !word[0].contains("//") && !line.contains("@Override")) {
+						if (inMethod && !line.isEmpty() && !word[0].contains("//") && !line.contains("@Override")) {
 							linesOfCode++;
 						}
 					}
@@ -97,6 +101,7 @@ public class SmellyClass {
 				line = javaFile.readLine();
 				if (line == null) {
 					System.out.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
+					linesPerMethod.add(linesOfCode);
 				}
 			}
 			javaFile.close();
@@ -136,11 +141,22 @@ public class SmellyClass {
 		}
 	}
 
-	private void LOC_class(BufferedReader file) {
+
+	public void LOC_Class(BufferedReader file) {
 		javaFile = file;
-		System.out.println(file.lines().count());
-		
-		
+		Loc_Class_var = (int) javaFile.lines().count();
 	}
+
+
+	public void isLongMethod(int treshold) {
+		for (int a : linesPerMethod) {
+			if (a >= treshold) {
+				areLongMethods.add(true);
+			} else {
+				areLongMethods.add(false);
+			}
+		}
+	}
+
 
 }
