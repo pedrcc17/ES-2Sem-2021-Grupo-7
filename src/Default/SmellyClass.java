@@ -16,8 +16,6 @@ public class SmellyClass {
 	private ArrayList<Integer> cyclosPerMethod = new ArrayList<>();
 	private int Loc_Class_var;
 
-	
-	
 	public SmellyClass() {
 
 	}
@@ -149,7 +147,7 @@ public class SmellyClass {
 
 	}
 
-	public void isLongMethod(int locTreshold, int cycloTreshold, boolean loc, boolean cyclo) {
+	public void isLongMethod(int locTreshold, int cycloTreshold, boolean loc, boolean cyclo, boolean isOr) {
 		if (loc && !cyclo) {
 			for (int a : linesPerMethod) {
 				if (a >= locTreshold) {
@@ -169,7 +167,22 @@ public class SmellyClass {
 			}
 		}
 		if (loc && cyclo) {
-
+			for (int i = 0; i != method; i++) {
+				if (linesPerMethod.get(i) >= locTreshold && cyclosPerMethod.get(i) >= cycloTreshold) {
+					areLongMethods.add(true);
+				} else {
+					areLongMethods.add(false);
+				}
+			}
+		}
+		if (loc && cyclo && isOr) {
+			for (int i = 0; i != method; i++) {
+				if (linesPerMethod.get(i) >= locTreshold || cyclosPerMethod.get(i) >= cycloTreshold) {
+					areLongMethods.add(true);
+				} else {
+					areLongMethods.add(false);
+				}
+			}
 		}
 	}
 
