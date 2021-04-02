@@ -9,9 +9,9 @@ import javax.swing.JFileChooser;
 
 public class Main {
 
-    private static BufferedReader restartReading(String file) {
+    private static BufferedReader restartReading(String dir, String file) {
         try {
-            BufferedReader javaFile = new BufferedReader(new FileReader(file));
+            BufferedReader javaFile = new BufferedReader(new FileReader(dir + "\\" + file));
             String[] word = javaFile.readLine().split(" ");
             while (word[0].equals("package") || word[0].equals("import") || word[0].equals("")) {
                 word = javaFile.readLine().split(" ");
@@ -28,7 +28,9 @@ public class Main {
     
     public static void main(String[] args) {
     	File fileDirectory = null;
+    	File filePath = null;
     	String[] fileDirectorylist = null;
+    	String filePathString = null;
     	JFileChooser chooser = new JFileChooser(".");
     	chooser.setMultiSelectionEnabled(true);
     	chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -36,19 +38,20 @@ public class Main {
     	if(ret == JFileChooser.APPROVE_OPTION) {
     	    fileDirectory = chooser.getSelectedFile();
     	    fileDirectorylist = fileDirectory.list();
+    	    filePathString = fileDirectory.getPath();
     	    System.out.println(fileDirectory);
 			for (String file : fileDirectorylist) {
 				System.out.println(file);
     	        SmellyClass classy = new SmellyClass();
-    	        classy.NOM(restartReading(file));
+    	        classy.NOM(restartReading(filePathString, file));
     	        System.out.println("-------------------------");
-    	        classy.WMC(restartReading(file));
+    	        classy.WMC(restartReading(filePathString, file));
     	        System.out.println("-------------------------");
-    	        classy.CYCLO_Method(restartReading(file));
+    	        classy.CYCLO_Method(restartReading(filePathString, file));
     	        System.out.println("-------------------------");
-    	        classy.LOC_Method(restartReading(file));
+    	        classy.LOC_Method(restartReading(filePathString, file));
     	        System.out.println("-------------------------");
-    	        classy.LOC_Class(restartReading(file));
+    	        classy.LOC_Class(restartReading(filePathString, file));
     	        System.out.println("-------------------------");
     	        classy.isLongMethod(5, 2, true, true, false);
     	        System.out.println("-------------------------");
