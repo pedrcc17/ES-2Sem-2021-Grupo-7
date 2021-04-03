@@ -34,7 +34,7 @@ public class SmellyClass {
 				if ((line.contains("private") || line.contains("public")) && !line.endsWith(";")
 						&& !line.contains("class")) {
 					method++;
-//					methodName(line);
+					methodName(line);
 				}
 				linesOfCode++;
 				line = javaFile.readLine();
@@ -308,17 +308,17 @@ public class SmellyClass {
 		System.out.println("A classe tem " + linesOfCode + " linhas de código.");
 	}
 	
-//	public void methodName(String line) {
-////		Pattern p = Pattern.compile("(?U)(\\w+)\\W+(\\W+(\\w+)");
-////
-////		Matcher m = p.matcher(line);
-////		if (m.find())
-////		    methodNames.add(m.group(1));
-////		else methodNames.add("-");
-//		
-//		String withoutSpaces = line.substring(line.indexOf((" ")));
-//		System.out.println(withoutSpaces);
-//	}
+	public void methodName(String line) {
+//		Pattern p = Pattern.compile("(?U)(\\w+)\\W+(\\W+(\\w+)");
+//
+//		Matcher m = p.matcher(line);
+//		if (m.find())
+//		    methodNames.add(m.group(1));
+//		else methodNames.add("-");
+		
+		String withoutSpaces = line.substring(line.indexOf((" ")));
+		System.out.println(withoutSpaces);
+	}
 	
 	public int getMethod() {
 		return method;
