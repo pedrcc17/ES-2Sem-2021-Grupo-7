@@ -13,7 +13,6 @@ public class SmellyClass {
 	private int linesOfCode = 0;
 	private int cyclo_methods = 1;
 	private ArrayList<Integer> methodrec = new ArrayList<>();
-	
 	private ArrayList<String> methodNames = new ArrayList<>();
 	private ArrayList<Integer> linesPerMethod = new ArrayList<>();
 	private ArrayList<Boolean> areLongMethods = new ArrayList<>();
@@ -23,7 +22,7 @@ public class SmellyClass {
 	private int Loc_Class_var;
 
 	public SmellyClass() {
-
+		
 	}
 
 	public void NOM(BufferedReader file) {
@@ -32,7 +31,7 @@ public class SmellyClass {
 			line = javaFile.readLine();
 			while (line != null) {
 				if ((line.contains("private") || line.contains("public")) && !line.endsWith(";")
-						&& !line.contains("class")) {
+						&& !line.contains("class")/* || !line.contains("if") || !line.contains("for")*/) {
 					method++;
 					methodName(line);
 				}
@@ -309,16 +308,10 @@ public class SmellyClass {
 	}
 	
 	public void methodName(String line) {
-//		Pattern p = Pattern.compile("(?U)(\\w+)\\W+(\\W+(\\w+)");
-//
-//		Matcher m = p.matcher(line);
-//		if (m.find())
-//		    methodNames.add(m.group(1));
-//		else methodNames.add("-");
-		//dá erro a fazer commit v7
-		
-		String withoutSpaces = line.substring(line.indexOf((" ")));
-		System.out.println(withoutSpaces);
+		String[] parts = line.split("\\(");
+		String name = parts[0].substring(parts[0].lastIndexOf(" "));
+		System.out.println(name.trim());
+		methodNames.add(name.trim());
 	}
 	
 	public int getMethod() {

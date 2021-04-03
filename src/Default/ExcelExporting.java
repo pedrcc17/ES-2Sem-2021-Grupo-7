@@ -38,7 +38,7 @@ public class ExcelExporting {
 					Integer.toString(id),
 					packageName.substring(packageName.lastIndexOf("\\")+1),
 					className,
-					"métodos",
+					classy.getMethodNames(i),
 					Integer.toString(classy.getMethod()),
 					Integer.toString(classy.getLinesOfCode()),
 					Integer.toString(classy.getWmcCount()),
