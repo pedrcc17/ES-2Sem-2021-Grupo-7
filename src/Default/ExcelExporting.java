@@ -19,22 +19,22 @@ public class ExcelExporting {
 	private XSSFWorkbook workbook = new XSSFWorkbook();
 	private XSSFSheet spreadsheet = workbook.createSheet("Code Smells");
 	private XSSFRow row;
-	private Map<String, Object[] > metrics;
+	private Map<Integer, Object[] > metrics;
 	private int id;
 	private String className;
 	private String packageName;
 
 	public ExcelExporting() {
 		id = 00;
-		metrics = new TreeMap < String, Object[] >();
-		metrics.put("00", new Object [] {
+		metrics = new TreeMap < Integer, Object[] >();
+		metrics.put(00, new Object [] {
 				"MethodID","package","class","method","NOM_class","LOC_class","WMC_class","is_God_Class","LOC_method","CYCLO_method","is_Long_Method"});
 	}
 
 	public void saveMetrics(SmellyClass classy) {
 		for(int i = 0; i < classy.getMethod(); i++) {
 			id++;
-			metrics.put(Integer.toString(id), new Object [] {
+			metrics.put(id, new Object [] {
 					Integer.toString(id),
 					packageName.substring(packageName.lastIndexOf("\\")+1),
 					className,
@@ -51,10 +51,10 @@ public class ExcelExporting {
 	}
 
 	public void exportToExcel(String name) throws IOException {
-		Set < String > keyid = metrics.keySet();
+		Set < Integer > keyid = metrics.keySet();
 		int rowid = 0;
 
-		for (String key : keyid) {
+		for (Integer key : keyid) {
 			row = spreadsheet.createRow(rowid++);
 			Object [] objectArr = metrics.get(key);
 			int cellid = 0;
