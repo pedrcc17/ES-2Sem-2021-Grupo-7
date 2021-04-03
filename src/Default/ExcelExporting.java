@@ -10,6 +10,8 @@ import java.util.TreeMap;
 import javax.swing.JOptionPane;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -23,10 +25,13 @@ public class ExcelExporting {
 	private int id;
 	private String className;
 	private String packageName;
+	private XSSFFont boldfont;
 
 	public ExcelExporting() {
 		id = 00;
 		metrics = new TreeMap < Integer, Object[] >();
+		boldfont = workbook.createFont();
+	    boldfont.setBold(true);
 		metrics.put(00, new Object [] {
 				"MethodID","package","class","method","NOM_class","LOC_class","WMC_class","is_God_Class","LOC_method","CYCLO_method","is_Long_Method"});
 	}
@@ -42,15 +47,16 @@ public class ExcelExporting {
 					Integer.toString(classy.getMethod()),
 					Integer.toString(classy.getLinesOfCode()),
 					Integer.toString(classy.getWmcCount()),
-					Boolean.toString(classy.getisGodClass()),
+					Boolean.toString(classy.getisGodClass()).toUpperCase(),
 					Integer.toString(classy.getLinesPerMethod(i)),
 					Integer.toString(classy.getCyclosPerMethod(i)),
-					Boolean.toString(classy.getAreLongMethods(i)),
+					Boolean.toString(classy.getAreLongMethods(i)).toUpperCase(),
 			});
 		}
 	}
 
 	public void exportToExcel(String name) throws IOException {
+		CellStyle hStyle = workbook.createCellStyle();
 		Set < Integer > keyid = metrics.keySet();
 		int rowid = 0;
 
@@ -62,6 +68,10 @@ public class ExcelExporting {
 			for (Object obj : objectArr){
 				Cell cell = row.createCell(cellid++);
 				cell.setCellValue((String)obj);
+				if(key==0) {
+					hStyle.setFont(boldfont);
+					cell.setCellStyle(hStyle);
+				}
 			}
 		}
 		FileOutputStream out = new FileOutputStream(
