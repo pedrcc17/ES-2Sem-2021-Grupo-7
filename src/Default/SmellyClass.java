@@ -17,6 +17,8 @@ public class SmellyClass {
 	private ArrayList<Integer> linesPerMethod = new ArrayList<>();
 	private ArrayList<Boolean> areLongMethods = new ArrayList<>();
 	private ArrayList<Integer> cyclosPerMethod = new ArrayList<>();
+	private String privado = "private";
+	private String pub = "public";
 	private boolean isGodClass;
 	private int wmcCount;
 	private int Loc_Class_var;
@@ -30,7 +32,7 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if ((line.contains("private") || line.contains("public")) && !line.endsWith(";")
+				if ((line.contains(privado) || line.contains(pub)) && !line.endsWith(";")
 						&& !line.contains("class")/* || !line.contains("if") || !line.contains("for")*/) {
 					method++;
 					methodName(line);
@@ -51,7 +53,7 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if (((line.contains("private") || line.contains("public")) && !line.endsWith(";")
+				if (((line.contains(privado) || line.contains(pub)) && !line.endsWith(";")
 						&& !line.contains("class"))) {
 					cyclo_methods++;
 				}
@@ -77,7 +79,7 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if (((line.contains("private") || line.contains("public"))) && !line.endsWith(";")
+				if (((line.contains(privado) || line.contains(pub))) && !line.endsWith(";")
 						&& !line.contains("class")) {
 					if (num_method != 0 && inMethod) {
 						System.out.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
@@ -89,7 +91,7 @@ public class SmellyClass {
 					num_method++;
 					inMethod = true;
 				} else {
-					if (((line.contains("private") || line.contains("public")))
+					if (((line.contains(privado) || line.contains(pub)))
 							&& (line.endsWith(")") || line.endsWith(" ")) && !line.contains("class")) {
 						if (num_method != 0 && inMethod) {
 							System.out
@@ -127,7 +129,7 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if ((line.contains("private") || line.contains("public")) && !line.endsWith(";")
+				if ((line.contains(privado) || line.contains(pub)) && !line.endsWith(";")
 						&& !line.contains("class")) {
 					if (num_method != 0) {
 						System.out.println("O " + num_method + "º método tem complexidade de " + cyclo_methods + ".");
