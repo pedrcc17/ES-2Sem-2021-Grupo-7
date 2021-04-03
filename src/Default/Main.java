@@ -3,10 +3,9 @@ package Default;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FilenameFilter;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 public class Main {
 
@@ -27,17 +26,8 @@ public class Main {
 		return null;
 	}
 
-	private static String fileName( ) {
-		String s = null;
-		while (s == null) {
-			s = (String)JOptionPane.showInputDialog(null, "Choose Excel file name", JOptionPane.PLAIN_MESSAGE);
-		}
-		return s;
-	}
-
-	public static void main(String[] args) {
-		String name = fileName();
-		System.out.println(name);
+	public static void main(String[] args) throws IOException {
+		ExcelExporting eexport = new ExcelExporting();
 		File fileDirectory = null;
 		File filePath = null;
 		String[] fileDirectorylist = null;
@@ -67,7 +57,10 @@ public class Main {
 				classy.isLongMethod(5, 2, true, true, false);
 				System.out.println("-------------------------");
 				classy.isGodClass(15, 10, 100, true, true, true, true, true);
+				eexport.setClassAndPackageNames(file, filePathString);
+				eexport.saveMetrics(classy);
 			}
+			eexport.exportToExcel(eexport.chooseName());
 		}
 	}
 }
