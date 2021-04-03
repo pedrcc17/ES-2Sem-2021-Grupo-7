@@ -3,6 +3,8 @@ package Default;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SmellyClass {
 	private BufferedReader javaFile;
@@ -11,6 +13,8 @@ public class SmellyClass {
 	private int linesOfCode = 0;
 	private int cyclo_methods = 1;
 	private ArrayList<Integer> methodrec = new ArrayList<>();
+	
+	private ArrayList<String> methodNames = new ArrayList<>();
 	private ArrayList<Integer> linesPerMethod = new ArrayList<>();
 	private ArrayList<Boolean> areLongMethods = new ArrayList<>();
 	private ArrayList<Integer> cyclosPerMethod = new ArrayList<>();
@@ -30,6 +34,7 @@ public class SmellyClass {
 				if ((line.contains("private") || line.contains("public")) && !line.endsWith(";")
 						&& !line.contains("class")) {
 					method++;
+					methodName(line);
 				}
 				linesOfCode++;
 				line = javaFile.readLine();
@@ -301,6 +306,51 @@ public class SmellyClass {
 		javaFile = file;
 		linesOfCode = (int) javaFile.lines().count();
 		System.out.println("A classe tem " + linesOfCode + " linhas de código.");
+	}
+	
+	public void methodName(String line) {
+//		Pattern p = Pattern.compile("(?U)(\\w+)\\W+(\\W+(\\w+)");
+//
+//		Matcher m = p.matcher(line);
+//		if (m.find())
+//		    methodNames.add(m.group(1));
+//		else methodNames.add("-");
+		//dá erro a fazer commit v7
+		
+		String withoutSpaces = line.substring(line.indexOf((" ")));
+		System.out.println(withoutSpaces);
+	}
+	
+	public int getMethod() {
+		return method;
+	}
+
+	public int getLinesOfCode() {
+		return linesOfCode;
+	}
+
+	public int getLinesPerMethod(int id) {
+		return linesPerMethod.get(id);
+	}
+
+	public boolean getAreLongMethods(int id) {
+		return areLongMethods.get(id);
+	}
+
+	public int getCyclosPerMethod(int id) {
+		return cyclosPerMethod.get(id);
+	}
+
+	public boolean getisGodClass() {
+		return isGodClass;
+	}
+
+	public int getWmcCount() {
+		return wmcCount;
+	}
+	
+	public String getMethodNames(int id) {
+		return methodNames.get(id);
 	}
 
 }
