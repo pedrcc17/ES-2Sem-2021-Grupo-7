@@ -315,6 +315,8 @@ public class SmellyClass {
 //		if (m.find())
 //		    methodNames.add(m.group(1));
 //		else methodNames.add("-");
+		//teste
+		
 		
 		String withoutSpaces = line.substring(line.indexOf((" ")));
 		System.out.println(withoutSpaces);
