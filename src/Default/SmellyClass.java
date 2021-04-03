@@ -315,7 +315,7 @@ public class SmellyClass {
 //		if (m.find())
 //		    methodNames.add(m.group(1));
 //		else methodNames.add("-");
-		//dá erro a fazer commit v4
+		//dá erro a fazer commit v5
 		
 		String withoutSpaces = line.substring(line.indexOf((" ")));
 		System.out.println(withoutSpaces);
