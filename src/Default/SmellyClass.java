@@ -105,7 +105,7 @@ public class SmellyClass {
 						inMethod = true;
 					} else {
 						String[] word = line.split(" ");
-						if (inMethod && !line.isEmpty() && !word[0].contains("//") && !line.contains("@Override")) {
+						if (inMethod && !line.isEmpty() && /*!word[0].contains("//") && */ !line.contains("@Override")) {
 							linesOfCode++;
 						}
 					}
