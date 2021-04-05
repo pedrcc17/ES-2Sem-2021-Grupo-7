@@ -24,7 +24,7 @@ public class SmellyClass {
 	private int Loc_Class_var;
 
 	public SmellyClass() {
-		
+
 	}
 
 	public void NOM(BufferedReader file) {
@@ -95,7 +95,7 @@ public class SmellyClass {
 							&& (line.endsWith(")") || line.endsWith(" ")) && !line.contains("class")) {
 						if (num_method != 0 && inMethod) {
 							System.out
-									.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
+							.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
 							inMethod = false;
 							linesPerMethod.add(linesOfCode);
 						}
@@ -105,8 +105,10 @@ public class SmellyClass {
 						inMethod = true;
 					} else {
 						String[] word = line.split(" ");
-						if (inMethod && !line.isEmpty() && /*!word[0].contains("//") && */ !line.contains("@Override")) {
-							linesOfCode++;
+						if(word.length != 0) {
+							if (inMethod && !line.isEmpty() && !word[0].contains("//") &&  !line.contains("@Override")) {
+								linesOfCode++;
+							}
 						}
 					}
 				}
@@ -248,7 +250,7 @@ public class SmellyClass {
 				System.out.println("Esta classe não é uma god class.");
 			}
 		}
-		
+
 
 	}
 
@@ -308,14 +310,14 @@ public class SmellyClass {
 		linesOfCode = (int) javaFile.lines().count();
 		System.out.println("A classe tem " + linesOfCode + " linhas de código.");
 	}
-	
+
 	public void methodName(String line) {
 		String[] parts = line.split("\\(");
 		String name = parts[0].substring(parts[0].lastIndexOf(" "));
 		System.out.println(name.trim());
 		methodNames.add(name.trim());
 	}
-	
+
 	public int getMethod() {
 		return method;
 	}
@@ -343,7 +345,7 @@ public class SmellyClass {
 	public int getWmcCount() {
 		return wmcCount;
 	}
-	
+
 	public String getMethodNames(int id) {
 		return methodNames.get(id);
 	}

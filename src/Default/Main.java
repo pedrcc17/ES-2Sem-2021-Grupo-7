@@ -52,29 +52,24 @@ public class Main {
 			eexport.exportToExcel(eexport.chooseName());
 		}
 	
-	public static ArrayList<File> RecursivePrint(File[] arr,int index,int level, ArrayList<File> toreturn) 
+	public static ArrayList<File> RecursiveFinder(File[] arr,int index,int level, ArrayList<File> toreturn) 
     {
-        // terminate condition
         if(index == arr.length)
             return toreturn;
           
           
-        // for files
         if(arr[index].isFile()){
         	if (arr[index].getName().endsWith(".java")) {
         		toreturn.add(arr[index]);
         	}
         }
           
-        // for sub-directories
         else if(arr[index].isDirectory())
         {              
-            // recursion for sub-directories
-            RecursivePrint(arr[index].listFiles(), 0, level + 1, toreturn);
+            RecursiveFinder(arr[index].listFiles(), 0, level + 1, toreturn);
         }
            
-        // recursion for main directory
-        RecursivePrint(arr,++index, level, toreturn);
+        RecursiveFinder(arr,++index, level, toreturn);
         
         return toreturn;
    }
@@ -89,16 +84,9 @@ public class Main {
 	   if(ret == JFileChooser.APPROVE_OPTION) {
 		   File fileDirectory = chooser.getSelectedFile();
 		   if(fileDirectory.exists() && fileDirectory.isDirectory()){
-           // array for files and sub-directories 
-           // of directory pointed by fileDirectory
 			   File arr[] = fileDirectory.listFiles();
              
-			   System.out.println("**********************************************");
-			   System.out.println("Files from main directory : " + fileDirectory);
-			   System.out.println("**********************************************");
-             
-           // Calling recursive method
-			   RecursivePrint(arr,0,0,vazio);
+			   RecursiveFinder(arr,0,0,vazio);
 		   }
 		   
       }
