@@ -14,10 +14,10 @@ public class Main {
 		try {
 			BufferedReader javaFile = new BufferedReader(new FileReader(dir + "\\" + file));
 			String[] word = javaFile.readLine().split(" ");
-			while (word[0].equals("package") || word[0].equals("import") || word[0].equals("")) {
+			while (word[0].equals("package") || word[0].equals("import") || word[0].equals("") || word[0].equals("/*") || word[0].contains("*") || word[0].equals("*/") || word[0].contains(" *")) {
 				word = javaFile.readLine().split(" ");
 			}
-			if (word[1].equals("class")) {
+			if (word[1].equals("class") || word[1].equals("interface")) {
 				return javaFile;
 			}
 		}
