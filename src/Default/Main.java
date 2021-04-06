@@ -74,7 +74,6 @@ public class Main {
         return toreturn;
    }
      
-   // Driver Method
    public static ArrayList<File> readEverything(){
 	   ArrayList<File> vazio = new ArrayList<File>();
 	   JFileChooser chooser = new JFileChooser(".");
