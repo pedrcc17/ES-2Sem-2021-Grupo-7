@@ -7,8 +7,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -18,10 +20,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelExporting {
 
-	private XSSFWorkbook workbook = new XSSFWorkbook();
-	private XSSFSheet spreadsheet = workbook.createSheet("Code Smells");
-	private XSSFRow row;
-	private Map<Integer, Object[] > metrics;
+	private static XSSFWorkbook workbook = new XSSFWorkbook();
+	private static XSSFSheet spreadsheet = workbook.createSheet("Code Smells");
+	private static XSSFRow row;
+	private static Map<Integer, Object[] > metrics;
 	private int id;
 	private String className;
 	private String packageName;
@@ -31,7 +33,7 @@ public class ExcelExporting {
 		id = 00;
 		metrics = new TreeMap < Integer, Object[] >();
 		boldfont = workbook.createFont();
-	    boldfont.setBold(true);
+		boldfont.setBold(true);
 		metrics.put(00, new Object [] {
 				"MethodID","package","class","method","NOM_class","LOC_class","WMC_class","is_God_Class","LOC_method","CYCLO_method","is_Long_Method"});
 	}
@@ -95,4 +97,42 @@ public class ExcelExporting {
 		return name;
 	}
 
+	public void getExcelDataAsMap(String excelFileName) throws IOException, InvalidFormatException {
+//		String dir = ".";
+//		JFileChooser chooser = new JFileChooser("Escolher Excel");
+//		chooser.setMultiSelectionEnabled(true);
+//		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+//		int ret = chooser.showOpenDialog(null);
+//		if(ret == JFileChooser.APPROVE_OPTION) {
+//			File file = chooser.getSelectedFile();
+//			if(file.exists() && file.getName().substring(file.getName().lastIndexOf(".")) == "xlsx"){
+//				dir = file.getAbsolutePath();
+//			}
+//		}
+//		
+//		workbook = new XSSFWorkbook(new File("src\\test\\resources\\excelFiles\\"+excelFileName+".xlsx"));
+//		if(dir == "") return;
+		workbook = new XSSFWorkbook(new File("src\\"+excelFileName+".xlsx"));
+		spreadsheet = workbook.getSheet("Code Smells");
+		int countOfRows = spreadsheet.getLastRowNum();
+		for (int i = 01; i < countOfRows; i++) {
+			row = spreadsheet.getRow(i);
+			if(row.getLastCellNum() < 10) {
+				metrics.put(i, new Object [] {
+						Integer.toString(i),
+						row.getCell(1).getStringCellValue(),
+						row.getCell(2).getStringCellValue(),
+						row.getCell(3).getStringCellValue(),
+						row.getCell(4).getStringCellValue(),
+						row.getCell(5).getStringCellValue(),
+						row.getCell(6).getStringCellValue(),
+						row.getCell(7).getStringCellValue(),
+						row.getCell(8).getStringCellValue(),
+						row.getCell(9).getStringCellValue(),
+						row.getCell(10).getStringCellValue(),
+				});
+			}
+		}
+	}
+	
 }
