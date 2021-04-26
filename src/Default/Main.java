@@ -32,7 +32,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException, InvalidFormatException {
-		ExcelExporting eexport = new ExcelExporting();
+		ExcelAPI excelapi = new ExcelAPI();
 		ArrayList<File> allJavaFiles = readEverything();
 		for (File file : allJavaFiles) {
 			System.out.println("files " + file);
@@ -50,14 +50,17 @@ public class Main {
 			classy.isLongMethod(5, 2, true, true, false);
 			System.out.println("-------------------------");
 			classy.isGodClass(15, 10, 100, true, true, true, true, true);
-			eexport.setClassAndPackageNames(file.getName(), file.getParent());
-			eexport.saveMetrics(classy);
+			excelapi.setClassAndPackageNames(file.getName(), file.getParent());
+			excelapi.saveMetrics(classy);
 		}
-		eexport.exportToExcel(eexport.chooseName());
+		excelapi.exportToExcel(excelapi.chooseName());
 
 		//Ler um excel, guardar, e exportar um igual
-		eexport.getExcelDataAsMap("-1");
-		eexport.exportToExcel(eexport.chooseName());
+		excelapi.getExcelDataAsMap("-1");
+		excelapi.exportToExcel(excelapi.chooseName());
+		
+		//ler o valor da cell 5x5
+		System.out.println(excelapi.findInMap(16, 9));
 	}
 
 	public static ArrayList<File> RecursiveFinder(File[] arr,int index,int level, ArrayList<File> toreturn) 
