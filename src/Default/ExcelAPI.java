@@ -18,7 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExcelExporting {
+public class ExcelAPI {
 
 	private static XSSFWorkbook workbook = new XSSFWorkbook();
 	private static XSSFSheet spreadsheet = workbook.createSheet("Code Smells");
@@ -29,7 +29,7 @@ public class ExcelExporting {
 	private String packageName;
 	private XSSFFont boldfont;
 
-	public ExcelExporting() {
+	public ExcelAPI() {
 		id = 00;
 		metrics = new TreeMap < Integer, Object[] >();
 		boldfont = workbook.createFont();
@@ -98,20 +98,6 @@ public class ExcelExporting {
 	}
 
 	public void getExcelDataAsMap(String excelFileName) throws IOException, InvalidFormatException {
-//		String dir = ".";
-//		JFileChooser chooser = new JFileChooser("Escolher Excel");
-//		chooser.setMultiSelectionEnabled(true);
-//		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-//		int ret = chooser.showOpenDialog(null);
-//		if(ret == JFileChooser.APPROVE_OPTION) {
-//			File file = chooser.getSelectedFile();
-//			if(file.exists() && file.getName().substring(file.getName().lastIndexOf(".")) == "xlsx"){
-//				dir = file.getAbsolutePath();
-//			}
-//		}
-//		
-//		workbook = new XSSFWorkbook(new File("src\\test\\resources\\excelFiles\\"+excelFileName+".xlsx"));
-//		if(dir == "") return;
 		workbook = new XSSFWorkbook(new File("src\\"+excelFileName+".xlsx"));
 		spreadsheet = workbook.getSheet("Code Smells");
 		int countOfRows = spreadsheet.getLastRowNum();
@@ -134,5 +120,15 @@ public class ExcelExporting {
 			}
 		}
 	}
-	
+
+	public String findInMap(int line, int column) {
+		Object[] temp = metrics.get(line);
+		return (String)temp[column];
+	}
+
+	public String findGodClass(int line) {
+		Object[] temp = metrics.get(line);
+		return (String)temp[7];
+	}
+
 }
