@@ -24,6 +24,9 @@ import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -31,6 +34,9 @@ public class GUI {
 
 	private JFrame frame;
 	private ExcelAPI excelAPI;
+	
+	private JScrollPane scrollPane;
+	private JTree tree;
 
 	/**
 	 * Launch the application.
@@ -66,6 +72,15 @@ public class GUI {
 	private void removeExcelAPI() {
 		this.excelAPI = null;
 	}
+	
+	private void updateWindow() {
+		if(excelAPI!=null) {
+			JTree tree = new JTree();
+			tree.setModel(excelAPI.readExcel());
+			scrollPane.setViewportView(tree);
+		}
+		scrollPane.updateUI();
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -94,6 +109,7 @@ public class GUI {
 				ExcelAPI excelAPI = new ExcelAPI();
 				excelAPI.setFileToRead(chooser.getSelectedFile());
 				setExcelAPI(excelAPI);
+				updateWindow();
 			}
 			
 		});
@@ -235,11 +251,12 @@ public class GUI {
 		panel_3.add(splitPane, "cell 0 0,grow");
 
 		JScrollPane scrollPane = new JScrollPane();
-		splitPane.setLeftComponent(scrollPane);
+		this.scrollPane = scrollPane;
+		splitPane.setLeftComponent(this.scrollPane);
 
-		JTree tree = new JTree();
-		scrollPane.setViewportView(tree);
-		
+//		JTree tree = new JTree();
+//		this.tree = tree;
+//		scrollPane.setViewportView(this.tree);
 
 		JLayeredPane layeredPane = new JLayeredPane();
 		layeredPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
