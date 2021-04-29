@@ -27,6 +27,7 @@ public class ExcelAPI {
 	private String className;
 	private String packageName;
 	private XSSFFont boldfont;
+	private File fileToRead;
 
 	public ExcelAPI() {
 		id = 00;
@@ -129,5 +130,18 @@ public class ExcelAPI {
 		Object[] temp = metrics.get(line);
 		return (String)temp[7];
 	}
+	
+	public void setFileToRead(File file) {
+		this.fileToRead = file;
+	}
+	
+	public void removeFileToRead() {
+		this.fileToRead = null;
+	}
+	
+	public String getFileToRead() {
+		return this.fileToRead.toString();
+	}
+	
 
 }

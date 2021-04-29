@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -22,6 +23,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -68,6 +70,19 @@ public class GUI {
 
 		i1 = new JMenuItem("Open Project");
 		i2 = new JMenuItem("Open Metrics File");
+		i2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser(".");
+				chooser.setMultiSelectionEnabled(false);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files", "xlsx", "excel");
+				chooser.setFileFilter(filter);
+				chooser.showOpenDialog(null);
+				ExcelAPI excelAPI = new ExcelAPI();
+				excelAPI.setFileToRead(chooser.getSelectedFile());
+			}
+			
+		});
 		i3 = new JMenuItem("Save Metrics");
 		i4 = new JMenuItem("Create new Rule");
 		i4.addActionListener(new ActionListener() {
