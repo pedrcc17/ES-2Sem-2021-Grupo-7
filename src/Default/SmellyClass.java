@@ -3,8 +3,6 @@ package Default;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SmellyClass {
 	private BufferedReader javaFile;
