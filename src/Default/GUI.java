@@ -30,6 +30,7 @@ import net.miginfocom.swing.MigLayout;
 public class GUI {
 
 	private JFrame frame;
+	private ExcelAPI excelAPI;
 
 	/**
 	 * Launch the application.
@@ -52,6 +53,18 @@ public class GUI {
 	 */
 	public GUI() {
 		initialize();
+	}
+	
+	private void setExcelAPI(ExcelAPI excelAPI) {
+		this.excelAPI = excelAPI;
+	}
+	
+	private ExcelAPI getExcelAPI() {
+		return this.excelAPI;
+	}
+	
+	private void removeExcelAPI() {
+		this.excelAPI = null;
 	}
 
 	/**
@@ -80,6 +93,7 @@ public class GUI {
 				chooser.showOpenDialog(null);
 				ExcelAPI excelAPI = new ExcelAPI();
 				excelAPI.setFileToRead(chooser.getSelectedFile());
+				setExcelAPI(excelAPI);
 			}
 			
 		});
@@ -225,6 +239,7 @@ public class GUI {
 
 		JTree tree = new JTree();
 		scrollPane.setViewportView(tree);
+		
 
 		JLayeredPane layeredPane = new JLayeredPane();
 		layeredPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
