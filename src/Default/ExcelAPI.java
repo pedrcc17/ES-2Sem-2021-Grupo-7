@@ -103,7 +103,7 @@ public class ExcelAPI {
 		workbook = new XSSFWorkbook(fileToRead);
 		spreadsheet = workbook.getSheet("Code Smells");
 		int countOfRows = spreadsheet.getLastRowNum();
-		
+
 		for (int i = 01; i < countOfRows; i++) {
 			row = spreadsheet.getRow(i);
 			if (row.getLastCellNum() < 12) {
@@ -122,39 +122,39 @@ public class ExcelAPI {
 		Object[] temp = metrics.get(line);
 		return (String) temp[column];
 	}
-	
-	//helping with small methods
-	
+
+	// helping with small methods
+
 	public String findMethodID(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[0];
 	}
-	
+
 	public String findPackageName(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[1];
 	}
-	
+
 	public String findClassName(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[2];
 	}
-	
+
 	public String findMethodName(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[3];
 	}
-	
+
 	public String findNOM_Class(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[4];
 	}
-	
+
 	public String findLOC_Class(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[5];
 	}
-	
+
 	public String findWMC_Class(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[6];
@@ -164,17 +164,17 @@ public class ExcelAPI {
 		Object[] temp = metrics.get(line);
 		return (String) temp[7];
 	}
-	
+
 	public String findLOC_Method(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[8];
 	}
-	
+
 	public String findCYCLO_Method(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[9];
 	}
-	
+
 	public String findIsLongMethod(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[10];
@@ -197,53 +197,39 @@ public class ExcelAPI {
 		String name = getFileToRead().replace("\\", " ");
 		String[] myFile = name.split(" ");
 		String myFileName = myFile[myFile.length - 1];
-		
-		String packageName = findPackageName(1);
-		boolean firstTime = true;
-		
-		for(int i = 1; i<metrics.size();) {
-			String newPackageName = findPackageName(i);
-			
-			if((packageName != newPackageName) || firstTime) {
-				firstTime = false;
-				
-				DefaultTreeModel treeModel = new DefaultTreeModel(new DefaultMutableTreeNode(newPackageName) {
+		DefaultTreeModel treeModel = new DefaultTreeModel(
+				new DefaultMutableTreeNode(myFileName) {
 					private static final long serialVersionUID = 1L;
-
 					{
-						DefaultMutableTreeNode node_1;
-						
-
-						node_1 = new DefaultMutableTreeNode("Classe 1");
-						node_1.add(new DefaultMutableTreeNode("Metodo 1"));
-						node_1.add(new DefaultMutableTreeNode("Metodo 2"));
-						node_1.add(new DefaultMutableTreeNode("Metodo 3"));
-						node_1.add(new DefaultMutableTreeNode("Metodo 4"));
-						add(node_1);
-						node_1 = new DefaultMutableTreeNode("Classe 2");
-						node_1.add(new DefaultMutableTreeNode("Metodo 1"));
-						node_1.add(new DefaultMutableTreeNode("Metodo 2"));
-						node_1.add(new DefaultMutableTreeNode("Metodo 3"));
-						node_1.add(new DefaultMutableTreeNode("Metodo 4"));
-						add(node_1);
-						node_1 = new DefaultMutableTreeNode("Classe 3");
-						node_1.add(new DefaultMutableTreeNode("Metodo 1"));
-						node_1.add(new DefaultMutableTreeNode("Metodo 2"));
-						node_1.add(new DefaultMutableTreeNode("Metodo 3"));
-						node_1.add(new DefaultMutableTreeNode("Metodo 4"));
-						add(node_1);
-						
-
+						DefaultMutableTreeNode node_1 = null;
+						DefaultMutableTreeNode node_11 = null;
+						boolean addedPackage = false;
+						String packageName = findPackageName(1);
+						boolean addedClass = false;
+						String className = findClassName(1);
+						for (int i = 1; i < metrics.size(); i++) {
+							String newPackageName = findPackageName(i);
+							String newClassName = findClassName(i);
+							if ((packageName != newPackageName) || !addedPackage) {
+								{
+									node_1 = new DefaultMutableTreeNode(newPackageName);
+									addedPackage=true;
+									packageName = newPackageName;
+								}
+							}
+							if ((className != newClassName) || !addedClass) {
+								node_11 = new DefaultMutableTreeNode(findClassName(i));
+								addedClass=true;
+								className = newClassName;
+							}
+								node_1.add(node_11);
+								node_11.add(new DefaultMutableTreeNode(findMethodName(i)));
+								add(node_1);
+						}
 					}
 				});
 
-				return treeModel;
-			}
-			
-
-		}
-
-		return null;
+		return treeModel;
 
 	}
 
