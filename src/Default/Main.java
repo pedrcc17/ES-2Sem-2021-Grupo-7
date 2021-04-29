@@ -56,11 +56,12 @@ public class Main {
 		excelapi.exportToExcel(excelapi.chooseName());
 
 		//Ler um excel, guardar, e exportar um igual
-		excelapi.getExcelDataAsMap("-1");
-		excelapi.exportToExcel(excelapi.chooseName());
+//		excelapi.getExcelDataAsMap();
+//		excelapi.exportToExcel(excelapi.chooseName());
 		
 		//ler o valor da cell 5x5
-		System.out.println(excelapi.findInMap(16, 9));
+//		System.out.println(excelapi.findInMap(16, 9));
+		
 	}
 
 	public static ArrayList<File> RecursiveFinder(File[] arr,int index,int level, ArrayList<File> toreturn) 

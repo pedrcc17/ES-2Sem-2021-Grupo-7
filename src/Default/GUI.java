@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -27,6 +28,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -73,7 +76,7 @@ public class GUI {
 		this.excelAPI = null;
 	}
 	
-	private void updateWindow() {
+	private void updateWindow() throws Exception, Exception {
 		if(excelAPI!=null) {
 			JTree tree = new JTree();
 			tree.setModel(excelAPI.readExcel());
@@ -109,7 +112,11 @@ public class GUI {
 				ExcelAPI excelAPI = new ExcelAPI();
 				excelAPI.setFileToRead(chooser.getSelectedFile());
 				setExcelAPI(excelAPI);
-				updateWindow();
+				try {
+					updateWindow();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 			
 		});

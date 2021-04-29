@@ -99,13 +99,14 @@ public class ExcelAPI {
 		return name;
 	}
 
-	public void getExcelDataAsMap(String excelFileName) throws IOException, InvalidFormatException {
+	public void getExcelDataAsMap() throws IOException, InvalidFormatException {
 		workbook = new XSSFWorkbook(fileToRead);
 		spreadsheet = workbook.getSheet("Code Smells");
 		int countOfRows = spreadsheet.getLastRowNum();
+		
 		for (int i = 01; i < countOfRows; i++) {
 			row = spreadsheet.getRow(i);
-			if (row.getLastCellNum() < 10) {
+			if (row.getLastCellNum() < 12) {
 				metrics.put(i,
 						new Object[] { Integer.toString(i), row.getCell(1).getStringCellValue(),
 								row.getCell(2).getStringCellValue(), row.getCell(3).getStringCellValue(),
@@ -191,42 +192,59 @@ public class ExcelAPI {
 		return this.fileToRead.toString();
 	}
 
-	public DefaultTreeModel readExcel() {
+	public DefaultTreeModel readExcel() throws Exception, IOException {
+		getExcelDataAsMap();
 		String name = getFileToRead().replace("\\", " ");
 		String[] myFile = name.split(" ");
 		String myFileName = myFile[myFile.length - 1];
-
-		DefaultTreeModel treeModel = new DefaultTreeModel(new DefaultMutableTreeNode(myFileName) {
-			private static final long serialVersionUID = 1L;
-
-			{
-				DefaultMutableTreeNode node_1;
+		
+		String packageName = findPackageName(1);
+		boolean firstTime = true;
+		
+		for(int i = 1; i<metrics.size();) {
+			String newPackageName = findPackageName(i);
+			
+			if((packageName != newPackageName) || firstTime) {
+				firstTime = false;
 				
+				DefaultTreeModel treeModel = new DefaultTreeModel(new DefaultMutableTreeNode(newPackageName) {
+					private static final long serialVersionUID = 1L;
 
-				node_1 = new DefaultMutableTreeNode("Classe 1");
-				node_1.add(new DefaultMutableTreeNode("Metodo 1"));
-				node_1.add(new DefaultMutableTreeNode("Metodo 2"));
-				node_1.add(new DefaultMutableTreeNode("Metodo 3"));
-				node_1.add(new DefaultMutableTreeNode("Metodo 4"));
-				add(node_1);
-				node_1 = new DefaultMutableTreeNode("Classe 2");
-				node_1.add(new DefaultMutableTreeNode("Metodo 1"));
-				node_1.add(new DefaultMutableTreeNode("Metodo 2"));
-				node_1.add(new DefaultMutableTreeNode("Metodo 3"));
-				node_1.add(new DefaultMutableTreeNode("Metodo 4"));
-				add(node_1);
-				node_1 = new DefaultMutableTreeNode("Classe 3");
-				node_1.add(new DefaultMutableTreeNode("Metodo 1"));
-				node_1.add(new DefaultMutableTreeNode("Metodo 2"));
-				node_1.add(new DefaultMutableTreeNode("Metodo 3"));
-				node_1.add(new DefaultMutableTreeNode("Metodo 4"));
-				add(node_1);
-				
+					{
+						DefaultMutableTreeNode node_1;
+						
 
+						node_1 = new DefaultMutableTreeNode("Classe 1");
+						node_1.add(new DefaultMutableTreeNode("Metodo 1"));
+						node_1.add(new DefaultMutableTreeNode("Metodo 2"));
+						node_1.add(new DefaultMutableTreeNode("Metodo 3"));
+						node_1.add(new DefaultMutableTreeNode("Metodo 4"));
+						add(node_1);
+						node_1 = new DefaultMutableTreeNode("Classe 2");
+						node_1.add(new DefaultMutableTreeNode("Metodo 1"));
+						node_1.add(new DefaultMutableTreeNode("Metodo 2"));
+						node_1.add(new DefaultMutableTreeNode("Metodo 3"));
+						node_1.add(new DefaultMutableTreeNode("Metodo 4"));
+						add(node_1);
+						node_1 = new DefaultMutableTreeNode("Classe 3");
+						node_1.add(new DefaultMutableTreeNode("Metodo 1"));
+						node_1.add(new DefaultMutableTreeNode("Metodo 2"));
+						node_1.add(new DefaultMutableTreeNode("Metodo 3"));
+						node_1.add(new DefaultMutableTreeNode("Metodo 4"));
+						add(node_1);
+						
+
+					}
+				});
+
+				return treeModel;
 			}
-		});
+			
 
-		return treeModel;
+		}
+
+		return null;
+
 	}
 
 	public static String getCellValue(Cell cell) {
