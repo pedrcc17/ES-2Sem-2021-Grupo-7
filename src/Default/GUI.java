@@ -92,7 +92,7 @@ public class GUI {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 650, 714);
+		frame.setBounds(100, 100, 850, 714);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JMenuItem i1, i2, i3, i4, i5, i6, i7, i8;
@@ -129,7 +129,7 @@ public class GUI {
 		        JButton button = new JButton();
 
 		        button.setText("Click me to show dialog!");
-		        parent.add(button);
+		        parent.getContentPane().add(button);
 		        parent.pack();
 		        parent.setVisible(true);
 				String name = JOptionPane.showInputDialog(parent, "What is your name?", null);
@@ -156,7 +156,7 @@ public class GUI {
 		menuBar.add(Rules);
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane()
-				.setLayout(new MigLayout("", "[203px][246.00px,grow][144.00px,grow]", "[42px][480px,grow]"));
+				.setLayout(new MigLayout("", "[225.00px][400.00px][225.00px,grow]", "[42px][480px,grow]"));
 
 		JPanel panel_2 = new JPanel();
 		frame.getContentPane().add(panel_2, "cell 0 0 3 1,grow");
@@ -169,13 +169,13 @@ public class GUI {
 		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagLayout gbl_panel = new GridBagLayout();
 
-		gbl_panel.columnWidths = new int[] { 40, 120, 38, 0 };
+		gbl_panel.columnWidths = new int[] { 25, 175, 25, 0 };
 		gbl_panel.rowHeights = new int[] { 14, 100, 0, 76, 0, 0, 76, 0, 0, 76, 0, 0, 76, 0, 0, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
-		frame.getContentPane().add(panel, "cell 0 1,alignx left,growy");
+		frame.getContentPane().add(panel, "cell 0 1,grow");
 
 		JLabel Geral = new JLabel("Geral");
 		Geral.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -267,10 +267,12 @@ public class GUI {
 //		this.tree = tree;
 //		scrollPane.setViewportView(this.tree);
 
-		JLayeredPane layeredPane = new JLayeredPane();
+		JPanel layeredPane = new JPanel();
+		layeredPane.setMaximumSize(new Dimension(0, 315));
+
 		layeredPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		splitPane.setRightComponent(layeredPane);
-		layeredPane.setLayout(new MigLayout("", "[100.00][100.00]", "[][][10.00][][10.00][][10.00][][]"));
+		layeredPane.setLayout(new MigLayout("", "[200][200]", "[][][10.00][][10.00][][10.00][][]"));
 
 		JLabel lblNewLabel_1_3_1 = new JLabel("Classname");
 		lblNewLabel_1_3_1.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -353,9 +355,9 @@ public class GUI {
 		panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frame.getContentPane().add(panel_1, "cell 2 1,grow");
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[] { 40, 120, 38, 0 };
+		gbl_panel_1.columnWidths = new int[] { 25, 175, 25, 0 };
 		gbl_panel_1.rowHeights = new int[] { 14, 100, 0, 76, 0, 0, 76, 0, 0, 76, 0, 0, 76, 0, 0, 0, 0, 0, 0 };
-		gbl_panel_1.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_1.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel_1.setLayout(gbl_panel_1);
