@@ -1,5 +1,6 @@
 package Default;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -169,9 +170,9 @@ public class GUI {
 		GridBagLayout gbl_panel = new GridBagLayout();
 
 		gbl_panel.columnWidths = new int[] { 40, 120, 38, 0 };
-		gbl_panel.rowHeights = new int[] { 14, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_panel.rowHeights = new int[] { 14, 100, 0, 76, 0, 0, 76, 0, 0, 76, 0, 0, 76, 0, 0, 0, 0, 0, 0 };
 		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 		frame.getContentPane().add(panel, "cell 0 1,alignx left,growy");
@@ -259,6 +260,7 @@ public class GUI {
 
 		JScrollPane scrollPane = new JScrollPane();
 		this.scrollPane = scrollPane;
+		scrollPane.setMinimumSize(new Dimension(0, 315));
 		splitPane.setLeftComponent(this.scrollPane);
 
 //		JTree tree = new JTree();
@@ -352,9 +354,9 @@ public class GUI {
 		frame.getContentPane().add(panel_1, "cell 2 1,grow");
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[] { 40, 120, 38, 0 };
-		gbl_panel_1.rowHeights = new int[] { 14, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_panel_1.rowHeights = new int[] { 14, 100, 0, 76, 0, 0, 76, 0, 0, 76, 0, 0, 76, 0, 0, 0, 0, 0, 0 };
 		gbl_panel_1.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel_1.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel_1.setLayout(gbl_panel_1);
 
