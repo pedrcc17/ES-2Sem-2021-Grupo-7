@@ -121,10 +121,62 @@ public class ExcelAPI {
 		Object[] temp = metrics.get(line);
 		return (String) temp[column];
 	}
+	
+	//helping with small methods
+	
+	public String findMethodID(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[0];
+	}
+	
+	public String findPackageName(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[1];
+	}
+	
+	public String findClassName(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[2];
+	}
+	
+	public String findMethodName(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[3];
+	}
+	
+	public String findNOM_Class(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[4];
+	}
+	
+	public String findLOC_Class(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[5];
+	}
+	
+	public String findWMC_Class(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[6];
+	}
 
 	public String findGodClass(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[7];
+	}
+	
+	public String findLOC_Method(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[8];
+	}
+	
+	public String findCYCLO_Method(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[9];
+	}
+	
+	public String findIsLongMethod(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[10];
 	}
 
 	public void setFileToRead(File file) {
