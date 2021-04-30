@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -231,6 +232,38 @@ public class ExcelAPI {
 
 		return treeModel;
 
+	}
+	
+	public ArrayList<String> readExcelTotals() throws Exception, IOException {
+		getExcelDataAsMap();
+		ArrayList<String> packagesList = new ArrayList<String>();
+		ArrayList<String> classesList = new ArrayList<String>();
+		ArrayList<Integer> LOCList = new ArrayList<Integer>();
+
+		for (int i = 1; i < metrics.size(); i++) {
+		packagesList.add(findPackageName(i));
+		classesList.add(findClassName(i));
+		LOCList.add(Integer.parseInt(findLOC_Method(i)));
+		
+		}
+		Set<String> packagesset = new HashSet<>(packagesList);
+		Set<String> classesset = new HashSet<>(classesList);
+
+		packagesList.clear();
+		packagesList.addAll(packagesset);
+		classesList.clear();
+		classesList.addAll(classesset);
+		
+		String total_packages = String.valueOf(packagesList.size());
+		String total_classes = String.valueOf(classesList.size());
+		String total_methods = String.valueOf(metrics.size());
+		String total_LOC = String.valueOf(LOCList.stream().mapToInt(Integer::intValue).sum());
+		ArrayList<String> totalsList = new ArrayList<String>();
+		totalsList.add(total_packages);
+		totalsList.add(total_classes);
+		totalsList.add(total_methods);
+		totalsList.add(total_LOC);
+		return totalsList;
 	}
 
 	public static String getCellValue(Cell cell) {

@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -41,6 +42,16 @@ public class GUI {
 	
 	private JScrollPane scrollPane;
 	private JTree tree;
+	private ArrayList<String> TotalsList;
+	
+	private JLabel totalPackages = new JLabel("-");
+	private JLabel totalClasses = new JLabel("-");
+	private JLabel totalMethods = new JLabel("-");
+	private JLabel totalLOC = new JLabel("-");
+
+
+
+	
 
 	/**
 	 * Launch the application.
@@ -85,6 +96,15 @@ public class GUI {
 		}
 		scrollPane.updateUI();
 	}
+	
+	private void updateLabels() {
+		updateLabel(totalPackages,TotalsList.get(0));
+		updateLabel(totalClasses,TotalsList.get(1));
+		updateLabel(totalMethods,TotalsList.get(2));
+		updateLabel(totalLOC,TotalsList.get(3));
+	}
+	
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -114,13 +134,23 @@ public class GUI {
 				excelAPI.setFileToRead(chooser.getSelectedFile());
 				setExcelAPI(excelAPI);
 				try {
+					TotalsList = excelAPI.readExcelTotals();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				} catch (Exception e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				try {
+					updateLabels();
 					updateWindow();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
-			
 		});
+		
 		i3 = new JMenuItem("Save Metrics");
 		i4 = new JMenuItem("Create new Rule");
 		i4.addActionListener(new ActionListener() {
@@ -194,13 +224,12 @@ public class GUI {
 		gbc_packages.gridy = 2;
 		panel.add(packages, gbc_packages);
 
-		JLabel lblNewLabel_2_3 = new JLabel("50");
-		lblNewLabel_2_3.setFont(new Font("Tahoma", Font.BOLD, 25));
+		totalPackages.setFont(new Font("Tahoma", Font.BOLD, 25));
 		GridBagConstraints gbc_lblNewLabel_2_3 = new GridBagConstraints();
 		gbc_lblNewLabel_2_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2_3.gridx = 1;
 		gbc_lblNewLabel_2_3.gridy = 3;
-		panel.add(lblNewLabel_2_3, gbc_lblNewLabel_2_3);
+		panel.add(totalPackages, gbc_lblNewLabel_2_3);
 
 		JLabel classes_1 = new JLabel("Total #Classes");
 		GridBagConstraints gbc_classes_1 = new GridBagConstraints();
@@ -209,13 +238,12 @@ public class GUI {
 		gbc_classes_1.gridy = 5;
 		panel.add(classes_1, gbc_classes_1);
 
-		JLabel lblNewLabel_2_1_1 = new JLabel("50");
-		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		totalClasses.setFont(new Font("Tahoma", Font.BOLD, 25));
 		GridBagConstraints gbc_lblNewLabel_2_1_1 = new GridBagConstraints();
 		gbc_lblNewLabel_2_1_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2_1_1.gridx = 1;
 		gbc_lblNewLabel_2_1_1.gridy = 6;
-		panel.add(lblNewLabel_2_1_1, gbc_lblNewLabel_2_1_1);
+		panel.add(totalClasses, gbc_lblNewLabel_2_1_1);
 
 		JLabel methods_1 = new JLabel("Total #Methods");
 		GridBagConstraints gbc_methods_1 = new GridBagConstraints();
@@ -224,13 +252,12 @@ public class GUI {
 		gbc_methods_1.gridy = 8;
 		panel.add(methods_1, gbc_methods_1);
 
-		JLabel lblNewLabel_2_2_1 = new JLabel("50");
-		lblNewLabel_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		totalMethods.setFont(new Font("Tahoma", Font.BOLD, 25));
 		GridBagConstraints gbc_lblNewLabel_2_2_1 = new GridBagConstraints();
 		gbc_lblNewLabel_2_2_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2_2_1.gridx = 1;
 		gbc_lblNewLabel_2_2_1.gridy = 9;
-		panel.add(lblNewLabel_2_2_1, gbc_lblNewLabel_2_2_1);
+		panel.add(totalMethods, gbc_lblNewLabel_2_2_1);
 
 		JLabel codelines_1 = new JLabel("Total #Codelines");
 		GridBagConstraints gbc_codelines_1 = new GridBagConstraints();
@@ -239,13 +266,12 @@ public class GUI {
 		gbc_codelines_1.gridy = 11;
 		panel.add(codelines_1, gbc_codelines_1);
 
-		JLabel lblNewLabel_2_2_1_1 = new JLabel("50");
-		lblNewLabel_2_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		totalLOC.setFont(new Font("Tahoma", Font.BOLD, 25));
 		GridBagConstraints gbc_lblNewLabel_2_2_1_1 = new GridBagConstraints();
 		gbc_lblNewLabel_2_2_1_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2_2_1_1.gridx = 1;
 		gbc_lblNewLabel_2_2_1_1.gridy = 12;
-		panel.add(lblNewLabel_2_2_1_1, gbc_lblNewLabel_2_2_1_1);
+		panel.add(totalLOC, gbc_lblNewLabel_2_2_1_1);
 
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -433,4 +459,11 @@ public class GUI {
 		panel_1.add(lblNewLabel_2_2_1_1_1, gbc_lblNewLabel_2_2_1_1_1);
 
 	}
+	
+	public void updateLabel(JLabel label, String text) {
+		label.setText(text);
+		label.paintImmediately(label.getVisibleRect());
+		
+	}
+	
 }
