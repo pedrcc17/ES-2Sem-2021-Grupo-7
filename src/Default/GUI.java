@@ -34,6 +34,8 @@ import javax.swing.tree.TreeModel;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JSeparator;
+import java.awt.Color;
 
 public class GUI {
 
@@ -279,7 +281,6 @@ public class GUI {
 		panel_3.setLayout(new MigLayout("", "[224px,grow]", "[480px,grow]"));
 
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setToolTipText("");
 		splitPane.setContinuousLayout(true);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		panel_3.add(splitPane, "cell 0 0,grow");
@@ -298,7 +299,7 @@ public class GUI {
 
 		layeredPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		splitPane.setRightComponent(layeredPane);
-		layeredPane.setLayout(new MigLayout("", "[200][200]", "[][][10.00][][10.00][][10.00][][]"));
+		layeredPane.setLayout(new MigLayout("", "[200][200]", "[][][10.00][][10.00][][10.00][][15.00][][]"));
 
 		JLabel lblNewLabel_1_3_1 = new JLabel("Classname");
 		lblNewLabel_1_3_1.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -354,28 +355,32 @@ public class GUI {
 		lblNewLabel_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.add(lblNewLabel_1_2_1, "cell 0 5,alignx center,aligny center");
 
-		JLabel lblNewLabel_1_2 = new JLabel("Long");
-		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
-		layeredPane.add(lblNewLabel_1_2, "cell 1 5,alignx center,aligny center");
-
 		JLabel lblNewLabel_2_2_1_1_6 = new JLabel("50");
 		lblNewLabel_2_2_1_1_6.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2_1_1_6.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_6, "cell 0 6,alignx center,aligny center");
-
-		JLabel lblNewLabel_2_2_1_1_7 = new JLabel("True");
-		lblNewLabel_2_2_1_1_7.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2_2_1_1_7.setFont(new Font("Tahoma", Font.BOLD, 25));
-		layeredPane.add(lblNewLabel_2_2_1_1_7, "cell 1 6,alignx center,aligny center");
+		
+		JSeparator separator = new JSeparator();
+		separator.setForeground(Color.LIGHT_GRAY);
+		layeredPane.add(separator, "cell 0 7 2 1,grow");
 
 		JLabel lblNewLabel_1_2_2_1 = new JLabel("GodClass");
 		lblNewLabel_1_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		layeredPane.add(lblNewLabel_1_2_2_1, "cell 0 7,alignx center,aligny center");
+		layeredPane.add(lblNewLabel_1_2_2_1, "cell 0 9,alignx center,aligny center");
+		
+				JLabel lblNewLabel_1_2 = new JLabel("Long");
+				lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
+				layeredPane.add(lblNewLabel_1_2, "cell 1 9,alignx center,aligny center");
 
 		JLabel lblNewLabel_2_2_1_1_8 = new JLabel("False");
 		lblNewLabel_2_2_1_1_8.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2_1_1_8.setFont(new Font("Tahoma", Font.BOLD, 25));
-		layeredPane.add(lblNewLabel_2_2_1_1_8, "cell 0 8,alignx center,aligny center");
+		layeredPane.add(lblNewLabel_2_2_1_1_8, "cell 0 10,alignx center,aligny center");
+		
+				JLabel lblNewLabel_2_2_1_1_7 = new JLabel("True");
+				lblNewLabel_2_2_1_1_7.setHorizontalAlignment(SwingConstants.CENTER);
+				lblNewLabel_2_2_1_1_7.setFont(new Font("Tahoma", Font.BOLD, 25));
+				layeredPane.add(lblNewLabel_2_2_1_1_7, "cell 1 10,alignx center,aligny center");
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
