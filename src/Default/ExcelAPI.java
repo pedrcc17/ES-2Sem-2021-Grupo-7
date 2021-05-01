@@ -39,7 +39,9 @@ public class ExcelAPI {
 	private String packageName;
 	private XSSFFont boldfont;
 	private File fileToRead;
-
+	public ArrayList<String> answers;
+	
+	
 	public ExcelAPI() {
 		id = 00;
 		metrics = new TreeMap<Integer, Object[]>();
@@ -49,6 +51,8 @@ public class ExcelAPI {
 				"is_God_Class", "LOC_method", "CYCLO_method", "is_Long_Method" });
 	}
 
+	
+	
 	public void saveMetrics(SmellyClass classy) {
 		for (int i = 0; i < classy.getMethod(); i++) {
 			id++;
@@ -265,7 +269,21 @@ public class ExcelAPI {
 		totalsList.add(total_LOC);
 		return totalsList;
 	}
-
+	
+	public void findClassSmellsByName(String name){
+		answers = new ArrayList<String>();
+		for (int i = 1; i < metrics.size(); i++) {
+			if(findClassName(i).equals(name)) {
+				
+				answers.add(findNOM_Class(i));
+				answers.add(findLOC_Class(i));
+				answers.add(findWMC_Class(i));
+				answers.add(findGodClass(i));
+			}	
+		}
+	}
+	
+	
 	public static String getCellValue(Cell cell) {
 		if (cell.getCellType().toString().equals("CELL_TYPE_NUMERIC")) {
 			return cell.getNumericCellValue() + "\t\t\t";

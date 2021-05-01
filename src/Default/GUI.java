@@ -47,16 +47,16 @@ public class GUI {
 	private JScrollPane scrollPane;
 	private JTree tree;
 	private ArrayList<String> TotalsList;
-	
 	private JLabel totalPackages = new JLabel("-");
 	private JLabel totalClasses = new JLabel("-");
 	private JLabel totalMethods = new JLabel("-");
 	private JLabel totalLOC = new JLabel("-");
 	JLabel lblNewLabel_1_3_1 = new JLabel("Classname");
-
-
+	JLabel lblNewLabel_2_2_1_1_2 = new JLabel("50");
+	JLabel lblNewLabel_2_2_1_1_4 = new JLabel("50");
+	JLabel lblNewLabel_2_2_1_1_6 = new JLabel("50");
+	JLabel lblNewLabel_2_2_1_1_8 = new JLabel("False");
 	
-
 	/**
 	 * Launch the application.
 	 */
@@ -103,12 +103,24 @@ public class GUI {
 
 			        if (node == null) return;
 			        Object nodeInfo = node.getUserObject();
+			       
 			        System.out.println(nodeInfo.toString());
-			        if(nodeInfo.toString().contains(".java"))
+			        if(nodeInfo.toString().contains(".java")) {
 			        	updateLabel(lblNewLabel_1_3_1, nodeInfo.toString());
-			     
+			        	excelAPI.findClassSmellsByName(nodeInfo.toString());
+			        	updateLabel(lblNewLabel_2_2_1_1_2,excelAPI.answers.get(0));
+			        	updateLabel(lblNewLabel_2_2_1_1_4,excelAPI.answers.get(1));
+			        	updateLabel(lblNewLabel_2_2_1_1_6,excelAPI.answers.get(2));
+			        	updateLabel(lblNewLabel_2_2_1_1_8,excelAPI.answers.get(2));
+			        }
+			        
 			    }
 			});
+			//ExcelAPI a = new ExcelAPI(); 
+			
+			//System.out.println(excelAPI.answers.get(0));
+			
+			//updateLabel(lblNewLabel_2_2_1_1_2 ,a.answers.get(0));
 			scrollPane.setViewportView(tree);
 		}
 		scrollPane.updateUI();
@@ -147,7 +159,7 @@ public class GUI {
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files", "xlsx", "excel");
 				chooser.setFileFilter(filter);
 				chooser.showOpenDialog(null);
-				ExcelAPI excelAPI = new ExcelAPI();
+				excelAPI = new ExcelAPI();
 				excelAPI.setFileToRead(chooser.getSelectedFile());
 				setExcelAPI(excelAPI);
 				try {
@@ -338,7 +350,7 @@ public class GUI {
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.add(lblNewLabel_1, "cell 1 1,alignx center,aligny center");
 
-		JLabel lblNewLabel_2_2_1_1_2 = new JLabel("50");
+		
 		lblNewLabel_2_2_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_2, "cell 0 2,alignx center,aligny center");
@@ -356,7 +368,7 @@ public class GUI {
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.add(lblNewLabel_1_1, "cell 1 3,alignx center,aligny center");
 
-		JLabel lblNewLabel_2_2_1_1_4 = new JLabel("50");
+		
 		lblNewLabel_2_2_1_1_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2_1_1_4.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_4, "cell 0 4,alignx center,aligny center");
@@ -370,7 +382,7 @@ public class GUI {
 		lblNewLabel_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.add(lblNewLabel_1_2_1, "cell 0 5,alignx center,aligny center");
 
-		JLabel lblNewLabel_2_2_1_1_6 = new JLabel("50");
+		
 		lblNewLabel_2_2_1_1_6.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2_1_1_6.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_6, "cell 0 6,alignx center,aligny center");
@@ -387,7 +399,7 @@ public class GUI {
 				lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 				layeredPane.add(lblNewLabel_1_2, "cell 1 9,alignx center,aligny center");
 
-		JLabel lblNewLabel_2_2_1_1_8 = new JLabel("False");
+		
 		lblNewLabel_2_2_1_1_8.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2_1_1_8.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_8, "cell 0 10,alignx center,aligny center");
