@@ -26,6 +26,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -50,7 +52,7 @@ public class GUI {
 	private JLabel totalClasses = new JLabel("-");
 	private JLabel totalMethods = new JLabel("-");
 	private JLabel totalLOC = new JLabel("-");
-
+	JLabel lblNewLabel_1_3_1 = new JLabel("Classname");
 
 
 	
@@ -94,6 +96,19 @@ public class GUI {
 		if(excelAPI!=null) {
 			JTree tree = new JTree();
 			tree.setModel(excelAPI.readExcel());
+			tree.addTreeSelectionListener(new TreeSelectionListener() {
+			    public void valueChanged(TreeSelectionEvent e) {
+			        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+			                           tree.getLastSelectedPathComponent();
+
+			        if (node == null) return;
+			        Object nodeInfo = node.getUserObject();
+			        System.out.println(nodeInfo.toString());
+			        if(nodeInfo.toString().contains(".java"))
+			        	updateLabel(lblNewLabel_1_3_1, nodeInfo.toString());
+			     
+			    }
+			});
 			scrollPane.setViewportView(tree);
 		}
 		scrollPane.updateUI();
@@ -301,7 +316,7 @@ public class GUI {
 		splitPane.setRightComponent(layeredPane);
 		layeredPane.setLayout(new MigLayout("", "[200][200]", "[][][10.00][][10.00][][10.00][][15.00][][]"));
 
-		JLabel lblNewLabel_1_3_1 = new JLabel("Classname");
+		
 		lblNewLabel_1_3_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_1_3_1.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.add(lblNewLabel_1_3_1, "cell 0 0,alignx center,aligny center");
