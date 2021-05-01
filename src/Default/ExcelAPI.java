@@ -282,6 +282,16 @@ public class ExcelAPI {
 			}	
 		}
 	}
+	public Map<String,String[]> getExcelMethods() throws Exception, IOException {
+		getExcelDataAsMap();
+		Map<String, String[]> methods = new TreeMap<String, String[]>();
+		for (int i =1; i<metrics.size(); i++) {
+			String first = (String) metrics.get(i)[3];
+			String[] second = {(String)metrics.get(i)[8],(String)metrics.get(i)[9],(String)metrics.get(i)[10]};
+			methods.put(first, second);
+		}
+		return methods;
+	}
 	
 	
 	public static String getCellValue(Cell cell) {

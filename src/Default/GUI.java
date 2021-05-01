@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -32,6 +33,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -51,11 +53,15 @@ public class GUI {
 	private JLabel totalClasses = new JLabel("-");
 	private JLabel totalMethods = new JLabel("-");
 	private JLabel totalLOC = new JLabel("-");
-	JLabel lblNewLabel_1_3_1 = new JLabel("Classname");
-	JLabel lblNewLabel_2_2_1_1_2 = new JLabel("50");
-	JLabel lblNewLabel_2_2_1_1_4 = new JLabel("50");
-	JLabel lblNewLabel_2_2_1_1_6 = new JLabel("50");
-	JLabel lblNewLabel_2_2_1_1_8 = new JLabel("False");
+	private JLabel lblNewLabel_1_3_1 = new JLabel("Classname");
+	private JLabel lblNewLabel_2_2_1_1_2 = new JLabel("50");
+	private JLabel lblNewLabel_2_2_1_1_4 = new JLabel("50");
+	private JLabel lblNewLabel_2_2_1_1_6 = new JLabel("50");
+	private JLabel lblNewLabel_2_2_1_1_8 = new JLabel("False");
+	private JLabel methodCodeLinesLabel = new JLabel("-");
+	private JLabel methodNameLabel = new JLabel("Methodname");
+	private JLabel methodCyclesLabel = new JLabel("-");
+	private JLabel methodIsLongLabel = new JLabel("N/A");
 	
 	/**
 	 * Launch the application.
@@ -94,28 +100,46 @@ public class GUI {
 	
 	private void updateWindow() throws Exception, Exception {
 		if(excelAPI!=null) {
-			JTree tree = new JTree();
+			tree = new JTree();
 			tree.setModel(excelAPI.readExcel());
+			tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+			
 			tree.addTreeSelectionListener(new TreeSelectionListener() {
 			    public void valueChanged(TreeSelectionEvent e) {
 			        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
 			                           tree.getLastSelectedPathComponent();
 
-			        if (node == null) return;
-			        Object nodeInfo = node.getUserObject();
+			        if (node == null) { 
+			        	return;
+			        } else if (node.isLeaf()){
+			        	try {
+							Map<String, String[]> methods = excelAPI.getExcelMethods();
+							String[] info = methods.get(node.toString());
+							updateLabel(methodCodeLinesLabel,info[0]);
+							updateLabel(methodNameLabel, node.toString());
+							updateLabel(methodCyclesLabel,info[1]);
+							updateLabel(methodIsLongLabel, info[2]);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+			        } else {
+			        	Object nodeInfo = node.getUserObject();
 			       
-			        System.out.println(nodeInfo.toString());
-			        if(nodeInfo.toString().contains(".java")) {
-			        	updateLabel(lblNewLabel_1_3_1, nodeInfo.toString());
-			        	excelAPI.findClassSmellsByName(nodeInfo.toString());
-			        	updateLabel(lblNewLabel_2_2_1_1_2,excelAPI.answers.get(0));
-			        	updateLabel(lblNewLabel_2_2_1_1_4,excelAPI.answers.get(1));
-			        	updateLabel(lblNewLabel_2_2_1_1_6,excelAPI.answers.get(2));
-			        	updateLabel(lblNewLabel_2_2_1_1_8,excelAPI.answers.get(2));
+			        	if(nodeInfo.toString().contains(".java")) {
+			        		updateLabel(lblNewLabel_1_3_1, nodeInfo.toString());
+			        		excelAPI.findClassSmellsByName(nodeInfo.toString());
+			        		updateLabel(lblNewLabel_2_2_1_1_2,excelAPI.answers.get(0));
+			        		updateLabel(lblNewLabel_2_2_1_1_4,excelAPI.answers.get(1));
+			        		updateLabel(lblNewLabel_2_2_1_1_6,excelAPI.answers.get(2));
+			        		updateLabel(lblNewLabel_2_2_1_1_8,excelAPI.answers.get(2));
 			        }
 			        
 			    }
-			});
+			}});
 			//ExcelAPI a = new ExcelAPI(); 
 			
 			//System.out.println(excelAPI.answers.get(0));
@@ -333,10 +357,9 @@ public class GUI {
 		lblNewLabel_1_3_1.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.add(lblNewLabel_1_3_1, "cell 0 0,alignx center,aligny center");
 
-		JLabel lblNewLabel_1_3_2 = new JLabel("Methodname");
-		lblNewLabel_1_3_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_1_3_2.setHorizontalAlignment(SwingConstants.CENTER);
-		layeredPane.add(lblNewLabel_1_3_2, "cell 1 0,alignx center,aligny center");
+		methodNameLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		methodNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		layeredPane.add(methodNameLabel, "cell 1 0,alignx center,aligny center");
 
 		JLabel lblNewLabel_1_3 = new JLabel("#Methods");
 		lblNewLabel_1_3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -355,10 +378,9 @@ public class GUI {
 		lblNewLabel_2_2_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_2, "cell 0 2,alignx center,aligny center");
 
-		JLabel lblNewLabel_2_2_1_1_3 = new JLabel("50");
-		lblNewLabel_2_2_1_1_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2_2_1_1_3.setFont(new Font("Tahoma", Font.BOLD, 25));
-		layeredPane.add(lblNewLabel_2_2_1_1_3, "cell 1 2,alignx center,aligny center");
+		methodCodeLinesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		methodCodeLinesLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
+		layeredPane.add(methodCodeLinesLabel, "cell 1 2,alignx center,aligny center");
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("#Codelines");
 		lblNewLabel_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -372,11 +394,11 @@ public class GUI {
 		lblNewLabel_2_2_1_1_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2_1_1_4.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_4, "cell 0 4,alignx center,aligny center");
+		
 
-		JLabel lblNewLabel_2_2_1_1_5 = new JLabel("50");
-		lblNewLabel_2_2_1_1_5.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2_2_1_1_5.setFont(new Font("Tahoma", Font.BOLD, 25));
-		layeredPane.add(lblNewLabel_2_2_1_1_5, "cell 1 4,alignx center,aligny center");
+		methodCyclesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		methodCyclesLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
+		layeredPane.add(methodCyclesLabel, "cell 1 4,alignx center,aligny center");
 
 		JLabel lblNewLabel_1_2_1 = new JLabel("Complexity");
 		lblNewLabel_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -404,10 +426,9 @@ public class GUI {
 		lblNewLabel_2_2_1_1_8.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_8, "cell 0 10,alignx center,aligny center");
 		
-				JLabel lblNewLabel_2_2_1_1_7 = new JLabel("True");
-				lblNewLabel_2_2_1_1_7.setHorizontalAlignment(SwingConstants.CENTER);
-				lblNewLabel_2_2_1_1_7.setFont(new Font("Tahoma", Font.BOLD, 25));
-				layeredPane.add(lblNewLabel_2_2_1_1_7, "cell 1 10,alignx center,aligny center");
+		methodIsLongLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		methodIsLongLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
+		layeredPane.add(methodIsLongLabel, "cell 1 10,alignx center,aligny center");
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
