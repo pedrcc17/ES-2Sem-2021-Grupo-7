@@ -54,10 +54,10 @@ public class GUI {
 	private JLabel totalMethods = new JLabel("-");
 	private JLabel totalLOC = new JLabel("-");
 	private JLabel lblNewLabel_1_3_1 = new JLabel("Classname");
-	private JLabel lblNewLabel_2_2_1_1_2 = new JLabel("50");
-	private JLabel lblNewLabel_2_2_1_1_4 = new JLabel("50");
-	private JLabel lblNewLabel_2_2_1_1_6 = new JLabel("50");
-	private JLabel lblNewLabel_2_2_1_1_8 = new JLabel("False");
+	private JLabel lblNewLabel_2_2_1_1_2 = new JLabel("-");
+	private JLabel lblNewLabel_2_2_1_1_4 = new JLabel("-");
+	private JLabel lblNewLabel_2_2_1_1_6 = new JLabel("-");
+	private JLabel lblNewLabel_2_2_1_1_8 = new JLabel("N/A");
 	private JLabel methodCodeLinesLabel = new JLabel("-");
 	private JLabel methodNameLabel = new JLabel("Methodname");
 	private JLabel methodCyclesLabel = new JLabel("-");
