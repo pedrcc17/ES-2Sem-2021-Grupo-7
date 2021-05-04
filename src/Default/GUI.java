@@ -134,7 +134,7 @@ public class GUI {
 			        		updateLabel(lblNewLabel_2_2_1_1_2,excelAPI.answers.get(0));
 			        		updateLabel(lblNewLabel_2_2_1_1_4,excelAPI.answers.get(1));
 			        		updateLabel(lblNewLabel_2_2_1_1_6,excelAPI.answers.get(2));
-			        		updateLabel(lblNewLabel_2_2_1_1_8,excelAPI.answers.get(2));
+			        		updateLabel(lblNewLabel_2_2_1_1_8,excelAPI.answers.get(3));
 			        }
 			        
 			    }
