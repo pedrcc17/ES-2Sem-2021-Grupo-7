@@ -230,7 +230,6 @@ public class GUI {
 			}
 		});
 		
-		i3 = new JMenuItem("Save Metrics");
 		i3 = new JMenuItem("Create new Rule");
 		i3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -376,8 +375,8 @@ public class GUI {
 				frame.setVisible(true);
 			}
 		});
-		i5 = new JMenuItem("Change Rules");
-		i5.addActionListener(new ActionListener() {
+		i4 = new JMenuItem("Change Rules");
+		i4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame("Change Rules");
 				JPanel panel = new JPanel();
@@ -391,14 +390,13 @@ public class GUI {
 				frame.setVisible(true);
 			}
 		});
-		i4 = new JMenuItem("Change Rules");
-		i5 = new JMenuItem("Save Rules");
-		i6 = new JMenuItem("Load Rules");
+		i5=new JMenuItem("Save Rules");
+		i6= new JMenuItem("Load Rules");
 
 		File.add(i1);
 		File.add(i2);
-		File.add(i3);
-
+		
+		Rules.add(i3);
 		Rules.add(i4);
 		Rules.add(i5);
 		Rules.add(i6);
