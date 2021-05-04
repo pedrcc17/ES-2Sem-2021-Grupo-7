@@ -1,14 +1,11 @@
 package Default;
 
-import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -25,9 +22,9 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
@@ -37,15 +34,21 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JSeparator;
+import java.awt.Color;
+import java.awt.ComponentOrientation;
 
 public class GUI {
 
 	private JFrame frame;
 	private ExcelAPI excelAPI;
-	
 	private JScrollPane scrollPane;
 	private JTree tree;
 	private ArrayList<String> TotalsList;
@@ -85,7 +88,7 @@ public class GUI {
 	public GUI() {
 		initialize();
 	}
-	
+
 	private void setExcelAPI(ExcelAPI excelAPI) {
 		this.excelAPI = excelAPI;
 	}
@@ -96,6 +99,16 @@ public class GUI {
 	
 	private void removeExcelAPI() {
 		this.excelAPI = null;
+	}
+	private void selectExcel() {
+	JFileChooser chooser = new JFileChooser(".");
+	chooser.setMultiSelectionEnabled(false);
+	FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files", "xlsx", "excel");
+	chooser.setFileFilter(filter);
+	chooser.showOpenDialog(null);
+	excelAPI = new ExcelAPI();
+	excelAPI.setFileToRead(chooser.getSelectedFile());
+	setExcelAPI(excelAPI);
 	}
 	
 	private void updateWindow() throws Exception, Exception {
@@ -135,7 +148,7 @@ public class GUI {
 			        		updateLabel(lblNewLabel_2_2_1_1_2,excelAPI.answers.get(0));
 			        		updateLabel(lblNewLabel_2_2_1_1_4,excelAPI.answers.get(1));
 			        		updateLabel(lblNewLabel_2_2_1_1_6,excelAPI.answers.get(2));
-			        		updateLabel(lblNewLabel_2_2_1_1_8,excelAPI.answers.get(3));
+			        		updateLabel(lblNewLabel_2_2_1_1_8,excelAPI.answers.get(2));
 			        }
 			        
 			    }
@@ -150,7 +163,8 @@ public class GUI {
 		scrollPane.updateUI();
 	}
 	
-	private void updateLabels() {
+	private void updateLabels() throws IOException, Exception {
+		TotalsList = excelAPI.readExcelTotals();
 		updateLabel(totalPackages,TotalsList.get(0));
 		updateLabel(totalClasses,TotalsList.get(1));
 		updateLabel(totalMethods,TotalsList.get(2));
@@ -163,6 +177,7 @@ public class GUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+	
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 850, 714);
@@ -172,20 +187,31 @@ public class GUI {
 		JMenu File = new JMenu("File");
 
 		JMenu Rules = new JMenu("Rules");
-
-		i1 = new JMenuItem("Open Project");
+	
+		i1 = new JMenuItem("Project to Metrics File");
+		i1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					LoadProject lp = new LoadProject();
+					lp.openProject();
+				} catch (InvalidFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+				
+				
+		
 		i2 = new JMenuItem("Open Metrics File");
 		i2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser(".");
-				chooser.setMultiSelectionEnabled(false);
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files", "xlsx", "excel");
-				chooser.setFileFilter(filter);
-				chooser.showOpenDialog(null);
-				excelAPI = new ExcelAPI();
-				excelAPI.setFileToRead(chooser.getSelectedFile());
-				setExcelAPI(excelAPI);
+				selectExcel();
 				try {
 					TotalsList = excelAPI.readExcelTotals();
 				} catch (IOException e2) {
@@ -205,8 +231,8 @@ public class GUI {
 		});
 		
 		i3 = new JMenuItem("Save Metrics");
-		i4 = new JMenuItem("Create new Rule");
-		i4.addActionListener(new ActionListener() {
+		i3 = new JMenuItem("Create new Rule");
+		i3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame("New Rule");
 				JPanel panel = new JPanel();
@@ -365,10 +391,9 @@ public class GUI {
 				frame.setVisible(true);
 			}
 		});
-		
-		i6 = new JMenuItem("Save Rules");
-		i7 = new JMenuItem("Load Rules");
-		i8 = new JMenuItem("History");
+		i4 = new JMenuItem("Change Rules");
+		i5 = new JMenuItem("Save Rules");
+		i6 = new JMenuItem("Load Rules");
 
 		File.add(i1);
 		File.add(i2);
@@ -377,8 +402,6 @@ public class GUI {
 		Rules.add(i4);
 		Rules.add(i5);
 		Rules.add(i6);
-		Rules.add(i7);
-		Rules.add(i8);
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(File);
@@ -486,6 +509,10 @@ public class GUI {
 		this.scrollPane = scrollPane;
 		scrollPane.setMinimumSize(new Dimension(0, 315));
 		splitPane.setLeftComponent(this.scrollPane);
+
+//		JTree tree = new JTree();
+//		this.tree = tree;
+//		scrollPane.setViewportView(this.tree);
 
 		JPanel layeredPane = new JPanel();
 		layeredPane.setMaximumSize(new Dimension(0, 315));
@@ -660,7 +687,7 @@ public class GUI {
 		label.paintImmediately(label.getVisibleRect());
 		
 	}
-	
+
 	private ArrayList<ArrayList<String>> readTxt() {
 		ArrayList<String> info = new ArrayList<String>();
 		ArrayList<ArrayList<String>> rules = new ArrayList<ArrayList<String>>();
