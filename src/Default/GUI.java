@@ -1,5 +1,7 @@
 package Default;
 
+import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -8,22 +10,25 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
@@ -31,15 +36,9 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JSeparator;
-import java.awt.Color;
 
 public class GUI {
 
@@ -208,15 +207,146 @@ public class GUI {
 		i4 = new JMenuItem("Create new Rule");
 		i4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				final JFrame parent = new JFrame();
-		        JButton button = new JButton();
+				JFrame frame = new JFrame("New Rule");
+				JPanel panel = new JPanel();
+				GridBagLayout gbl = new GridBagLayout();
+				JLabel title = new JLabel("New Rule", SwingConstants.CENTER);
+				JLabel smell_one = new JLabel("Long Method", SwingConstants.CENTER);
+				JLabel smell_two = new JLabel("God Class", SwingConstants.CENTER);
+				JLabel nomClass = new JLabel("NOM per Class >", SwingConstants.CENTER);
+				JLabel locClass = new JLabel("LOC per Class >", SwingConstants.CENTER);
+				JLabel wmcClass = new JLabel("WMC of Class >", SwingConstants.CENTER);
+				JLabel locMethod = new JLabel("LOC per Method >", SwingConstants.CENTER);
+				JLabel cycloMethod = new JLabel("CYCLO of Method >", SwingConstants.CENTER);
+				JTextArea valueNomClass = new JTextArea();
+				JTextArea valueLocClass = new JTextArea();
+				JTextArea valueWmcClass = new JTextArea();
+				JTextArea valueLocMethod = new JTextArea();
+				JTextArea valueCycloMethod = new JTextArea();
+				String[] operators = { "", "And", "Or" };
+				panel.setLayout(gbl);
+				panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+				JButton button;
+				panel.setLayout(new GridBagLayout());
+				GridBagConstraints c = new GridBagConstraints();
+				c.fill = GridBagConstraints.HORIZONTAL;
+				c.ipady = 2; // increase height of the title
+				c.weightx = 0.5;
+				c.weighty = 0.25;
+				c.gridwidth = 4;
+				c.gridx = 0;
+				c.gridy = 0;
+				panel.add(title, c);
+				c.ipady = 0;
+				c.gridwidth = 2;
+				c.weightx = 0.5;
+				c.gridx = 0;
+				c.gridy = 1;
+				panel.add(smell_one, c); // Smell title 1
+				c.weightx = 0.5;
+				c.gridwidth = 2;
+				c.gridx = 3;
+				c.gridy = 1;
+				panel.add(smell_two, c); // Smell Title 2
+				c.fill = GridBagConstraints.NONE;
+				c.ipady = 0;
+				c.gridwidth = 1;
+				c.weightx = 0.25;
+				c.gridx = 0;
+				c.gridy = 2;
+				panel.add(locMethod, c);
+				c.gridx = 1;
+				JComboBox<String> methodOp = new JComboBox<String>(operators);
+				c.gridx = 0;
+				c.gridy = 3;
+				panel.add(methodOp, c);
+				c.gridy = 4;
+				panel.add(cycloMethod, c); // metric method 2
+				c.fill = GridBagConstraints.HORIZONTAL;
+				c.gridx = 2;
+				c.gridy = 2;
+				valueLocMethod.setMinimumSize(new Dimension(10, 5));
+				panel.add(valueLocMethod, c); // value metric 1
+				c.gridy = 4;
+				valueCycloMethod.setMinimumSize(new Dimension(10, 2));
+				panel.add(valueCycloMethod, c); // value metric 2
+				c.fill = GridBagConstraints.NONE;
+				c.gridx = 3;
+				c.gridy = 2;
+				panel.add(nomClass, c); // metric class 1
+				JComboBox<String> classOpOne = new JComboBox<String>(operators);
+				c.gridy = 3;
+				panel.add(classOpOne, c);
+				c.gridy = 4;
+				c.gridx = 3;
+				panel.add(locClass, c);// metric class 2
+				JComboBox<String> classOpTwo = new JComboBox<String>(operators);
+				c.gridy = 5;
+				c.gridx = 3;
+				panel.add(classOpTwo, c);
+				c.gridx = 3;
+				c.gridy = 6;
+				panel.add(wmcClass, c);// metric class 3
+				c.fill = GridBagConstraints.HORIZONTAL;
+				c.gridx = 4;
+				c.gridy = 2;
+				valueNomClass.setMinimumSize(new Dimension(10, 2));
+				panel.add(valueNomClass, c); // value class 1
+				c.gridy = 4;
+				valueLocClass.setMinimumSize(new Dimension(10, 2));
+				panel.add(valueLocClass, c); // value class 2
+				c.gridy = 6;
+				valueWmcClass.setMinimumSize(new Dimension(10, 2));
+				panel.add(valueWmcClass, c); // value class 3
+				button = new JButton("Save / Set Rule");
+				c.ipady = 0;
+				c.weighty = 1.0;
+				c.insets = new Insets(10, 0, 0, 0);
+				c.gridx = 1;
+				c.gridwidth = 2;
+				c.gridy = 8;
+				panel.add(button, c);
+				button.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						try {
+							File ruleFile = new File("Rules.txt");
+							if (ruleFile.createNewFile()) {
+								System.out.println("Rule file created: " + ruleFile.getName());
+							}
+							FileWriter outstream = new FileWriter(ruleFile, true);
+							outstream.write("Long Method :\n");
+							if(valueLocMethod != null) {
+								outstream.write(locMethod.getText()  + " " + valueLocMethod.getText() + " " + methodOp.getSelectedItem() + "\n");
+							}
+							if(valueCycloMethod != null) {
+								outstream.write(cycloMethod.getText()  + " " + valueCycloMethod.getText() + "\n");
+							}
+							outstream.write("God Class:\n");
+							if(valueNomClass != null) {
+								outstream.write(nomClass.getText()  + " " + valueNomClass.getText() + " " + classOpOne.getSelectedItem() + "\n");
+							}
+							if(valueLocClass != null) {
+								outstream.write(locClass.getText()  + " " + valueLocClass.getText() + " " + classOpTwo.getSelectedItem() + "\n");
+							}
+							if(valueWmcClass != null) {
+								outstream.write(wmcClass.getText()  + " " + valueWmcClass.getText() + "\n");
+							}
+							outstream.write("/////");
+							outstream.close();
+							frame.dispose();
+						} catch (IOException d) {
+							System.out.println("An error occurred.");
+							d.printStackTrace();
+						}
+					}
+				});
 
-		        button.setText("Click me to show dialog!");
-		        parent.getContentPane().add(button);
-		        parent.pack();
-		        parent.setVisible(true);
-				String name = JOptionPane.showInputDialog(parent, "What is your name?", null);
-
+				frame.add(panel);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.pack();
+				frame.setSize(750, 300);
+				frame.setVisible(true);
 			}
 		});
 		i5 = new JMenuItem("Change Rules");
