@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -332,7 +333,7 @@ public class GUI {
 							if(valueWmcClass != null) {
 								outstream.write(wmcClass.getText()  + " " + valueWmcClass.getText() + "\n");
 							}
-							outstream.write("/////");
+							outstream.write("/////\n");
 							outstream.close();
 							frame.dispose();
 						} catch (IOException d) {
@@ -350,6 +351,21 @@ public class GUI {
 			}
 		});
 		i5 = new JMenuItem("Change Rules");
+		i5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame("Change Rules");
+				JPanel panel = new JPanel();
+				
+				
+
+				frame.add(panel);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.pack();
+				frame.setSize(750, 300);
+				frame.setVisible(true);
+			}
+		});
+		
 		i6 = new JMenuItem("Save Rules");
 		i7 = new JMenuItem("Load Rules");
 		i8 = new JMenuItem("History");
@@ -470,10 +486,6 @@ public class GUI {
 		this.scrollPane = scrollPane;
 		scrollPane.setMinimumSize(new Dimension(0, 315));
 		splitPane.setLeftComponent(this.scrollPane);
-
-//		JTree tree = new JTree();
-//		this.tree = tree;
-//		scrollPane.setViewportView(this.tree);
 
 		JPanel layeredPane = new JPanel();
 		layeredPane.setMaximumSize(new Dimension(0, 315));
@@ -647,6 +659,13 @@ public class GUI {
 		label.setText(text);
 		label.paintImmediately(label.getVisibleRect());
 		
+	}
+	
+	private ArrayList<ArrayList<String>> readTxt() {
+		ArrayList<String> info = new ArrayList<String>();
+		ArrayList<ArrayList<String>> rules = new ArrayList<ArrayList<String>>();
+		
+		return rules;
 	}
 	
 }
