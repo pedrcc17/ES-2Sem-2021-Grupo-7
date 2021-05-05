@@ -123,7 +123,7 @@ public class GUI {
 	}
 
 	private void selectExcel() {
-		JFileChooser chooser = new JFileChooser(".");
+		JFileChooser chooser = new JFileChooser(".\\Excel Files");
 		chooser.setMultiSelectionEnabled(false);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files", "xlsx", "excel");
 		chooser.setFileFilter(filter);
