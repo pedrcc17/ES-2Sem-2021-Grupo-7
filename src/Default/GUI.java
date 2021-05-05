@@ -832,8 +832,8 @@ public class GUI {
 		panel_3.add(splitPane, "cell 0 0,grow");
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane = scrollPane;
-		scrollPane.setMinimumSize(new Dimension(0, 315));
+		this.scrollPane = scrollPane;
+		this.scrollPane.setMinimumSize(new Dimension(0, 315));
 		splitPane.setLeftComponent(scrollPane);
 
 //		JTree tree = new JTree();
