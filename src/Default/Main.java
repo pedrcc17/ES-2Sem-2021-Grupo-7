@@ -1,7 +1,8 @@
 package Default;
 
 public class Main {
-	public void main() {
-		GUI gui = new GUI();		
+	public static void main(String[] args) {
+		GUI gui = new GUI();
+		gui.frame.setVisible(true);
 	}
 }
