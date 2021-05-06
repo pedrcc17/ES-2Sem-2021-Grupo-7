@@ -27,8 +27,6 @@ public class LoadProject {
 			System.out.println("Erro a abrir o ficheiro");
 		}
 		return null;
-
-		
 	}
 
 	public void openProject() throws IOException, InvalidFormatException {

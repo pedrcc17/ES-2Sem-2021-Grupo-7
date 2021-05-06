@@ -24,34 +24,47 @@ class SmellyClassTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		smelly = new SmellyClass();
-		javaFile = new BufferedReader(new FileReader("/EngenhariaDeSoftware/jasml_0.10/src/com/jasml/compiler/ParsingException.java"));
+		javaFile = new BufferedReader(new FileReader("C:\\Users\\andre\\git\\ES-2Sem-2021-Grupo-7\\jasml_0.10\\src\\com\\jasml\\compiler\\ParsingException.java"));
 	}
 
 	@Test
 	void testNOM() {
 		smelly.NOM(javaFile);
-		assertEquals(6, 0);
-		fail("Not yet implemented");
+		assertEquals(6, smelly.getMethod(), "This class have 6 methods.");
 	}
 
 	@Test
 	void testWMC() {
-		fail("Not yet implemented");
+		smelly.WMC(javaFile);
+		assertEquals(13, smelly.getWmcCount(), "This class have WMC = 13.");
 	}
 
 	@Test
 	void testLOC_Method() {
-		fail("Not yet implemented");
+		smelly.LOC_Method(javaFile);
+		assertEquals(6, smelly.getLinesPerMethod(0), "The first method have 6 LOC.");
+		assertEquals(5, smelly.getLinesPerMethod(1), "The second method have 5 LOC.");
+		assertEquals(4, smelly.getLinesPerMethod(2), "The third method have 4 LOC.");
+		assertEquals(3, smelly.getLinesPerMethod(3), "The fourth method have 3 LOC.");
+		assertEquals(3, smelly.getLinesPerMethod(4), "The fifth method have 3 LOC.");
+		assertEquals(21, smelly.getLinesPerMethod(5), "The sixth method have 21 LOC.");
 	}
 
 	@Test
 	void testCYCLO_Method() {
-		fail("Not yet implemented");
+		smelly.CYCLO_Method(javaFile);
+		assertEquals(1, smelly.getCyclosPerMethod(0), "The first method have CYCLO = 1.");
+		assertEquals(1, smelly.getCyclosPerMethod(1), "The second method have CYCLO = 1.");
+		assertEquals(1, smelly.getCyclosPerMethod(2), "The third method have CYCLO = 1.");
+		assertEquals(1, smelly.getCyclosPerMethod(3), "The fourth method have CYCLO = 1.");
+		assertEquals(1, smelly.getCyclosPerMethod(4), "The fifth method have CYCLO = 1.");
+		assertEquals(8, smelly.getCyclosPerMethod(5), "The sixth method have CYCLO = 8.");
 	}
 
 	@Test
 	void testLOC_Class() {
-		fail("Not yet implemented");
+		smelly.LOC_Class(javaFile);
+		assertEquals(50, smelly.getLinesOfCode(), "This class have 50 LOC.");
 	}
 
 }
