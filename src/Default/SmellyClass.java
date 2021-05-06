@@ -30,8 +30,9 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
+				line.trim();
 				if ((line.contains(privado) || line.contains(pub)) && !line.endsWith(";")
-						&& !line.contains("class")/* || !line.contains("if") || !line.contains("for")*/) {
+						&& !line.contains("class") && !line.contains("=") /* || !line.contains("if") || !line.contains("for")*/) {
 					method++;
 					methodName(line);
 				}
