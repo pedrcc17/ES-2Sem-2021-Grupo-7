@@ -17,8 +17,6 @@ class SmellyClassTest {
 	 * Estes testes são preparados para o ficheiro ParsingException.java
 	 * São utilizados os valores disponibilizados pelo professor no ficheiro Code_Smells.xlsx para os testes
 	 * Estes valores são comparados com os valores calculados pelas nossas funções
-	 * Sabemos de antemão através de testes Black-Box que, no nosso ficheiro excel, os IDs dos métodos são 90-95
-	 * No excel disponibilizado pelo professor, estes têm os IDs 5-10
 	 */
 
 	@BeforeEach
