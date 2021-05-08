@@ -156,99 +156,100 @@ public class SmellyClass {
 		}
 	}
 
-	public void isGodClass(int wmcThreshold, int nomThreshold, int locThreshold, boolean wmc, boolean nom, boolean loc,
+	public boolean isGodClass(int wmcThreshold, int nomThreshold, int locThreshold, boolean wmc, boolean nom, boolean loc,
 			boolean isOr, boolean isOrAgain) {
 		if (wmc && !nom && !loc) {
 			if (wmcCount >= wmcThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if (!wmc && nom && !loc) {
 			if (method >= nomThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if (!wmc && !nom && loc) {
 			if (linesOfCode >= locThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if(wmc && nom && !loc && !isOr) {
 			if ( wmcCount >= wmcThreshold && method >= nomThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if(wmc && nom && !loc && isOr) {
 			if ( wmcCount >= wmcThreshold || method >= nomThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if (wmc && !nom && loc && !isOr) {
 			if (wmcCount >= wmcThreshold && linesOfCode >= locThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if (wmc && !nom && loc && isOr) {
 			if (wmcCount >= wmcThreshold || linesOfCode >= locThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if (!wmc && nom && loc && !isOr) {
 			if (method >= nomThreshold && linesOfCode >= locThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if (!wmc && nom && loc && isOr) {
 			if (method >= nomThreshold || linesOfCode >= locThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if (wmc && nom && loc && !isOr && !isOrAgain) {
 			if(wmcCount >= wmcThreshold && method >= nomThreshold && linesOfCode >= locThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if (wmc && nom && loc && isOr && !isOrAgain) {
 			if(wmcCount >= wmcThreshold || method >= nomThreshold || linesOfCode >= locThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if (wmc && nom && loc && !isOr && isOrAgain) {
 			if(wmcCount >= wmcThreshold && method >= nomThreshold || linesOfCode >= locThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
 		if (wmc && nom && loc && isOr && isOrAgain) {
 			if(wmcCount >= wmcThreshold || method >= nomThreshold && linesOfCode >= locThreshold) {
-				System.out.println("Esta classe é uma god class.");
+				return true;
 			} else {
-				System.out.println("Esta classe não é uma god class.");
+				return false;
 			}
 		}
+		return false;
 
 
 	}
