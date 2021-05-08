@@ -86,6 +86,7 @@ public class GUI {
 	private JButton btnNewButton = new JButton("Update Rule");
 	private int selectedRule;
 	private int oldNOM;
+	private LoadProject lp = new LoadProject();
 
 	/**
 	 * Launch the application.
@@ -218,7 +219,6 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					LoadProject lp = new LoadProject();
 					lp.openProject();
 				} catch (InvalidFormatException e1) {
 					// TODO Auto-generated catch block
@@ -255,6 +255,7 @@ public class GUI {
 			}
 		});
 		
+		i3 = new JMenuItem("Create new Rule");
 		i3 = new JMenuItem("Create new Rule");
 		i3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -377,27 +378,76 @@ public class GUI {
 							FileWriter outstream = new FileWriter(ruleFile, true);
 							outstream.write("Rule " + i + "\n");
 							outstream.write("Long Method :\n");
-							if (valueLocMethod != null) {
+							ArrayList<Pair<Integer, Boolean>> results = new ArrayList<Pair<Integer, Boolean>>();
+							if (!valueLocMethod.getText().isEmpty()) {
 								outstream.write(locMethod.getText() + " " + valueLocMethod.getText() + " "
 										+ methodOp.getSelectedItem() + "\n");
+								Pair<Integer, Boolean> locMethodResult = new Pair<Integer, Boolean>(Integer.parseInt(valueLocMethod.getText()) , true);
+								results.add(locMethodResult);
 							}
-							if (valueCycloMethod != null) {
+							else {
+								Pair<Integer, Boolean> locMethodResult = new Pair<Integer, Boolean>( 0, false);
+								results.add(locMethodResult);
+							}
+							if (!valueCycloMethod.getText().isEmpty()) {
 								outstream.write(cycloMethod.getText() + " " + valueCycloMethod.getText() + "\n");
+								Pair<Integer, Boolean> cycloMethodResult = new Pair<Integer, Boolean>( Integer.parseInt(valueCycloMethod.getText()), true);
+								results.add(cycloMethodResult);
+							}else {
+								Pair<Integer, Boolean> cycloMethodResult = new Pair<Integer, Boolean>( 0, false);
+								results.add(cycloMethodResult);
+							}
+							if(methodOp.getSelectedItem().toString() == "Or") {
+								Pair<Integer, Boolean> firstOp = new Pair<Integer, Boolean>(0,true);
+								results.add(firstOp);
+							}else {
+								Pair<Integer, Boolean> firstOp = new Pair<Integer, Boolean>(0,false);
+								results.add(firstOp);
 							}
 							outstream.write("God Class:\n");
-							if (valueNomClass != null) {
+							if (!valueNomClass.getText().isEmpty()){
 								outstream.write(nomClass.getText() + " " + valueNomClass.getText() + " "
 										+ classOpOne.getSelectedItem() + "\n");
+								Pair<Integer, Boolean> nomClassResult = new Pair<Integer, Boolean>( Integer.parseInt(valueNomClass.getText()), true);
+								results.add(nomClassResult);
+							}else {
+								Pair<Integer, Boolean> nomClassResult = new Pair<Integer, Boolean>( 0, false);
+								results.add(nomClassResult);
 							}
-							if (valueLocClass != null) {
+							if (!valueLocClass.getText().isEmpty()) {
 								outstream.write(locClass.getText() + " " + valueLocClass.getText() + " "
 										+ classOpTwo.getSelectedItem() + "\n");
+								Pair<Integer, Boolean> locClassResult = new Pair<Integer, Boolean>( Integer.parseInt(valueLocClass.getText()), true);
+								results.add(locClassResult);
+							}else {
+								Pair<Integer, Boolean> locClassResult = new Pair<Integer, Boolean>( 0, false);
+								results.add(locClassResult);
 							}
-							if (valueWmcClass != null) {
+							if (!valueWmcClass.getText().isEmpty() ) {
 								outstream.write(wmcClass.getText() + " " + valueWmcClass.getText() + "\n");
+								Pair<Integer, Boolean> wmcClassResult = new Pair<Integer, Boolean>( Integer.parseInt(valueWmcClass.getText()), true);
+								results.add(wmcClassResult);
+							}else {
+								Pair<Integer, Boolean> wmcClassResult = new Pair<Integer, Boolean>( 0, false);
+								results.add(wmcClassResult);
+							}
+							if(classOpOne.getSelectedItem().toString() == "Or") {
+								Pair<Integer, Boolean> secondOp = new Pair<Integer, Boolean>(0,true);
+								results.add(secondOp);
+							}else {
+								Pair<Integer, Boolean> secondOp = new Pair<Integer, Boolean>(0,false);
+								results.add(secondOp);
+							}
+							if(classOpTwo.getSelectedItem().toString() == "Or") {
+								Pair<Integer, Boolean> thirdOp = new Pair<Integer, Boolean>(0,true);
+								results.add(thirdOp);
+							}else {
+								Pair<Integer, Boolean> thirdOp = new Pair<Integer, Boolean>(0,false);
+								results.add(thirdOp);
 							}
 							outstream.write("/////\n");
 							outstream.close();
+							lp.receiveRule(results);
 							frame.dispose();
 						} catch (IOException d) {
 							System.out.println("An error occurred.");
@@ -405,7 +455,6 @@ public class GUI {
 						}
 					}
 				});
-
 				frame.add(panel);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.pack();

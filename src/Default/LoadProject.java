@@ -12,6 +12,9 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 public class LoadProject {
 
+	
+	
+	ArrayList<Pair<Integer, Boolean>> rule;
 	private static BufferedReader restartReading(String dir, String file) {
 		try {
 			BufferedReader javaFile = new BufferedReader(new FileReader(dir + "\\" + file));
@@ -36,30 +39,16 @@ public class LoadProject {
 			System.out.println("files " + file);
 			SmellyClass classy = new SmellyClass();
 			classy.NOM(restartReading(file.getParent(), file.getName()));
-			System.out.println("-------------------------");
 			classy.WMC(restartReading(file.getParent(), file.getName()));
-			System.out.println("-------------------------");
 			classy.CYCLO_Method(restartReading(file.getParent(), file.getName()));
-			System.out.println("-------------------------");
 			classy.LOC_Method(restartReading(file.getParent(), file.getName()));
-			System.out.println("-------------------------");
 			classy.LOC_Class(restartReading(file.getParent(), file.getName()));
-			System.out.println("-------------------------");
-			classy.isLongMethod(5, 2, true, true, false);
-			System.out.println("-------------------------");
-			classy.isGodClass(15, 10, 100, true, true, true, true, true);
+			classy.isLongMethod(rule.get(0).first, rule.get(1).first, rule.get(0).second, rule.get(1).second, rule.get(2).second);
+			classy.isGodClass(rule.get(3).first, rule.get(4).first, rule.get(5).first, rule.get(3).second, rule.get(4).second, rule.get(5).second, rule.get(6).second, rule.get(7).second);
 			excelapi.setClassAndPackageNames(file.getName(), file.getParent());
 			excelapi.saveMetrics(classy);
 		}
 		excelapi.exportToExcel(excelapi.chooseName());
-
-		//Ler um excel, guardar, e exportar um igual
-//		excelapi.getExcelDataAsMap();
-//		excelapi.exportToExcel(excelapi.chooseName());
-		
-		//ler o valor da cell 5x5
-//		System.out.println(excelapi.findInMap(16, 9));
-		
 	}
 
 	public static ArrayList<File> RecursiveFinder(File[] arr,int index,int level, ArrayList<File> toreturn) 
@@ -83,6 +72,10 @@ public class LoadProject {
 
 		return toreturn;
 	}
+	
+	public void receiveRule(ArrayList<Pair<Integer, Boolean>> rule) {
+		this.rule = rule;
+		}
 
 	public static ArrayList<File> readEverything(){
 		ArrayList<File> vazio = new ArrayList<File>();

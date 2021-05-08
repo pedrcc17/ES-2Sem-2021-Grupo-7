@@ -25,3 +25,9 @@ NOM per Class > 3 Or
 LOC per Class > 3 Or
 WMC of Class > 3
 /////
+Rule 3
+Long Method :
+LOC per Method > 10 And
+CYCLO of Method > 10
+God Class:
+/////
