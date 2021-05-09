@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class SmellyClassTest {
@@ -26,18 +27,21 @@ class SmellyClassTest {
 	}
 
 	@Test
+	@DisplayName("Verificação da contagem de número de métodos")
 	void testNOM() {
 		smelly.NOM(javaFile);
 		assertEquals(6, smelly.getMethod(), "This class have 6 methods.");
 	}
 
 	@Test
+	@DisplayName("Verificação do WMC")
 	void testWMC() {
 		smelly.WMC(javaFile);
 		assertEquals(13, smelly.getWmcCount(), "This class have WMC = 13.");
 	}
 
 	@Test
+	@DisplayName("Verificação da contagem de linhas de código por método")
 	void testLOC_Method() {
 		smelly.LOC_Method(javaFile);
 		assertEquals(6, smelly.getLinesPerMethod(0), "The first method have 6 LOC.");
@@ -49,6 +53,7 @@ class SmellyClassTest {
 	}
 
 	@Test
+	@DisplayName("Verificação do CYCLO por método")
 	void testCYCLO_Method() {
 		smelly.CYCLO_Method(javaFile);
 		assertEquals(1, smelly.getCyclosPerMethod(0), "The first method have CYCLO = 1.");
@@ -60,9 +65,22 @@ class SmellyClassTest {
 	}
 
 	@Test
+	@DisplayName("Verificação da contagem de linhas de código da classe")
 	void testLOC_Class() {
 		smelly.LOC_Class(javaFile);
 		assertEquals(50, smelly.getLinesOfCode(), "This class have 50 LOC.");
+	}
+	
+	@Test
+	@DisplayName("Verificação do nome dos métodos")
+	void testMethodNames() {
+		smelly.NOM(javaFile);
+		assertEquals("ParsingException", smelly.getMethodNames(0), "The first method name is ParsingException(int,int,int,String)");
+		assertEquals("ParsingException", smelly.getMethodNames(1), "The second method name is ParsingException(int,int,String)");
+		assertEquals("ParsingException", smelly.getMethodNames(2), "The third method name is ParsingException(int,String)");
+		assertEquals("ParsingException", smelly.getMethodNames(3), "The fourth method name is ParsingException(String,Exception)");
+		assertEquals("ParsingException", smelly.getMethodNames(4), "The fifth method name is ParsingException(String)");
+		assertEquals("getMessage", smelly.getMethodNames(5), "The sixth method name is getMessage()");
 	}
 
 }

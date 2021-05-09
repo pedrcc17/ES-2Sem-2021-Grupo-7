@@ -309,6 +309,7 @@ public class SmellyClass {
 		javaFile = file;
 		linesOfCode = (int) javaFile.lines().count();
 		System.out.println("A classe tem " + linesOfCode + " linhas de código.");
+		linesOfCode++;
 	}
 
 	public void methodName(String line) {
