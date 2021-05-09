@@ -87,6 +87,7 @@ public class ExcelAPI {
 
 		workbook.write(out);
 		out.close();
+		workbook.close();
 		System.out.println(name + ".xlsx written successfully");
 	}
 	
@@ -113,6 +114,7 @@ public class ExcelAPI {
 
 		workbook2.write(out);
 		out.close();
+		workbook2.close();
 		System.out.println(name + ".xlsx written successfully");
 	}
 
@@ -158,9 +160,10 @@ public class ExcelAPI {
 			row = spreadsheet.getRow(i);
 			if (row.getLastCellNum() < 12) {
 				specialists.put(i,
-						new Object[] { Integer.toString(i), row.getCell(1).getRawValue(),
-								row.getCell(2).getRawValue(), row.getCell(3).getRawValue(),
-								row.getCell(7).getRawValue(), row.getCell(10).getRawValue() });
+						new Object[] { Integer.toString(i), row.getCell(1).getStringCellValue(),
+								row.getCell(2).getStringCellValue(), row.getCell(3).getStringCellValue(),
+								row.getCell(7).getBooleanCellValue(),
+								row.getCell(10).getRawValue() });
 			}
 		}
 	}
@@ -263,14 +266,14 @@ public class ExcelAPI {
 		return (String) temp[3];
 	}
 	
-	public String findGodClassSpecialist(int line) {
-		Object[] temp = metrics.get(line);
-		return (String) temp[4];
+	public Object findGodClassSpecialist(int line) {
+		Object[] temp = specialists.get(line);
+		return temp[4];
 	}
 	
-	public String findIsLongMethodSpecialist(int line) {
-		Object[] temp = metrics.get(line);
-		return (String) temp[5];
+	public Object findIsLongMethodSpecialist(int line) {
+		Object[] temp = specialists.get(line);
+		return temp[5];
 	}
 	
 	public int findIDInSpecialist(String packageName, String className, String methodName) {
@@ -286,15 +289,14 @@ public class ExcelAPI {
 	public int compareGodClassCodeSmells(int project, int specialist) {
 		if(specialist == 0) return 0;
 		String project_value = findGodClass(project);
-		String specialist_value = findGodClassSpecialist(specialist);
-		System.out.println(project + " || " + project_value + " || " + specialist_value);
-		if(project_value.equals("TRUE") && specialist_value.equals("VERDADEIRO"))
+		Object specialist_value = findGodClassSpecialist(specialist);
+		if(project_value.equals("TRUE") && specialist_value.equals("true"))
 			return 1;
-		if(project_value.equals("TRUE") && specialist_value.equals("FALSO"))
+		if(project_value.equals("TRUE") && specialist_value.equals("false"))
 			return 2;
-		if(project_value.equals("FALSE") && specialist_value.equals("FALSO"))
+		if(project_value.equals("FALSE") && specialist_value.equals("false"))
 			return 3;
-		if(project_value.equals("FALSE") && specialist_value.equals("VERDADEIRO"))
+		if(project_value.equals("FALSE") && specialist_value.equals("true"))
 			return 4;
 		return 0;
 	}
@@ -302,15 +304,14 @@ public class ExcelAPI {
 	public int compareLongMethodCodeSmells(int project, int specialist) {
 		if(specialist == 0) return 0;
 		String project_value = findIsLongMethod(project);
-		String specialist_value = findIsLongMethodSpecialist(specialist);
-		System.out.println(project + " || " + project_value + " || " + specialist_value);
-		if(project_value.equals("TRUE") && specialist_value.equals("VERDADEIRO"))
+		Object specialist_value = findIsLongMethodSpecialist(specialist);
+		if(project_value.equals("TRUE") && specialist_value.equals("1"))
 			return 1;
-		if(project_value.equals("TRUE") && specialist_value.equals("FALSO"))
+		if(project_value.equals("TRUE") && specialist_value.equals("0"))
 			return 2;
-		if(project_value.equals("FALSE") && specialist_value.equals("FALSO"))
+		if(project_value.equals("FALSE") && specialist_value.equals("0"))
 			return 3;
-		if(project_value.equals("FALSE") && specialist_value.equals("VERDADEIRO"))
+		if(project_value.equals("FALSE") && specialist_value.equals("1"))
 			return 4;
 		return 0;
 	}
@@ -329,6 +330,7 @@ public class ExcelAPI {
 			else if(compareLongMethodCodeSmells(i, idSpecialist) == 4) temp[3] = temp[3] + 1;
 		}
 		setQuality(temp);
+		System.out.println();
 	}
 
 	public DefaultTreeModel readExcel() throws Exception, IOException {

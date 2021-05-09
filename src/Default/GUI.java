@@ -81,7 +81,6 @@ public class GUI {
 	private JComboBox<Object> GodComboBox2 = new JComboBox<Object>();
 	private JButton btnNewButton = new JButton("Update Rule");
 	private int selectedRule;
-	private int oldNOM;
 	private LoadProject lp = new LoadProject();
 	private JLabel truePositivesLabel = new JLabel("-");
 	private JLabel trueNegativesLabel = new JLabel("-");
@@ -180,7 +179,6 @@ public class GUI {
 	private void updateQuality() {
 		try {
 			excelAPI.readCodeSmells();
-			excelAPI.printSpecialists("Especialistas");
 		} catch (InvalidFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -751,7 +749,6 @@ public class GUI {
 				btnNewButton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						oldNOM = Integer.parseInt(readTxt().get(0).get(0));
 						File myObj = new File("Rules.txt");
 						Scanner myReader = null;
 						BufferedWriter bw = null;

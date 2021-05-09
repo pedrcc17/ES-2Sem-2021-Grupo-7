@@ -10,16 +10,12 @@ public class SmellyClass {
 	private int method = 0;
 	private int linesOfCode = 0;
 	private int cyclo_methods = 1;
-	private ArrayList<Integer> methodrec = new ArrayList<>();
 	private ArrayList<String> methodNames = new ArrayList<>();
 	private ArrayList<Integer> linesPerMethod = new ArrayList<>();
 	private ArrayList<Boolean> areLongMethods = new ArrayList<>();
 	private ArrayList<Integer> cyclosPerMethod = new ArrayList<>();
-	private String privado = "private";
-	private String pub = "public";
 	private boolean isGodClass;
 	private int wmcCount;
-	private int Loc_Class_var;
 
 	public SmellyClass() {
 
@@ -33,8 +29,6 @@ public class SmellyClass {
 				if ((line.contains("private") || line.contains("public")) && !line.contains(";") && !line.contains("=") 
 						&& !line.contains("class") && line.contains("(")){
 						
-					String esp = line.substring(0,line.indexOf("("));
-					String[] pieces =esp.split(" ");
 						System.out.println(line);
 						String atributes = line.substring(line.indexOf("("), line.indexOf(")")+1);
 						String atributes_vf = "";
