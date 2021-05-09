@@ -87,8 +87,7 @@ public class GUI {
 	private JLabel trueNegativesLabel = new JLabel("-");
 	private JLabel falsePositivesLabel = new JLabel("-");
 	private JLabel falseNegativesLabel = new JLabel("-");
-	//asd
-
+	
 	/**
 	 * Create the application.
 	 */
@@ -177,6 +176,24 @@ public class GUI {
 		updateLabel(totalMethods, TotalsList.get(2));
 		updateLabel(totalLOC, TotalsList.get(3));
 	}
+	
+	private void updateQuality() {
+		try {
+			excelAPI.readCodeSmells();
+			excelAPI.printSpecialists("Especialistas");
+		} catch (InvalidFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		excelAPI.countQuality();
+		updateLabel(truePositivesLabel, String.valueOf(this.excelAPI.getQuality(0)));
+		updateLabel(trueNegativesLabel, String.valueOf(this.excelAPI.getQuality(2)));
+		updateLabel(falsePositivesLabel, String.valueOf(this.excelAPI.getQuality(1)));
+		updateLabel(falseNegativesLabel, String.valueOf(this.excelAPI.getQuality(3)));
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -188,7 +205,7 @@ public class GUI {
 		frame.setBounds(100, 100, 850, 714);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JMenuItem i1, i2, i3, i4, i5, i6, i7, i8;
+		JMenuItem i1, i2, i3, i4, i5, i6;
 		JMenu File = new JMenu("File");
 
 		JMenu Rules = new JMenu("Rules");
@@ -1074,6 +1091,18 @@ public class GUI {
 		gbc_lblNewLabel_2_2_1_1_1.gridx = 1;
 		gbc_lblNewLabel_2_2_1_1_1.gridy = 12;
 		panel_12.add(falseNegativesLabel, gbc_lblNewLabel_2_2_1_1_1);
+		
+		JButton btnNewButton_1 = new JButton("Test Rules");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateQuality();
+			}
+		});
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton_1.gridx = 1;
+		gbc_btnNewButton_1.gridy = 13;
+		panel_12.add(btnNewButton_1, gbc_btnNewButton_1);
 
 	}
 
