@@ -5,28 +5,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.sun.source.tree.Tree;
 
 public class ExcelAPI {
 
@@ -34,13 +27,15 @@ public class ExcelAPI {
 	private static XSSFSheet spreadsheet = workbook.createSheet("Code Smells");
 	private static XSSFRow row;
 	private static Map<Integer, Object[]> metrics;
+	private static Map<Integer, Object[]> metricsSpecialists;
 	private int id;
 	private String className;
 	private String packageName;
 	private XSSFFont boldfont;
 	private File fileToRead;
 	public ArrayList<String> answers;
-	
+	private String name;	
+	private int[] quality;
 	
 	public ExcelAPI() {
 		id = 00;
@@ -49,6 +44,17 @@ public class ExcelAPI {
 		boldfont.setBold(true);
 		metrics.put(00, new Object[] { "MethodID", "package", "class", "method", "NOM_class", "LOC_class", "WMC_class",
 				"is_God_Class", "LOC_method", "CYCLO_method", "is_Long_Method" });
+		metricsSpecialists = new TreeMap<Integer, Object[]>();
+		metricsSpecialists.put(00, new Object[] { "MethodID", "package", "class", "method", "is_God_Class", "is_Long_Method" });
+		try {
+			readCodeSmells();
+		} catch (InvalidFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -101,6 +107,7 @@ public class ExcelAPI {
 		while (name == null) {
 			name = (String) JOptionPane.showInputDialog(null, "Choose Excel file name", JOptionPane.PLAIN_MESSAGE);
 		}
+		this.name = name;
 		return name;
 	}
 
@@ -119,6 +126,22 @@ public class ExcelAPI {
 								row.getCell(6).getStringCellValue(), row.getCell(7).getStringCellValue(),
 								row.getCell(8).getStringCellValue(), row.getCell(9).getStringCellValue(),
 								row.getCell(10).getStringCellValue(), });
+			}
+		}
+	}
+	
+	public void readCodeSmells() throws IOException, InvalidFormatException {
+		workbook = new XSSFWorkbook(new File("Excel Files/Code_Smells.xlsx"));
+		spreadsheet = workbook.getSheet("Code Smells");
+		int countOfRows = spreadsheet.getLastRowNum();
+
+		for (int i = 01; i < countOfRows; i++) {
+			row = spreadsheet.getRow(i);
+			if (row.getLastCellNum() < 12) {
+				metrics.put(i,
+						new Object[] { Integer.toString(i), row.getCell(1).getStringCellValue(),
+								row.getCell(2).getStringCellValue(), row.getCell(3).getStringCellValue(),
+								row.getCell(7).getStringCellValue(), row.getCell(10).getStringCellValue(), });
 			}
 		}
 	}
@@ -195,6 +218,94 @@ public class ExcelAPI {
 
 	public String getFileToRead() {
 		return this.fileToRead.toString();
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public int findLineSpecialist(int line) {
+		Object[] temp = metricsSpecialists.get(line);
+		return (int) temp[0];
+	}
+	
+	public String findPackageNameSpecialist(int line) {
+		Object[] temp = metricsSpecialists.get(line);
+		return (String) temp[1];
+	}
+	
+	public String findClassNameSpecialist(int line) {
+		Object[] temp = metricsSpecialists.get(line);
+		return (String) temp[2];
+	}
+	
+	public String findMethodNameSpecialist(int line) {
+		Object[] temp = metricsSpecialists.get(line);
+		return (String) temp[3];
+	}
+	
+	public String findGodClassSpecialist(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[4];
+	}
+	
+	public String findIsLongMethodSpecialist(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[5];
+	}
+	
+	public int findIDInSpecialist(String packageName, String className, String methodName) {
+		for(int i = 0; i < metrics.size(); i++) {
+			if(findPackageNameSpecialist(i).contains(packageName) &&
+					className.contains(findClassNameSpecialist(i)) &&
+					findMethodNameSpecialist(i).equals(methodName))
+			return i;
+		}
+		return 0;
+	}
+	
+	public int compareGodClassCodeSmells(int project, int specialist) {
+		String project_value = findGodClass(project);
+		String specialist_value = findGodClassSpecialist(specialist);
+		if(project_value.equals("TRUE") && specialist_value.equals("VERDADEIRO"))
+			return 1;
+		if(project_value.equals("TRUE") && specialist_value.equals("FALSO"))
+			return 2;
+		if(project_value.equals("FALSE") && specialist_value.equals("FALSO"))
+			return 3;
+		if(project_value.equals("FALSE") && specialist_value.equals("VERDADEIRO"))
+			return 4;
+		return 0;
+	}
+	
+	public int compareLongMethodCodeSmells(int project, int specialist) {
+		String project_value = findIsLongMethod(project);
+		String specialist_value = findIsLongMethodSpecialist(specialist);
+		if(project_value.equals("TRUE") && specialist_value.equals("VERDADEIRO"))
+			return 1;
+		if(project_value.equals("TRUE") && specialist_value.equals("FALSO"))
+			return 2;
+		if(project_value.equals("FALSE") && specialist_value.equals("FALSO"))
+			return 3;
+		if(project_value.equals("FALSE") && specialist_value.equals("VERDADEIRO"))
+			return 4;
+		return 0;
+	}
+	
+	public void countQuality() {
+		int[] temp = {0,0,0,0};
+		for(int i = 0; i < metrics.size(); i++) {
+			int idSpecialist = findIDInSpecialist(findPackageName(i), findClassName(i), findMethodName(i));
+			if(compareGodClassCodeSmells(i, idSpecialist) == 1) temp[0]++;
+			else if(compareGodClassCodeSmells(i, idSpecialist) == 2) temp[1]++;
+			else if(compareGodClassCodeSmells(i, idSpecialist) == 3) temp[2]++;
+			else if(compareGodClassCodeSmells(i, idSpecialist) == 4) temp[3]++;
+			else if(compareLongMethodCodeSmells(i, idSpecialist) == 1) temp[0]++;
+			else if(compareLongMethodCodeSmells(i, idSpecialist) == 2) temp[1]++;
+			else if(compareLongMethodCodeSmells(i, idSpecialist) == 3) temp[2]++;
+			else if(compareLongMethodCodeSmells(i, idSpecialist) == 4) temp[3]++;
+		}
+		setQuality(temp);
 	}
 
 	public DefaultTreeModel readExcel() throws Exception, IOException {
@@ -302,6 +413,14 @@ public class ExcelAPI {
 			return cell.getStringCellValue() + "\t\t\t";
 		}
 		return "";
+	}
+	
+	public int getQuality(int i) {
+		return this.quality[i];
+	}
+	
+	public void setQuality(int[] i) {
+		this.quality = i;
 	}
 
 }

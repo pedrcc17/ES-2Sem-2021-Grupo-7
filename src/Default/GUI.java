@@ -1,7 +1,6 @@
 package Default;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -30,7 +29,6 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -43,8 +41,6 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -87,6 +83,10 @@ public class GUI {
 	private int selectedRule;
 	private int oldNOM;
 	private LoadProject lp = new LoadProject();
+	private JLabel truePositivesLabel = new JLabel("-");
+	private JLabel trueNegativesLabel = new JLabel("-");
+	private JLabel falsePositivesLabel = new JLabel("-");
+	private JLabel falseNegativesLabel = new JLabel("-");
 
 
 	/**
@@ -98,14 +98,6 @@ public class GUI {
 
 	private void setExcelAPI(ExcelAPI excelAPI) {
 		this.excelAPI = excelAPI;
-	}
-
-	private ExcelAPI getExcelAPI() {
-		return this.excelAPI;
-	}
-
-	private void removeExcelAPI() {
-		this.excelAPI = null;
 	}
 
 	private void selectExcel() {
@@ -173,11 +165,6 @@ public class GUI {
 					}
 				}
 			});
-			// ExcelAPI a = new ExcelAPI();
-
-			// System.out.println(excelAPI.answers.get(0));
-
-			// updateLabel(lblNewLabel_2_2_1_1_2 ,a.answers.get(0));
 			scrollPane.setViewportView(tree);
 		}
 		scrollPane.updateUI();
@@ -247,7 +234,6 @@ public class GUI {
 			}
 		});
 		
-		i3 = new JMenuItem("Create new Rule");
 		i3 = new JMenuItem("Create new Rule");
 		i3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -994,13 +980,12 @@ public class GUI {
 		gbc_lblFalsePositives.gridy = 2;
 		panel_12.add(lblFalsePositives, gbc_lblFalsePositives);
 
-		JLabel lblNewLabel_2_3_1 = new JLabel("50");
-		lblNewLabel_2_3_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		truePositivesLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		GridBagConstraints gbc_lblNewLabel_2_3_1 = new GridBagConstraints();
 		gbc_lblNewLabel_2_3_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2_3_1.gridx = 1;
 		gbc_lblNewLabel_2_3_1.gridy = 3;
-		panel_12.add(lblNewLabel_2_3_1, gbc_lblNewLabel_2_3_1);
+		panel_12.add(truePositivesLabel, gbc_lblNewLabel_2_3_1);
 
 		JLabel lblTrueNegatives = new JLabel("True negatives");
 		GridBagConstraints gbc_lblTrueNegatives = new GridBagConstraints();
@@ -1009,13 +994,12 @@ public class GUI {
 		gbc_lblTrueNegatives.gridy = 5;
 		panel_12.add(lblTrueNegatives, gbc_lblTrueNegatives);
 
-		JLabel lblNewLabel_2_1_1_1 = new JLabel("50");
-		lblNewLabel_2_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		trueNegativesLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		GridBagConstraints gbc_lblNewLabel_2_1_1_1 = new GridBagConstraints();
 		gbc_lblNewLabel_2_1_1_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2_1_1_1.gridx = 1;
 		gbc_lblNewLabel_2_1_1_1.gridy = 6;
-		panel_12.add(lblNewLabel_2_1_1_1, gbc_lblNewLabel_2_1_1_1);
+		panel_12.add(trueNegativesLabel, gbc_lblNewLabel_2_1_1_1);
 
 		JLabel methods_1_1 = new JLabel("False positives");
 		GridBagConstraints gbc_methods_1_1 = new GridBagConstraints();
@@ -1024,13 +1008,12 @@ public class GUI {
 		gbc_methods_1_1.gridy = 8;
 		panel_12.add(methods_1_1, gbc_methods_1_1);
 
-		JLabel lblNewLabel_2_2_1_2 = new JLabel("50");
-		lblNewLabel_2_2_1_2.setFont(new Font("Tahoma", Font.BOLD, 25));
+		falsePositivesLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		GridBagConstraints gbc_lblNewLabel_2_2_1_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2_2_1_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2_2_1_2.gridx = 1;
 		gbc_lblNewLabel_2_2_1_2.gridy = 9;
-		panel_12.add(lblNewLabel_2_2_1_2, gbc_lblNewLabel_2_2_1_2);
+		panel_12.add(falsePositivesLabel, gbc_lblNewLabel_2_2_1_2);
 
 		JLabel codelines_1_1 = new JLabel("False negatives");
 		GridBagConstraints gbc_codelines_1_1 = new GridBagConstraints();
@@ -1039,13 +1022,12 @@ public class GUI {
 		gbc_codelines_1_1.gridy = 11;
 		panel_12.add(codelines_1_1, gbc_codelines_1_1);
 
-		JLabel lblNewLabel_2_2_1_1_1 = new JLabel("50");
-		lblNewLabel_2_2_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		falseNegativesLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		GridBagConstraints gbc_lblNewLabel_2_2_1_1_1 = new GridBagConstraints();
 		gbc_lblNewLabel_2_2_1_1_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2_2_1_1_1.gridx = 1;
 		gbc_lblNewLabel_2_2_1_1_1.gridy = 12;
-		panel_12.add(lblNewLabel_2_2_1_1_1, gbc_lblNewLabel_2_2_1_1_1);
+		panel_12.add(falseNegativesLabel, gbc_lblNewLabel_2_2_1_1_1);
 		
 	}
 

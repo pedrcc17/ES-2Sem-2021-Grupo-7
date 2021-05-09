@@ -12,9 +12,8 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 public class LoadProject {
 
-	
-	
 	ArrayList<Pair<Integer, Boolean>> rule;
+	
 	private static BufferedReader restartReading(String dir, String file) {
 		try {
 			BufferedReader javaFile = new BufferedReader(new FileReader(dir + "\\" + file));
