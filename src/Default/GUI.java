@@ -766,7 +766,7 @@ public class GUI {
 				panel_2.add(CYCLOofMethod, gbc_textField_4);
 				CYCLOofMethod.setColumns(10);
 
-				btnNewButton = new JButton("Update Rule");
+				btnNewButton = new JButton("Update / Set Rule");
 				GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 				gbc_btnNewButton.gridwidth = 3;
 				gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
@@ -794,6 +794,75 @@ public class GUI {
 
 							if (dataDivided[0].equals("Rule") && dataDivided[1].equals(selected)) {
 								try {
+									ArrayList<Pair<Integer, Boolean>> results = new ArrayList<Pair<Integer, Boolean>>();
+									if(!LOCperMethod.getText().equals("0") && !LongComboBox.getSelectedItem().equals("---")) {
+										Pair<Integer, Boolean> locMethodResult = new Pair<Integer, Boolean>(
+												Integer.parseInt(LOCperMethod.getText()), true);
+										results.add(locMethodResult);
+									}else {
+										Pair<Integer, Boolean> locMethodResult = new Pair<Integer, Boolean>(
+												Integer.parseInt(LOCperMethod.getText()), false);
+										results.add(locMethodResult);
+									}
+									if(!CYCLOofMethod.getText().equals("0")) {
+
+										Pair<Integer, Boolean> cycloMethodResult = new Pair<Integer, Boolean>(
+												Integer.parseInt(CYCLOofMethod.getText()), true);
+										results.add(cycloMethodResult);
+									}else {
+										Pair<Integer, Boolean> cycloMethodResult = new Pair<Integer, Boolean>(
+												Integer.parseInt(CYCLOofMethod.getText()), false);
+										results.add(cycloMethodResult);
+									}
+									if (LongComboBox.getSelectedItem().toString() == "Or") {
+										Pair<Integer, Boolean> firstOp = new Pair<Integer, Boolean>(0, true);
+										results.add(firstOp);
+									} else {
+										Pair<Integer, Boolean> firstOp = new Pair<Integer, Boolean>(0, false);
+										results.add(firstOp);
+									}
+									if (!NOMperClass.getText().equals("0") && !GodComboBox1.getSelectedItem().equals("---")) {
+										Pair<Integer, Boolean> nomClassResult = new Pair<Integer, Boolean>(
+												Integer.parseInt(NOMperClass.getText()), true);
+										results.add(nomClassResult);
+									}else {
+										Pair<Integer, Boolean> nomClassResult = new Pair<Integer, Boolean>(
+												Integer.parseInt(NOMperClass.getText()), false);
+										results.add(nomClassResult);
+									}
+									if (!LOCperClass.getText().equals("0") && !GodComboBox2.getSelectedItem().equals("---")) {
+										Pair<Integer, Boolean> locClassResult = new Pair<Integer, Boolean>(
+												Integer.parseInt(LOCperClass.getText()), true);
+										results.add(locClassResult);
+									}else {
+										Pair<Integer, Boolean> locClassResult = new Pair<Integer, Boolean>(
+												Integer.parseInt(LOCperClass.getText()), false);
+										results.add(locClassResult);
+									}
+									if (!WMCofClass.getText().equals("0")) {
+										Pair<Integer, Boolean> wmcClassResult = new Pair<Integer, Boolean>(
+												Integer.parseInt(WMCofClass.getText()), true);
+										results.add(wmcClassResult);
+									}else {
+										Pair<Integer, Boolean> wmcClassResult = new Pair<Integer, Boolean>(
+												Integer.parseInt(WMCofClass.getText()), false);
+										results.add(wmcClassResult);
+									}
+									if (GodComboBox1.getSelectedItem().toString() == "Or") {
+										Pair<Integer, Boolean> secondOp = new Pair<Integer, Boolean>(0, true);
+										results.add(secondOp);
+									} else {
+										Pair<Integer, Boolean> secondOp = new Pair<Integer, Boolean>(0, false);
+										results.add(secondOp);
+									}
+									if (GodComboBox2.getSelectedItem().toString() == "Or") {
+										Pair<Integer, Boolean> thirdOp = new Pair<Integer, Boolean>(0, true);
+										results.add(thirdOp);
+									} else {
+										Pair<Integer, Boolean> thirdOp = new Pair<Integer, Boolean>(0, false);
+										results.add(thirdOp);
+									}
+									lp.receiveRule(results);
 									bw.write("Rule " + selected + "\r\n" + "Long Method :\r\n" + "LOC per Method > "
 											+ LOCperMethod.getText() + " " + LongComboBox.getSelectedItem() + "\r\n"
 											+ "CYCLO of Method > " + CYCLOofMethod.getText() + "\r\n" + "God Class:\r\n"
@@ -837,9 +906,6 @@ public class GUI {
 
 			}
 		});
-
-		i5 = new JMenuItem("Save Rules");
-		i6 = new JMenuItem("Load Rules");
 
 		File.add(i1);
 		File.add(i2);
