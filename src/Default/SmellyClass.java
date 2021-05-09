@@ -30,12 +30,50 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				line.trim();
-				if ((line.contains(privado) || line.contains(pub)) && !line.endsWith(";")
-						&& !line.contains("class") && !line.contains("=") /* || !line.contains("if") || !line.contains("for")*/) {
-					method++;
-					methodName(line);
+				if ((line.contains("private") || line.contains("public")) && !line.contains(";") && !line.contains("=") 
+						&& !line.contains("class") && line.contains("(")){
+						
+					String esp = line.substring(0,line.indexOf("("));
+					String[] pieces =esp.split(" ");
+						System.out.println(line);
+						String atributes = line.substring(line.indexOf("("), line.indexOf(")")+1);
+						String atributes_vf = "";
+						
+						if(atributes.contains(",")) {
+							String[] atributes_v2 = atributes.split(",");
+							for(int i=0;i<=atributes_v2.length-1;i++) {
+								String[] atributes_v3 = atributes_v2[i].split(" ");
+								
+								if(atributes_v3.length == 2 ) {
+									atributes_vf = atributes_vf + atributes_v3[0]+",";
+								}
+								else if(atributes_v3.length == 3) {
+									atributes_vf = atributes_vf + atributes_v3[1]+",";
+								}
+							}
+							method++;
+							atributes_vf=atributes_vf.substring(0, atributes_vf.length() - 1);
+							methodName(line,atributes_vf+")");
+						}
+						else {
+							if(atributes.contains(" ")) {
+								String[] atributes_v3 = atributes.split(" ");
+								atributes_vf = atributes_vf + atributes_v3[0];
+								method++;
+								methodName(line,atributes_vf+")");
+							}
+							else {
+								String[] atributes_v3 = atributes.split(" ");
+								atributes_vf = atributes_vf + atributes_v3[0];
+								methodName(line,atributes_vf);
+								method++;
+							}
+							
+						}
+
+				
 				}
+					
 				linesOfCode++;
 				line = javaFile.readLine();
 			}
@@ -45,6 +83,7 @@ public class SmellyClass {
 			System.out.println("End of class");
 		}
 	}
+	
 
 	public void WMC(BufferedReader file) {
 		javaFile = file;
@@ -52,8 +91,8 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if (((line.contains(privado) || line.contains(pub)) && !line.endsWith(";")
-						&& !line.contains("class"))) {
+				if ((line.contains("private") || line.contains("public")) && !line.contains(";") && !line.contains("=") 
+						&& !line.contains("class") && line.contains("(")){
 					cyclo_methods++;
 				}
 				if ((line.contains("while") || line.contains("else") || line.contains("for") || line.contains("if"))
@@ -78,8 +117,8 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if (((line.contains(privado) || line.contains(pub))) && !line.endsWith(";")
-						&& !line.contains("class")) {
+				if ((line.contains("private") || line.contains("public")) && !line.contains(";") && !line.contains("=") 
+						&& !line.contains("class") && line.contains("(")){
 					if (num_method != 0 && inMethod) {
 						System.out.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
 						inMethod = false;
@@ -90,8 +129,8 @@ public class SmellyClass {
 					num_method++;
 					inMethod = true;
 				} else {
-					if (((line.contains(privado) || line.contains(pub)))
-							&& (line.endsWith(")") || line.endsWith(" ")) && !line.contains("class")) {
+					if ((line.contains("private") || line.contains("public")) && !line.contains(";") && !line.contains("=") 
+							&& !line.contains("class") && line.contains("(")){
 						if (num_method != 0 && inMethod) {
 							System.out
 							.println("O " + num_method + "º método tem " + linesOfCode + " linhas de código.");
@@ -130,8 +169,8 @@ public class SmellyClass {
 		try {
 			line = javaFile.readLine();
 			while (line != null) {
-				if ((line.contains(privado) || line.contains(pub)) && !line.endsWith(";")
-						&& !line.contains("class")) {
+				if ((line.contains("private") || line.contains("public")) && !line.contains(";") && !line.contains("=") 
+						&& !line.contains("class") && line.contains("(")){
 					if (num_method != 0) {
 						System.out.println("O " + num_method + "º método tem complexidade de " + cyclo_methods + ".");
 						cyclosPerMethod.add(cyclo_methods);
@@ -312,11 +351,11 @@ public class SmellyClass {
 		linesOfCode++;
 	}
 
-	public void methodName(String line) {
+	public void methodName(String line, String atributes) {
 		String[] parts = line.split("\\(");
 		String name = parts[0].substring(parts[0].lastIndexOf(" "));
-		System.out.println(name.trim());
-		methodNames.add(name.trim());
+		System.out.println(name.trim()+atributes);
+		methodNames.add(name.trim()+atributes);
 	}
 
 	public int getMethod() {

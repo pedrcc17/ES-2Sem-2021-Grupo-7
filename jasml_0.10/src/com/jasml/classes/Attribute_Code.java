@@ -25,8 +25,7 @@ public class Attribute_Code extends Attribute {
 		super(Constants.ATTRIBUTE_Code, 0);
 	}
 
-	public Attribute_Code(int attrLength, int max_stack, int max_locals, int code_length, Opcode[] codes, int exception_table_length,
-			ExceptionTableItem[] exception_Table, int attributes_count, Attribute[] attributes) {
+	public Attribute_Code(int attrLength, int max_stack, int max_locals, int code_length, Opcode[] codes, int exception_table_length,ExceptionTableItem[] exception_Table, int attributes_count, Attribute[] attributes) {
 		super(Constants.ATTRIBUTE_Code, attrLength);
 		this.max_locals = max_locals;
 		this.max_stack = max_stack;
