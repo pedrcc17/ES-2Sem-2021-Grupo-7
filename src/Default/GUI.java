@@ -87,6 +87,7 @@ public class GUI {
 	private JLabel trueNegativesLabel = new JLabel("-");
 	private JLabel falsePositivesLabel = new JLabel("-");
 	private JLabel falseNegativesLabel = new JLabel("-");
+	//asd
 
 	/**
 	 * Create the application.

@@ -12,25 +12,25 @@ Long Method :
 LOC per Method > 2 And
 CYCLO of Method > 2
 God Class:
-NOM per Class > 0 
-LOC per Class > 0 
+NOM per Class > 0 ---
+LOC per Class > 0 ---
 WMC of Class > 0
 /////
 Rule 2
 Long Method :
-LOC per Method > 0 
-CYCLO of Method > 0
+LOC per Method > 1 Or
+CYCLO of Method > 1
 God Class:
-NOM per Class > 3 And
-LOC per Class > 3 And
-WMC of Class > 3
+NOM per Class > 2 Or
+LOC per Class > 22 Or
+WMC of Class > 22
 /////
 Rule 3
 Long Method :
-LOC per Method > 4 ---
-CYCLO of Method > 0
+LOC per Method > 2 Or
+CYCLO of Method > 222
 God Class:
-NOM per Class > 0 Or
-LOC per Class > 5555555555555 ---
-WMC of Class > 4
+NOM per Class > 22 Or
+LOC per Class > 22 Or
+WMC of Class > 22
 /////

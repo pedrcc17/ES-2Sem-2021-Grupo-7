@@ -36,6 +36,7 @@ public class ExcelAPI {
 	public ArrayList<String> answers;
 	private String name;	
 	private int[] quality;
+	//
 	
 	public ExcelAPI() {
 		id = 00;
