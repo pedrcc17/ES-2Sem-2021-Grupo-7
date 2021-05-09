@@ -8,7 +8,11 @@ import java.io.FileReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
+/**
+ * Unit Tests
+ * @author G7 de ES LEI 2020/2021
+ *
+ */
 class SmellyClassTest {
 	
 	private SmellyClass smelly;
@@ -20,12 +24,19 @@ class SmellyClassTest {
 	 * Estes valores são comparados com os valores calculados pelas nossas funções
 	 */
 
+	/**
+	 * Sets up SmellyClass before each test
+	 * @throws Exception
+	 */
 	@BeforeEach
 	void setUp() throws Exception {
 		smelly = new SmellyClass();
 		javaFile = new BufferedReader(new FileReader("jasml_0.10/src/com/jasml/compiler/ParsingException.java"));
 	}
 
+	/**
+	 * Tests the method NOM from SmellyClass
+	 */
 	@Test
 	@DisplayName("Verificação da contagem de número de métodos")
 	void testNOM() {
@@ -33,6 +44,9 @@ class SmellyClassTest {
 		assertEquals(6, smelly.getMethod(), "This class have 6 methods.");
 	}
 
+	/**
+	 * Tests the method WMC from SmellyClass
+	 */
 	@Test
 	@DisplayName("Verificação do WMC")
 	void testWMC() {
@@ -40,6 +54,9 @@ class SmellyClassTest {
 		assertEquals(13, smelly.getWmcCount(), "This class have WMC = 13.");
 	}
 
+	/**
+	 * Tests the method LOC_Method from SmellyClass
+	 */
 	@Test
 	@DisplayName("Verificação da contagem de linhas de código por método")
 	void testLOC_Method() {
@@ -52,6 +69,9 @@ class SmellyClassTest {
 		assertEquals(21, smelly.getLinesPerMethod(5), "The sixth method have 21 LOC.");
 	}
 
+	/**
+	 * Tests the method CYCLO_Method from SmellyClass
+	 */
 	@Test
 	@DisplayName("Verificação do CYCLO por método")
 	void testCYCLO_Method() {
@@ -64,6 +84,9 @@ class SmellyClassTest {
 		assertEquals(8, smelly.getCyclosPerMethod(5), "The sixth method have CYCLO = 8.");
 	}
 
+	/**
+	 * Tests the method LOC_Class from SmellyClass
+	 */
 	@Test
 	@DisplayName("Verificação da contagem de linhas de código da classe")
 	void testLOC_Class() {
@@ -71,6 +94,9 @@ class SmellyClassTest {
 		assertEquals(50, smelly.getLinesOfCode(), "This class have 50 LOC.");
 	}
 	
+	/**
+	 * Tests the correct name of the classes
+	 */
 	@Test
 	@DisplayName("Verificação do nome dos métodos")
 	void testMethodNames() {

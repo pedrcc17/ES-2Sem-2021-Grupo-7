@@ -230,7 +230,7 @@ public class GUI {
 		frame.setBounds(100, 100, 850, 714);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JMenuItem i1, i2, i3, i4, i5, i6;
+		JMenuItem i1, i2, i3, i4;
 		JMenu File = new JMenu("File");
 
 		JMenu Rules = new JMenu("Rules");
@@ -912,8 +912,6 @@ public class GUI {
 
 		Rules.add(i3);
 		Rules.add(i4);
-		Rules.add(i5);
-		Rules.add(i6);
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(File);

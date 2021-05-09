@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"Default","l":"ExcelAPI"},{"p":"Default","l":"GUI"},{"p":"Default","l":"LoadProject"},{"p":"Default","l":"Main"},{"p":"Default","l":"Pair"},{"p":"Default","l":"SmellyClass"},{"p":"Default","l":"SmellyClassTest"}];updateSearchResults();
