@@ -159,6 +159,13 @@ public class GUI {
 							updateLabel(methodNameLabel, node.toString());
 							updateLabel(methodCyclesLabel, info[1]);
 							updateLabel(methodIsLongLabel, info[2]);
+							String parent = node.getParent().toString();
+							excelAPI.findClassSmellsByName(parent);
+							updateLabel(lblNewLabel_1_3_1, parent);
+							updateLabel(lblNewLabel_2_2_1_1_2, excelAPI.answers.get(0));
+							updateLabel(lblNewLabel_2_2_1_1_4, excelAPI.answers.get(1));
+							updateLabel(lblNewLabel_2_2_1_1_6, excelAPI.answers.get(2));
+							updateLabel(lblNewLabel_2_2_1_1_8, excelAPI.answers.get(3));
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
