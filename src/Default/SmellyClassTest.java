@@ -23,7 +23,7 @@ class SmellyClassTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		smelly = new SmellyClass();
-		javaFile = new BufferedReader(new FileReader("C:\\Users\\andre\\git\\ES-2Sem-2021-Grupo-7\\jasml_0.10\\src\\com\\jasml\\compiler\\ParsingException.java"));
+		javaFile = new BufferedReader(new FileReader("jasml_0.10/src/com/jasml/compiler/ParsingException.java"));
 	}
 
 	@Test
