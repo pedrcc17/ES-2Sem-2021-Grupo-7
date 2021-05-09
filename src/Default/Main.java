@@ -5,6 +5,7 @@ package Default;
  * @author G7 de ES LEI 2020/2021
  *
  */
+//Terminado
 public class Main {
 	public static void main(String[] args) {
 		GUI gui = new GUI();
