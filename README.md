@@ -4,9 +4,9 @@ The app requires some precedures in order to work:
 
 In the early stages of the project some libraries were adopted in the development of this application, such has Apache POI (Java API for Microsoft Documents) and miglayout to extend Window Builder's capabilities.
 
-In order to add these libraries to run the app, you'll need to add these to your own Classpath (these are included ExcelAPI folder).
+In order to add these libraries to run the app, you'll need to add these to your own Classpath (these are included in ExcelAPI folder).
 
-Furthermore, it there is also a library JUnit used in testing our code resemblance with the requirements.
+Furthermore, the library JUnit5 was also used in testing our code resemblance with the requirements.
 
 To read your project on this app properly, you'll have to follow the next rules:
 
