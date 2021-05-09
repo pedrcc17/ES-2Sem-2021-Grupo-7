@@ -50,7 +50,11 @@ import javax.swing.JSeparator;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
-
+/**
+ * The GUI front-end part of the project
+ * @author G7 de ES LEI 2020/2021
+ *
+ */
 public class GUI {
 
 	public JFrame frame;
@@ -88,16 +92,21 @@ public class GUI {
 	private JLabel falseNegativesLabel = new JLabel("-");
 	
 	/**
-	 * Create the application.
+	 * Creates the application.
 	 */
 	public GUI() {
 		initialize();
 	}
-
+	/**
+	 * Sets the Excel file to be read in the GUI chosen by the method "selectExcel()"
+	 * @param excelAPI
+	 */
 	private void setExcelAPI(ExcelAPI excelAPI) {
 		this.excelAPI = excelAPI;
 	}
-
+	/**
+	 * Selects the excel file to be read in the GUI chosen by the user.
+	 */
 	private void selectExcel() {
 		JFileChooser chooser = new JFileChooser(".\\Excel Files");
 		chooser.setMultiSelectionEnabled(false);
@@ -108,12 +117,20 @@ public class GUI {
 		excelAPI.setFileToRead(chooser.getSelectedFile());
 		setExcelAPI(excelAPI);
 	}
-
+	/**
+	 * Updates the label's text.
+	 * @param label The desired JLAbel to change
+	 * @param text The text to change the JLabel to
+	 */
 	public void updateLabel(JLabel label, String text) {
 		label.setText(text);
 		label.paintImmediately(label.getVisibleRect());
 	}
-
+	/**
+	 * Refreshes the window after the listener is triggered by pressing the JTree in the GUI.
+	 * @throws Exception
+	 * @throws Exception
+	 */
 	private void updateWindow() throws Exception, Exception {
 		if (excelAPI != null) {
 			tree = new JTree();
@@ -135,12 +152,12 @@ public class GUI {
 							updateLabel(methodCyclesLabel, info[1]);
 							updateLabel(methodIsLongLabel, info[2]);
 							String parent = node.getParent().toString();
-							excelAPI.findClassSmellsByName(parent);
+							ArrayList<String> answers = excelAPI.findClassSmellsByName(parent);
 							updateLabel(lblNewLabel_1_3_1, parent);
-							updateLabel(lblNewLabel_2_2_1_1_2, excelAPI.answers.get(0));
-							updateLabel(lblNewLabel_2_2_1_1_4, excelAPI.answers.get(1));
-							updateLabel(lblNewLabel_2_2_1_1_6, excelAPI.answers.get(2));
-							updateLabel(lblNewLabel_2_2_1_1_8, excelAPI.answers.get(3));
+							updateLabel(lblNewLabel_2_2_1_1_2, answers.get(0));
+							updateLabel(lblNewLabel_2_2_1_1_4, answers.get(1));
+							updateLabel(lblNewLabel_2_2_1_1_6, answers.get(2));
+							updateLabel(lblNewLabel_2_2_1_1_8, answers.get(3));
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -153,11 +170,15 @@ public class GUI {
 
 						if (nodeInfo.toString().contains(".java")) {
 							updateLabel(lblNewLabel_1_3_1, nodeInfo.toString());
-							excelAPI.findClassSmellsByName(nodeInfo.toString());
-							updateLabel(lblNewLabel_2_2_1_1_2, excelAPI.answers.get(0));
-							updateLabel(lblNewLabel_2_2_1_1_4, excelAPI.answers.get(1));
-							updateLabel(lblNewLabel_2_2_1_1_6, excelAPI.answers.get(2));
-							updateLabel(lblNewLabel_2_2_1_1_8, excelAPI.answers.get(3));
+							ArrayList<String> answers = excelAPI.findClassSmellsByName(nodeInfo.toString());
+							updateLabel(lblNewLabel_2_2_1_1_2, answers.get(0));
+							updateLabel(lblNewLabel_2_2_1_1_4, answers.get(1));
+							updateLabel(lblNewLabel_2_2_1_1_6, answers.get(2));
+							updateLabel(lblNewLabel_2_2_1_1_8, answers.get(3));
+							updateLabel(methodCodeLinesLabel, "-");
+							updateLabel(methodNameLabel, "Methodname");
+							updateLabel(methodCyclesLabel, "-");
+							updateLabel(methodIsLongLabel, "N/A");
 						}
 
 					}
@@ -167,7 +188,11 @@ public class GUI {
 		}
 		scrollPane.updateUI();
 	}
-
+	/**
+	 * Refreshes the "Geral" portion of the GUI after choosing a file.
+	 * @throws IOException
+	 * @throws Exception
+	 */
 	private void updateLabels() throws IOException, Exception {
 		TotalsList = excelAPI.readExcelTotals();
 		updateLabel(totalPackages, TotalsList.get(0));
@@ -175,7 +200,9 @@ public class GUI {
 		updateLabel(totalMethods, TotalsList.get(2));
 		updateLabel(totalLOC, TotalsList.get(3));
 	}
-	
+	/**
+	 * Refreshes the indicators.
+	 */
 	private void updateQuality() {
 		try {
 			excelAPI.readCodeSmells();
@@ -194,7 +221,7 @@ public class GUI {
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initializes the contents of the frame.
 	 */
 	private void initialize() {
 
@@ -1102,7 +1129,10 @@ public class GUI {
 		panel_12.add(btnNewButton_1, gbc_btnNewButton_1);
 
 	}
-
+	/**
+	 * Reads the "Rules.txt" file to return the organized list of rules.
+	 * @return An ArrayList (all the sets of rules) of ArrayLists of Strings (each set of rules)
+	 */
 	private ArrayList<ArrayList<String>> readTxt() {
 		try {
 			ArrayList<ArrayList<String>> rules = new ArrayList<ArrayList<String>>();
@@ -1178,7 +1208,11 @@ public class GUI {
 		}
 		return null;
 	}
-
+	/**
+	 * Gets the number of rules in the "Rules.txt" file
+	 * @return The number of rules
+	 * @throws FileNotFoundException
+	 */
 	private String getNumberOfRulesTxt() throws FileNotFoundException {
 		String i = null;
 		File myObj = new File("Rules.txt");

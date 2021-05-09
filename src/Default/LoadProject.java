@@ -10,10 +10,22 @@ import javax.swing.JFileChooser;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+/**
+ *  Aid methods for reading files
+ * @author G7 de ES LEI 2020/2021
+ *
+ */
 public class LoadProject {
 
+	/** Set of rules to detect the code smells*/
 	ArrayList<Pair<Integer, Boolean>> rule;
 	
+	/**
+	 * Gets the BufferedReader for the file given if it is a java class or interface, in the directory given.
+	 * @param dir Directory
+	 * @param file File
+	 * @return BufferedReader for java class or interface
+	 */
 	private static BufferedReader restartReading(String dir, String file) {
 		try {
 			BufferedReader javaFile = new BufferedReader(new FileReader(dir + "\\" + file));
@@ -30,7 +42,11 @@ public class LoadProject {
 		}
 		return null;
 	}
-
+	/**
+	 * Exports all data from the files in the directory chosen in "readEverything()".
+	 * @throws IOException
+	 * @throws InvalidFormatException
+	 */
 	public void openProject() throws IOException, InvalidFormatException {
 		ExcelAPI excelapi = new ExcelAPI();
 		ArrayList<File> allJavaFiles = readEverything();
@@ -49,7 +65,13 @@ public class LoadProject {
 		}
 		excelapi.exportToExcel(excelapi.chooseName());
 	}
-
+	/**
+	 * Gets all the .java files in an array of File.
+	 * @param arr The array of Files
+	 * @param index Recursion index
+	 * @param toreturn Array of .java files to return after recursion ends
+	 * @return Array of .java files
+	 */
 	public static ArrayList<File> RecursiveFinder(File[] arr,int index,int level, ArrayList<File> toreturn) 
 	{
 		if(index == arr.length)
@@ -71,11 +93,16 @@ public class LoadProject {
 
 		return toreturn;
 	}
-	
+	/**
+	 * Setter for the "rule" class attribute
+	 */
 	public void receiveRule(ArrayList<Pair<Integer, Boolean>> rule) {
 		this.rule = rule;
 		}
-
+	/**
+	 * Turns a directory into an array of File for it to be used by "RecursiveFinder" to get all .java files in this directory.
+	 * @return Array of .java files
+	 */
 	public static ArrayList<File> readEverything(){
 		ArrayList<File> vazio = new ArrayList<File>();
 		JFileChooser chooser = new JFileChooser(".");

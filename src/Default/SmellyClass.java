@@ -4,23 +4,42 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Everything related to the detection of code smells
+ * @author G7 de ES LEI 2020/2021
+ *
+ */
 public class SmellyClass {
+	/** The .java file to check for code smells.*/
 	private BufferedReader javaFile;
+	/** Aid string. */
 	private String line = "";
+	/** Number of methods. */
 	private int method = 0;
+	/** Number of lines of code in the class */
 	private int linesOfCode = 0;
+	/** Aid Integer*/
 	private int cyclo_methods = 1;
+	/** Saved method names*/
 	private ArrayList<String> methodNames = new ArrayList<>();
+	/** Number of lines of code for each method in the class */
 	private ArrayList<Integer> linesPerMethod = new ArrayList<>();
+	/** An ArrayList of booleans for each method in the class where true means that the method is long, and false means otherwise */
 	private ArrayList<Boolean> areLongMethods = new ArrayList<>();
+	/** Cyclomatic complexity for each method in the class */
 	private ArrayList<Integer> cyclosPerMethod = new ArrayList<>();
+	/** True if the .java file is a God Class, false otherwise*/
 	private boolean isGodClass;
+	/** Cyclomatic complextiy of the class*/
 	private int wmcCount;
-
+	
 	public SmellyClass() {
 
 	}
-
+	/**
+	 * Saves the number of methods in a given class to the "method" class attribute.
+	 * @param file The class to be evaluated
+	 */
 	public void NOM(BufferedReader file) {
 		javaFile = file;
 		try {
@@ -77,8 +96,10 @@ public class SmellyClass {
 			System.out.println("End of class");
 		}
 	}
-	
-
+	/**
+	 * Saves the cyclomatic complexity of the class given to the "wmcCount" class attribute
+	 * @param file The class to be evaluated
+	 */
 	public void WMC(BufferedReader file) {
 		javaFile = file;
 		cyclo_methods = 0;
@@ -102,7 +123,10 @@ public class SmellyClass {
 			System.out.println("End of class");
 		}
 	}
-
+	/**
+	 * Saves to the "linesPerMethod" class attribute the number of lines in each method of the given class.
+	 * @param file The class to be evaluated
+	 */
 	public void LOC_Method(BufferedReader file) {
 		javaFile = file;
 		int linesOfCode = 0;
@@ -155,7 +179,10 @@ public class SmellyClass {
 			System.out.println("End of class");
 		}
 	}
-
+	/**
+	 * Saves to the "cyclosPerMethod" class attribute the cyclomatic complexity of each method in the class given as the parameter. 
+	 * @param file The class that will have its methods be evaluated
+	 */
 	public void CYCLO_Method(BufferedReader file) {
 		javaFile = file;
 		cyclo_methods = 1;
@@ -188,7 +215,18 @@ public class SmellyClass {
 			System.out.println("End of class");
 		}
 	}
-
+	/**
+	 * Checks if a class is a God Class by comparing the thresholds in the parameters with the rest of the values in the parameters.
+	 * @param wmcThreshold Cyclomatic complexity threshold
+	 * @param nomThreshold Number of methods threshold
+	 * @param locThreshold Lines of code threshold
+	 * @param wmc True if it is to be checked by the cyclomatic completity
+	 * @param nom True if it is to be checked by the number of methods
+	 * @param loc True if it is to be checked by the lines of code
+	 * @param isOr True means "and", false means "or"
+	 * @param isOrAgain True means "and", false means "or"
+	 * @return True if it is a God Class, false if otherwise
+	 */
 	public boolean isGodClass(int wmcThreshold, int nomThreshold, int locThreshold, boolean wmc, boolean nom, boolean loc,
 			boolean isOr, boolean isOrAgain) {
 		if (wmc && !nom && !loc) {
@@ -286,7 +324,14 @@ public class SmellyClass {
 
 
 	}
-
+	/**
+	 * Saves to the "areLongMethods" class attribute if a method is long by comparing the thresholds given in the parameters with the method numbers in "loc" and "cyclo"
+	 * @param locTreshold Line of code threshold	
+	 * @param cycloTreshold Cyclomatic complexity threshold
+	 * @param loc Lines of code to compare
+	 * @param cyclo Cyclomatic complexity to compare
+	 * @param isOr True means "and", false means "or"
+	 */
 	public void isLongMethod(int locTreshold, int cycloTreshold, boolean loc, boolean cyclo, boolean isOr) {
 		if (loc && !cyclo) {
 			for (int a : linesPerMethod) {
@@ -337,14 +382,20 @@ public class SmellyClass {
 			}
 		}
 	}
-
+	/**
+	 * Counts the lines of code in a given file (class) and adds it to the "linesOfCode" class attribute.
+	 * @param file
+	 */
 	public void LOC_Class(BufferedReader file) {
 		javaFile = file;
 		linesOfCode = (int) javaFile.lines().count();
 		System.out.println("A classe tem " + linesOfCode + " linhas de código.");
 		linesOfCode++;
 	}
-
+	/**
+	 * Adds the method name in the line given to the methodNames class attribute.
+	 * @param line
+	 */
 	public void methodName(String line, String atributes) {
 		String[] parts = line.split("\\(");
 		String name = parts[0].substring(parts[0].lastIndexOf(" "));
@@ -352,36 +403,55 @@ public class SmellyClass {
 		methodNames.add(name.trim()+atributes);
 	}
 
+	/**
+	 * Getter for "method".
+	 */
 	public int getMethod() {
 		return method;
 	}
-
+	/**
+	 * Getter for "linesOfCode".
+	 */
 	public int getLinesOfCode() {
 		return linesOfCode;
 	}
-
+	/**
+	 * Getter for "linesPerMethod" at the index given.
+	 * @param id Index
+	 */
 	public int getLinesPerMethod(int id) {
 		return linesPerMethod.get(id);
 	}
-
+	/**
+	 * Getter for "areLongMethods" at the index given.
+	 * @param id Index
+	 */
 	public boolean getAreLongMethods(int id) {
 		return areLongMethods.get(id);
 	}
-
+	/**
+	 * Getter for "cyclosPerMethod" at the index given.
+	 * @param id Index
+	 */
 	public int getCyclosPerMethod(int id) {
 		return cyclosPerMethod.get(id);
 	}
-
+	/**
+	 * Getter for "isGodClass".
+	 */
 	public boolean getisGodClass() {
 		return isGodClass;
 	}
-
+	/**
+	 * Getter for "wmcCount".
+	 */
 	public int getWmcCount() {
 		return wmcCount;
 	}
-
+	/**
+	 * Getter for "methodNames" at the index given.
+	 * @param id Index	 */
 	public String getMethodNames(int id) {
 		return methodNames.get(id);
 	}
-
 }

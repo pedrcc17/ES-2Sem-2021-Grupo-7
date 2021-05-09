@@ -21,26 +21,46 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+/**
+ * Everything directly related to Excel in the project
+ * @author G7 de ES LEI 2020/2021
+ *
+ */
 public class ExcelAPI {
-
+	/** Used to create a Spreadsheet.*/
 	private static XSSFWorkbook workbook = new XSSFWorkbook();
+	/** Used to create the Excel files.*/
 	private static XSSFSheet spreadsheet = workbook.createSheet("Code Smells");
+	/** Spreadsheet rows.*/
 	private static XSSFRow row;
+	/** Map where the metrics are saved while the application is running.*/
 	private static Map<Integer, Object[]> metrics;
-	private static Map<Integer, Object[]> specialists;
+	/** Index/key for each new addition in the metrics map. */
 	private int id;
+	/** Class Name */
 	private String className;
+	/** Package Name */
 	private String packageName;
+	/** Used to bold text in the exported Excel files.*/
 	private XSSFFont boldfont;
+	/** File to be used while the application is running. */
 	private File fileToRead;
-	public ArrayList<String> answers;
-	private String name;	
+	/** Name for the Excel File */
+	private String name;
+	/** Array to store true positives, true negatives, false positives and false negatives */
 	private int[] quality;
+	/** Workbook for specialist */
 	private static XSSFWorkbook workbook2 = new XSSFWorkbook();
+	/** Spreadsheet for specialist */
 	private static XSSFSheet spreadsheet2 = workbook2.createSheet("Code Smells");
+	/** Rows for specialist */
 	private static XSSFRow row2;
-	//commit
-	
+	/** Map of the metrics given by the teacher */
+	private static Map<Integer, Object[]> specialists;
+
+	/**
+	 * Creates the base ExcelAPI along with the first index of the "metrics" and "specialists" TreeMap where the metrics will be stored.
+	 */
 	public ExcelAPI() {
 		id = 00;
 		metrics = new TreeMap<Integer, Object[]>();
@@ -52,7 +72,10 @@ public class ExcelAPI {
 		specialists = new TreeMap<Integer, Object[]>();
 		specialists.put(00, new Object[] { "MethodID", "package", "class", "method", "is_God_Class", "is_Long_Method" });
 	}
-	
+	/**
+	 * Saves the metrics of the class given in the TreeMap.
+	 * @param classy Class to be read
+	 */
 	public void saveMetrics(SmellyClass classy) {
 		for (int i = 0; i < classy.getMethod(); i++) {
 			id++;
@@ -64,7 +87,11 @@ public class ExcelAPI {
 					Boolean.toString(classy.getAreLongMethods(i)).toUpperCase(), });
 		}
 	}
-
+	/**
+	 * Exports the metrics saved in the application to an Excel file.
+	 * @param name The desired name for the exported Excel file
+	 * @throws IOException
+	 */
 	public void exportToExcel(String name) throws IOException {
 		CellStyle hStyle = workbook.createCellStyle();
 		Set<Integer> keyid = metrics.keySet();
@@ -91,7 +118,11 @@ public class ExcelAPI {
 		workbook.close();
 		System.out.println(name + ".xlsx written successfully");
 	}
-	
+	/**
+	 * Exports the metrics in the "specialists" attribute to an Excel file with the name as the parameter
+	 * @param name Name of the Excel file
+	 * @throws IOException
+	 */
 	public void printSpecialists(String name) throws IOException {
 		CellStyle hStyle = workbook2.createCellStyle();
 		Set<Integer> keyid = specialists.keySet();
@@ -118,12 +149,19 @@ public class ExcelAPI {
 		workbook2.close();
 		System.out.println(name + ".xlsx written successfully");
 	}
-
+	/**
+	 * Sets the "className" and "packageName" class attributes.
+	 * @param file className
+	 * @param filePathString packageName
+	 */
 	public void setClassAndPackageNames(String file, String filePathString) {
 		this.className = file;
 		this.packageName = filePathString;
 	}
-
+	/**
+	 * Opens an InputDialog for the user to choose the Excel file name.
+	 * @return Users input
+	 */
 	public String chooseName() {
 		String name = null;
 		while (name == null) {
@@ -132,7 +170,11 @@ public class ExcelAPI {
 		this.name = name;
 		return name;
 	}
-
+	/**
+	 * Gets the data from the "fileToRead" class attribute and adds it to the "metrics" TreeMap class attribute.
+	 * @throws IOException
+	 * @throws InvalidFormatException
+	 */
 	public void getExcelDataAsMap() throws IOException, InvalidFormatException {
 		workbook = new XSSFWorkbook(fileToRead);
 		spreadsheet = workbook.getSheet("Code Smells");
@@ -151,7 +193,11 @@ public class ExcelAPI {
 			}
 		}
 	}
-	
+	/**
+	 * Reads the file "Code_Smells.xlsx" and adds it to the "specialists" TreeMap
+	 * @throws IOException
+	 * @throws InvalidFormatException
+	 */
 	public void readCodeSmells() throws IOException, InvalidFormatException {
 		workbook = new XSSFWorkbook(new File("Excel Files/Code_Smells.xlsx"));
 		spreadsheet = workbook.getSheet("Code Smells");
@@ -168,115 +214,198 @@ public class ExcelAPI {
 			}
 		}
 	}
-
+	/**
+	 * Gets the value stored in the line and collumn given from the class TreeMap "metrics".
+	 * @param line
+	 * @param column
+	 * @return The value stored
+	 */
 	public String findInMap(int line, int column) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[column];
 	}
 
-	// helping with small methods
-
+	/**
+	 * Gets the "Method ID" value in the specified index of the TreeMap "metrics".
+	 * @param line TreeMap key
+	 * @return Method ID value
+	 */
 	public String findMethodID(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[0];
 	}
-
+	/**
+	 * Gets the "Package Name" value in the specified index of the TreeMap "metrics".
+	 * @param line TreeMap key
+	 * @return Package Name value
+	 */
 	public String findPackageName(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[1];
 	}
-
+	/**
+	 * Gets the "Class Name" value in the specified index of the TreeMap "metrics".
+	 * @param line TreeMap key
+	 * @return Class Name value
+	 */
 	public String findClassName(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[2];
 	}
-
+	/**
+	 * Gets the "Method Name" value in the specified index of the TreeMap "metrics".
+	 * @param line TreeMap key
+	 * @return Method Name value
+	 */
 	public String findMethodName(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[3];
 	}
-
+	/**
+	 * Gets the "Nom_Class" value in the specified index of the TreeMap "metrics".
+	 * @param line TreeMap key
+	 * @return Nom_Class value
+	 */
 	public String findNOM_Class(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[4];
 	}
-
+	/**
+	 * Gets the "LOC_Class" value in the specified index of the TreeMap "metrics".
+	 * @param line TreeMap key
+	 * @return LOC_Class value
+	 */
 	public String findLOC_Class(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[5];
 	}
-
+	/**
+	 * Gets the "WMC_Class" value in the specified index of the TreeMap "metrics".
+	 * @param line TreeMap key
+	 * @return WMC_Class value
+	 */
 	public String findWMC_Class(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[6];
 	}
-
+	/**
+	 * Gets the "God Class" value in the specified index of the TreeMap "metrics".
+	 * @param line TreeMap key
+	 * @return God Class value
+	 */
 	public String findGodClass(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[7];
 	}
-
+	/**
+	 * Gets the "LOC_Method" value in the specified index of the TreeMap "metrics".
+	 * @param line TreeMap key
+	 * @return LOC_Method value
+	 */
 	public String findLOC_Method(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[8];
 	}
-
+	/**
+	 * Gets the "CYCLO_Method" value in the specified index of the TreeMap "metrics".
+	 * @param line TreeMap key
+	 * @return CYCLO_Method value
+	 */
 	public String findCYCLO_Method(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[9];
 	}
-
+	/**
+	 * Gets the "Long Method" value in the specified index of the TreeMap "metrics".
+	 * @param line TreeMap key
+	 * @return Long Method value
+	 */
 	public String findIsLongMethod(int line) {
 		Object[] temp = metrics.get(line);
 		return (String) temp[10];
 	}
 
+	/**
+	 * Sets the "fileToRead" class attribute to the file given.
+	 * @param file File that is meant to be read
+	 */
 	public void setFileToRead(File file) {
 		this.fileToRead = file;
 	}
-
+	/**
+	 * Sets the "fileToRead" class attribute to null.
+	 */
 	public void removeFileToRead() {
 		this.fileToRead = null;
 	}
-
+	/**
+	 * Gets the "fileToRead" class attribute as a String.
+	 * @return fileToRead as String
+	 */
 	public String getFileToRead() {
 		return this.fileToRead.toString();
 	}
-	
+	/**
+	 * Getter for "name" class attribute
+	 */
 	public String getName() {
 		return this.name;
 	}
-	
+	/**
+	 * Gets the Method ID value in the specified index of the TreeMap "specialists".
+	 * @param line TreeMap key
+	 */
 	public int findLineSpecialist(int line) {
 		Object[] temp = specialists.get(line);
 		return (int) temp[0];
 	}
-	
+	/**
+ 	 * Gets the Package Name value in the specified index of the TreeMap "specialists".
+	 * @param line TreeMap key
+	 */
 	public String findPackageNameSpecialist(int line) {
 		Object[] temp = specialists.get(line);
 		return (String) temp[1];
 	}
-	
+	/**
+	 * Gets the Class Name value in the specified index of the TreeMap "specialists".
+	 * @param line TreeMap key
+	 */
 	public String findClassNameSpecialist(int line) {
 		Object[] temp = specialists.get(line);
 		return (String) temp[2];
 	}
-	
+	/**
+	 * Gets the Method Name value in the specified index of the TreeMap "specialists".
+	 * @param line TreeMap key
+	 */
 	public String findMethodNameSpecialist(int line) {
 		Object[] temp = specialists.get(line);
 		return (String) temp[3];
 	}
-	
-	public Object findGodClassSpecialist(int line) {
-		Object[] temp = specialists.get(line);
-		return temp[4];
+	/**
+	 * Gets the is_God_Class value in the specified index of the TreeMap "specialists".
+	 * @param line TreeMap key
+	 */
+	public String findGodClassSpecialist(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[4];
 	}
-	
-	public Object findIsLongMethodSpecialist(int line) {
-		Object[] temp = specialists.get(line);
-		return temp[5];
+	/**
+	 * Gets the is_Long_Method value in the specified index of the TreeMap "specialists".
+	 * @param line TreeMap key
+	 */
+	public String findIsLongMethodSpecialist(int line) {
+		Object[] temp = metrics.get(line);
+		return (String) temp[5];
 	}
-	
+	/**
+	 * Gets Excel ID in "specialists" TreeMap by giving the package name, class name and method name
+	 * @param packageName Package name
+	 * @param className Class name
+	 * @param methodName Method Name
+	 * @return Excel ID
+	 */
 	public int findIDInSpecialist(String packageName, String className, String methodName) {
 		for(int i = 0; i < metrics.size(); i++) {
 			if(findPackageNameSpecialist(i).contains(packageName) &&
@@ -286,7 +415,12 @@ public class ExcelAPI {
 		}
 		return 0;
 	}
-	
+	/**
+	 * Compares the GodClass values in "metrics" and "specialists" attributes to check for True Positives(1), False Positives(2), True Negatives(3), False Negatives(4)
+	 * @param project Metrics key
+	 * @param specialist Specialist key
+	 * @return True Positives(1), False Positives(2), True Negatives(3), False Negatives(4)
+	 */
 	public int compareGodClassCodeSmells(int project, int specialist) {
 		if(specialist == 0) return 0;
 		String project_value = findGodClass(project);
@@ -301,7 +435,12 @@ public class ExcelAPI {
 			return 4;
 		return 0;
 	}
-	
+	/**
+	 * Compares the IsLongMethod values in "metrics" and "specialists" attributes to check for True Positives(1), False Positives(2), True Negatives(3), False Negatives(4)
+	 * @param project Metrics key
+	 * @param specialist Specialist key
+	 * @return True Positives(1), False Positives(2), True Negatives(3), False Negatives(4)
+	 */
 	public int compareLongMethodCodeSmells(int project, int specialist) {
 		if(specialist == 0) return 0;
 		String project_value = findIsLongMethod(project);
@@ -316,7 +455,9 @@ public class ExcelAPI {
 			return 4;
 		return 0;
 	}
-	
+	/**
+	 * Counts the amount of Indicators (True Positives, False Positives, True Negatives and False Negatives)
+	 */
 	public void countQuality() {
 		int[] temp = {0,0,0,0};
 		for(int i = 0; i < metrics.size(); i++) {
@@ -333,7 +474,12 @@ public class ExcelAPI {
 		setQuality(temp);
 		System.out.println();
 	}
-
+	/**
+	 * Gets the "fileToRead" class attribute and stores its data as a DefaultTreeModel.
+	 * @return DefaultTreeModel containing the fileToRead data
+	 * @throws Exception
+	 * @throws IOException
+	 */
 	public DefaultTreeModel readExcel() throws Exception, IOException {
 		getExcelDataAsMap();
 		String name = getFileToRead().replace("\\", " ");
@@ -374,7 +520,12 @@ public class ExcelAPI {
 		return treeModel;
 
 	}
-	
+	/**
+	 * Gets the "metrics" class attribute totals value (number of packages, classes, methods and lines of code) and stores them in a String ArrayList.
+	 * @return ArrayList of Strings containing the totals 
+	 * @throws Exception
+	 * @throws IOException
+	 */
 	public ArrayList<String> readExcelTotals() throws Exception, IOException {
 		getExcelDataAsMap();
 		ArrayList<String> packagesList = new ArrayList<String>();
@@ -407,10 +558,14 @@ public class ExcelAPI {
 		return totalsList;
 	}
 	
-	public void findClassSmellsByName(String name){
-		answers = new ArrayList<String>();
+	/**
+	 * Searches the "metrics" class attribute and returns the info of the class className in String ArrayList.
+	 * @param className Name of the class to find
+	 */
+	public ArrayList<String> findClassSmellsByName(String className){
+		ArrayList<String> answers = new ArrayList<String>();
 		for (int i = 1; i < metrics.size(); i++) {
-			if(findClassName(i).equals(name)) {
+			if(findClassName(i).equals(className)) {
 				
 				answers.add(findNOM_Class(i));
 				answers.add(findLOC_Class(i));
@@ -418,7 +573,14 @@ public class ExcelAPI {
 				answers.add(findGodClass(i));
 			}	
 		}
+		return answers;
 	}
+	/**
+	 * Searches the "metrics" class attribute and stores the info of each method in a TreeMap mapped by the names of the methods. 
+	 * @return TreeMap with the names of the methods as the keys and the mapped values are metrics related to the methods as String arrays 
+	 * @throws Exception
+	 * @throws IOException
+	 */
 	public Map<String,String[]> getExcelMethods() throws Exception, IOException {
 		getExcelDataAsMap();
 		Map<String, String[]> methods = new TreeMap<String, String[]>();
@@ -430,7 +592,11 @@ public class ExcelAPI {
 		return methods;
 	}
 	
-	
+	/**
+	 * Gets a given cell's value as a String.
+	 * @param cell Cell to get the value of
+	 * @return Cell's value as String
+	 */
 	public static String getCellValue(Cell cell) {
 		if (cell.getCellType().toString().equals("CELL_TYPE_NUMERIC")) {
 			return cell.getNumericCellValue() + "\t\t\t";
@@ -440,11 +606,17 @@ public class ExcelAPI {
 		}
 		return "";
 	}
-	
+	/**
+	 * Getter for quality integers 
+	 * @param i True Positives(1), False Positives(2), True Negatives(3), False Negatives(4)
+	 * @return The number of the parameter the user input
+	 */
 	public int getQuality(int i) {
 		return this.quality[i];
 	}
-	
+	/**
+	 * Setter
+	 */
 	public void setQuality(int[] i) {
 		this.quality = i;
 	}
