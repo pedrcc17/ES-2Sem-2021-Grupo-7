@@ -88,21 +88,6 @@ public class GUI {
 	private int oldNOM;
 	private LoadProject lp = new LoadProject();
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					GUI window = new GUI();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the application.
@@ -151,7 +136,7 @@ public class GUI {
 
 					if (node == null) {
 						return;
-					} else if (node.isLeaf()) {
+					} else if (node.isLeaf() && node.getParent().toString().contains(".java")) {
 						try {
 							Map<String, String[]> methods = excelAPI.getExcelMethods();
 							String[] info = methods.get(node.toString());
