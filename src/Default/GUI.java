@@ -88,7 +88,6 @@ public class GUI {
 	private JLabel falsePositivesLabel = new JLabel("-");
 	private JLabel falseNegativesLabel = new JLabel("-");
 
-
 	/**
 	 * Create the application.
 	 */
@@ -182,7 +181,7 @@ public class GUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-	
+
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 850, 714);
@@ -192,7 +191,7 @@ public class GUI {
 		JMenu File = new JMenu("File");
 
 		JMenu Rules = new JMenu("Rules");
-	
+
 		i1 = new JMenuItem("Project to Metrics File");
 		i1.addActionListener(new ActionListener() {
 			@Override
@@ -208,9 +207,7 @@ public class GUI {
 				}
 			}
 		});
-				
-				
-		
+
 		i2 = new JMenuItem("Open Metrics File");
 		i2.addActionListener(new ActionListener() {
 			@Override
@@ -233,7 +230,7 @@ public class GUI {
 				}
 			}
 		});
-		
+
 		i3 = new JMenuItem("Create new Rule");
 		i3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -357,70 +354,125 @@ public class GUI {
 							outstream.write("Rule " + i + "\n");
 							outstream.write("Long Method :\n");
 							ArrayList<Pair<Integer, Boolean>> results = new ArrayList<Pair<Integer, Boolean>>();
-							if (!valueLocMethod.getText().isEmpty()) {
+							if (!valueLocMethod.getText().isEmpty() && methodOp.getSelectedItem() != null) {
 								outstream.write(locMethod.getText() + " " + valueLocMethod.getText() + " "
 										+ methodOp.getSelectedItem() + "\n");
-								Pair<Integer, Boolean> locMethodResult = new Pair<Integer, Boolean>(Integer.parseInt(valueLocMethod.getText()) , true);
+								Pair<Integer, Boolean> locMethodResult = new Pair<Integer, Boolean>(
+										Integer.parseInt(valueLocMethod.getText()), true);
 								results.add(locMethodResult);
+							} else {
+								if (!valueLocMethod.getText().isEmpty()) {
+									outstream.write(
+											locMethod.getText() + " " + locMethod.getText() + " " + "---" + "\n");
+									Pair<Integer, Boolean> locMethodResult = new Pair<Integer, Boolean>(0, false);
+									results.add(locMethodResult);
+								}else {
+									if( methodOp.getSelectedItem() != null) {
+										outstream.write(
+												locMethod.getText() + " " + "0" + " " + methodOp.getSelectedItem() + "\n");
+										Pair<Integer, Boolean> locMethodResult = new Pair<Integer, Boolean>(0, false);
+										results.add(locMethodResult);
+									}else {
+										outstream.write(
+												locMethod.getText() + " " + "0" + " " + "---" + "\n");
+										Pair<Integer, Boolean> locMethodResult = new Pair<Integer, Boolean>(0, false);
+										results.add(locMethodResult);
+									}
+								}
 							}
-							else {
-								Pair<Integer, Boolean> locMethodResult = new Pair<Integer, Boolean>( 0, false);
-								results.add(locMethodResult);
-							}
+							
 							if (!valueCycloMethod.getText().isEmpty()) {
 								outstream.write(cycloMethod.getText() + " " + valueCycloMethod.getText() + "\n");
-								Pair<Integer, Boolean> cycloMethodResult = new Pair<Integer, Boolean>( Integer.parseInt(valueCycloMethod.getText()), true);
+								Pair<Integer, Boolean> cycloMethodResult = new Pair<Integer, Boolean>(
+										Integer.parseInt(valueCycloMethod.getText()), true);
 								results.add(cycloMethodResult);
-							}else {
-								Pair<Integer, Boolean> cycloMethodResult = new Pair<Integer, Boolean>( 0, false);
+							} else {
+								outstream.write(cycloMethod.getText() + " " + 0 + "\n");
+								Pair<Integer, Boolean> cycloMethodResult = new Pair<Integer, Boolean>(0, false);
 								results.add(cycloMethodResult);
 							}
-							if(methodOp.getSelectedItem().toString() == "Or") {
-								Pair<Integer, Boolean> firstOp = new Pair<Integer, Boolean>(0,true);
+							if (methodOp.getSelectedItem().toString() == "Or") {
+								Pair<Integer, Boolean> firstOp = new Pair<Integer, Boolean>(0, true);
 								results.add(firstOp);
-							}else {
-								Pair<Integer, Boolean> firstOp = new Pair<Integer, Boolean>(0,false);
+							} else {
+								Pair<Integer, Boolean> firstOp = new Pair<Integer, Boolean>(0, false);
 								results.add(firstOp);
 							}
 							outstream.write("God Class:\n");
-							if (!valueNomClass.getText().isEmpty()){
+							if (!valueNomClass.getText().isEmpty() && classOpOne.getSelectedItem() != null) {
 								outstream.write(nomClass.getText() + " " + valueNomClass.getText() + " "
 										+ classOpOne.getSelectedItem() + "\n");
-								Pair<Integer, Boolean> nomClassResult = new Pair<Integer, Boolean>( Integer.parseInt(valueNomClass.getText()), true);
+								Pair<Integer, Boolean> nomClassResult = new Pair<Integer, Boolean>(
+										Integer.parseInt(valueNomClass.getText()), true);
 								results.add(nomClassResult);
-							}else {
-								Pair<Integer, Boolean> nomClassResult = new Pair<Integer, Boolean>( 0, false);
-								results.add(nomClassResult);
+							} else {
+								if(!valueNomClass.getText().isEmpty()) {
+									outstream.write(nomClass.getText() + " " + valueNomClass.getText() + " "
+											+ "---" + "\n");
+									Pair<Integer, Boolean> nomClassResult = new Pair<Integer, Boolean>(0, false);
+									results.add(nomClassResult);
+								}else {
+									if(classOpOne.getSelectedItem() != null) {
+										outstream.write(nomClass.getText() + " " + "0" + " "
+												+ classOpOne.getSelectedItem() + "\n");
+										Pair<Integer, Boolean> nomClassResult = new Pair<Integer, Boolean>(0, false);
+										results.add(nomClassResult);
+									}else {
+										outstream.write(nomClass.getText() + " " + "0" + " "
+												+ "---" + "\n");
+										Pair<Integer, Boolean> nomClassResult = new Pair<Integer, Boolean>(0, false);
+										results.add(nomClassResult);
+									}
+								}
 							}
-							if (!valueLocClass.getText().isEmpty()) {
+							if (!valueLocClass.getText().isEmpty() && classOpTwo.getSelectedItem() != null) {
 								outstream.write(locClass.getText() + " " + valueLocClass.getText() + " "
 										+ classOpTwo.getSelectedItem() + "\n");
-								Pair<Integer, Boolean> locClassResult = new Pair<Integer, Boolean>( Integer.parseInt(valueLocClass.getText()), true);
+								Pair<Integer, Boolean> locClassResult = new Pair<Integer, Boolean>(
+										Integer.parseInt(valueLocClass.getText()), true);
 								results.add(locClassResult);
-							}else {
-								Pair<Integer, Boolean> locClassResult = new Pair<Integer, Boolean>( 0, false);
-								results.add(locClassResult);
+							} else {
+								if(!valueLocClass.getText().isEmpty()) {
+									outstream.write(locClass.getText() + " " + valueLocClass.getText() + " "
+											+ "---" + "\n");
+									Pair<Integer, Boolean> locClassResult = new Pair<Integer, Boolean>(0, false);
+									results.add(locClassResult);
+								}else {
+									if(classOpTwo.getSelectedItem() != null) {
+										outstream.write(locClass.getText() + " " + "0" + " "
+												+ classOpTwo.getSelectedItem() + "\n");
+										Pair<Integer, Boolean> locClassResult = new Pair<Integer, Boolean>(0, false);
+										results.add(locClassResult);
+									}else {
+										outstream.write(locClass.getText() + " " + "0" + " "
+												+ "---" + "\n");
+										Pair<Integer, Boolean> locClassResult = new Pair<Integer, Boolean>(0, false);
+										results.add(locClassResult);
+									}
+								}
 							}
-							if (!valueWmcClass.getText().isEmpty() ) {
+							if (!valueWmcClass.getText().isEmpty()) {
 								outstream.write(wmcClass.getText() + " " + valueWmcClass.getText() + "\n");
-								Pair<Integer, Boolean> wmcClassResult = new Pair<Integer, Boolean>( Integer.parseInt(valueWmcClass.getText()), true);
+								Pair<Integer, Boolean> wmcClassResult = new Pair<Integer, Boolean>(
+										Integer.parseInt(valueWmcClass.getText()), true);
 								results.add(wmcClassResult);
-							}else {
-								Pair<Integer, Boolean> wmcClassResult = new Pair<Integer, Boolean>( 0, false);
+							} else {
+								outstream.write(wmcClass.getText() + " " + 0 + "\n");
+								Pair<Integer, Boolean> wmcClassResult = new Pair<Integer, Boolean>(0, false);
 								results.add(wmcClassResult);
 							}
-							if(classOpOne.getSelectedItem().toString() == "Or") {
-								Pair<Integer, Boolean> secondOp = new Pair<Integer, Boolean>(0,true);
+							if (classOpOne.getSelectedItem().toString() == "Or") {
+								Pair<Integer, Boolean> secondOp = new Pair<Integer, Boolean>(0, true);
 								results.add(secondOp);
-							}else {
-								Pair<Integer, Boolean> secondOp = new Pair<Integer, Boolean>(0,false);
+							} else {
+								Pair<Integer, Boolean> secondOp = new Pair<Integer, Boolean>(0, false);
 								results.add(secondOp);
 							}
-							if(classOpTwo.getSelectedItem().toString() == "Or") {
-								Pair<Integer, Boolean> thirdOp = new Pair<Integer, Boolean>(0,true);
+							if (classOpTwo.getSelectedItem().toString() == "Or") {
+								Pair<Integer, Boolean> thirdOp = new Pair<Integer, Boolean>(0, true);
 								results.add(thirdOp);
-							}else {
-								Pair<Integer, Boolean> thirdOp = new Pair<Integer, Boolean>(0,false);
+							} else {
+								Pair<Integer, Boolean> thirdOp = new Pair<Integer, Boolean>(0, false);
 								results.add(thirdOp);
 							}
 							outstream.write("/////\n");
@@ -553,7 +605,7 @@ public class GUI {
 				NOMperClass.setColumns(10);
 
 				GodComboBox1 = new JComboBox<Object>();
-				GodComboBox1.setModel(new DefaultComboBoxModel<Object>(new String[] { "And", "Or", "Not Chosen" }));
+				GodComboBox1.setModel(new DefaultComboBoxModel<Object>(new String[] { "And", "Or", "---" }));
 				GodComboBox1.setSelectedIndex(2);
 				GridBagConstraints gbc_comboBox = new GridBagConstraints();
 				gbc_comboBox.insets = new Insets(0, 0, 5, 5);
@@ -580,7 +632,7 @@ public class GUI {
 				LOCperClass.setColumns(10);
 
 				GodComboBox2 = new JComboBox<Object>();
-				GodComboBox2.setModel(new DefaultComboBoxModel<Object>(new String[] { "And", "Or", "Not Chosen" }));
+				GodComboBox2.setModel(new DefaultComboBoxModel<Object>(new String[] { "And", "Or", "---" }));
 				GodComboBox2.setSelectedIndex(2);
 				GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 				gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
@@ -645,7 +697,7 @@ public class GUI {
 				LOCperMethod.setColumns(10);
 
 				LongComboBox = new JComboBox<Object>();
-				LongComboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "And", "Or", "Not Chosen" }));
+				LongComboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "And", "Or", "---" }));
 				LongComboBox.setSelectedIndex(2);
 				GridBagConstraints gbc_comboBox_2 = new GridBagConstraints();
 				gbc_comboBox_2.insets = new Insets(0, 0, 5, 5);
@@ -685,7 +737,6 @@ public class GUI {
 						File myObj = new File("Rules.txt");
 						Scanner myReader = null;
 						BufferedWriter bw = null;
-						boolean writed = false;
 						try {
 							myReader = new Scanner(myObj);
 							bw = new BufferedWriter(new FileWriter(new File("Rule2.txt")));
@@ -744,13 +795,13 @@ public class GUI {
 
 			}
 		});
-		
+
 		i5 = new JMenuItem("Save Rules");
 		i6 = new JMenuItem("Load Rules");
 
 		File.add(i1);
 		File.add(i2);
-		
+
 		Rules.add(i3);
 		Rules.add(i4);
 		Rules.add(i5);
@@ -777,8 +828,8 @@ public class GUI {
 		gbl_panel2.columnWidths = new int[] { 25, 175, 25, 0 };
 		gbl_panel2.rowHeights = new int[] { 14, 100, 0, 76, 0, 0, 76, 0, 0, 76, 0, 0, 76, 0, 0, 0, 0, 0, 0 };
 		gbl_panel2.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panel2.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panel2.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel2.setLayout(gbl_panel2);
 		frame.getContentPane().add(panel2, "cell 0 1,grow");
 
@@ -874,7 +925,6 @@ public class GUI {
 		splitPane.setRightComponent(layeredPane);
 		layeredPane.setLayout(new MigLayout("", "[200][200]", "[][][10.00][][10.00][][10.00][][15.00][][]"));
 
-		
 		lblNewLabel_1_3_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_1_3_1.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.add(lblNewLabel_1_3_1, "cell 0 0,alignx center,aligny center");
@@ -895,7 +945,6 @@ public class GUI {
 		lblNewLabel_12.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.add(lblNewLabel_12, "cell 1 1,alignx center,aligny center");
 
-		
 		lblNewLabel_2_2_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_2, "cell 0 2,alignx center,aligny center");
@@ -912,11 +961,9 @@ public class GUI {
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.add(lblNewLabel_1_1, "cell 1 3,alignx center,aligny center");
 
-		
 		lblNewLabel_2_2_1_1_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2_1_1_4.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_4, "cell 0 4,alignx center,aligny center");
-		
 
 		methodCyclesLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		methodCyclesLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
@@ -926,11 +973,10 @@ public class GUI {
 		lblNewLabel_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.add(lblNewLabel_1_2_1, "cell 0 5,alignx center,aligny center");
 
-		
 		lblNewLabel_2_2_1_1_6.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2_1_1_6.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_6, "cell 0 6,alignx center,aligny center");
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.LIGHT_GRAY);
 		layeredPane.add(separator, "cell 0 7 2 1,grow");
@@ -938,16 +984,15 @@ public class GUI {
 		JLabel lblNewLabel_1_2_2_1 = new JLabel("GodClass");
 		lblNewLabel_1_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
 		layeredPane.add(lblNewLabel_1_2_2_1, "cell 0 9,alignx center,aligny center");
-		
-				JLabel lblNewLabel_1_2 = new JLabel("Long");
-				lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
-				layeredPane.add(lblNewLabel_1_2, "cell 1 9,alignx center,aligny center");
 
-		
+		JLabel lblNewLabel_1_2 = new JLabel("Long");
+		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
+		layeredPane.add(lblNewLabel_1_2, "cell 1 9,alignx center,aligny center");
+
 		lblNewLabel_2_2_1_1_8.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2_1_1_8.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(lblNewLabel_2_2_1_1_8, "cell 0 10,alignx center,aligny center");
-		
+
 		methodIsLongLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		methodIsLongLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		layeredPane.add(methodIsLongLabel, "cell 1 10,alignx center,aligny center");
@@ -1028,7 +1073,7 @@ public class GUI {
 		gbc_lblNewLabel_2_2_1_1_1.gridx = 1;
 		gbc_lblNewLabel_2_2_1_1_1.gridy = 12;
 		panel_12.add(falseNegativesLabel, gbc_lblNewLabel_2_2_1_1_1);
-		
+
 	}
 
 	private ArrayList<ArrayList<String>> readTxt() {
@@ -1071,6 +1116,7 @@ public class GUI {
 						} else {
 							info.add(dataDivided[5]);
 						}
+						
 					}
 					if (dataDivided[0].equals("LOC") && dataDivided[2].equals("Class")) {
 						if (dataDivided.length <= 4) {
