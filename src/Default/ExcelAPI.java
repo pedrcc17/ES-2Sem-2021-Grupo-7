@@ -58,6 +58,7 @@ public class ExcelAPI {
 	/** Map of the metrics given by the teacher */
 	private static Map<Integer, Object[]> specialists;
 
+	
 	/**
 	 * Creates the base ExcelAPI along with the first index of the "metrics" and "specialists" TreeMap where the metrics will be stored.
 	 */
