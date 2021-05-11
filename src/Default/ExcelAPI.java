@@ -209,9 +209,14 @@ public class ExcelAPI {
 				specialists.put(i,
 						new Object[] { Integer.toString(i), row.getCell(1).getStringCellValue(),
 								row.getCell(2).getStringCellValue(), row.getCell(3).getStringCellValue(),
-								row.getCell(7).getBooleanCellValue(),
+								row.getCell(7).getRawValue(),
 								row.getCell(10).getRawValue() });
 			}
+		}
+		
+		for(int i = 0 ; i < specialists.size() ; i++) {
+			Object[] temp = specialists.get(i);
+			System.out.println(temp[4] + " || " + temp[5]);
 		}
 	}
 	/**
@@ -388,7 +393,7 @@ public class ExcelAPI {
 	 * @param line TreeMap key
 	 */
 	public String findGodClassSpecialist(int line) {
-		Object[] temp = metrics.get(line);
+		Object[] temp = specialists.get(line);
 		return (String) temp[4];
 	}
 	/**
@@ -396,7 +401,7 @@ public class ExcelAPI {
 	 * @param line TreeMap key
 	 */
 	public String findIsLongMethodSpecialist(int line) {
-		Object[] temp = metrics.get(line);
+		Object[] temp = specialists.get(line);
 		return (String) temp[5];
 	}
 	/**
@@ -425,13 +430,14 @@ public class ExcelAPI {
 		if(specialist == 0) return 0;
 		String project_value = findGodClass(project);
 		Object specialist_value = findGodClassSpecialist(specialist);
-		if(project_value.equals("TRUE") && specialist_value.equals("true"))
+		System.out.println(project_value + " || " + specialist_value);
+		if(project_value.equals("TRUE") && specialist_value.equals("1"))
 			return 1;
-		if(project_value.equals("TRUE") && specialist_value.equals("false"))
+		if(project_value.equals("TRUE") && specialist_value.equals("0"))
 			return 2;
-		if(project_value.equals("FALSE") && specialist_value.equals("false"))
+		if(project_value.equals("FALSE") && specialist_value.equals("0"))
 			return 3;
-		if(project_value.equals("FALSE") && specialist_value.equals("true"))
+		if(project_value.equals("FALSE") && specialist_value.equals("1"))
 			return 4;
 		return 0;
 	}
@@ -466,7 +472,8 @@ public class ExcelAPI {
 			else if(compareGodClassCodeSmells(i, idSpecialist) == 2) temp[1] = temp[1] + 1;
 			else if(compareGodClassCodeSmells(i, idSpecialist) == 3) temp[2] = temp[2] + 1;
 			else if(compareGodClassCodeSmells(i, idSpecialist) == 4) temp[3] = temp[3] + 1;
-			else if(compareLongMethodCodeSmells(i, idSpecialist) == 1) temp[0] = temp[0] + 1;
+			
+			if(compareLongMethodCodeSmells(i, idSpecialist) == 1) temp[0] = temp[0] + 1;
 			else if(compareLongMethodCodeSmells(i, idSpecialist) == 2) temp[1] = temp[1] + 1;
 			else if(compareLongMethodCodeSmells(i, idSpecialist) == 3) temp[2] = temp[2] + 1;
 			else if(compareLongMethodCodeSmells(i, idSpecialist) == 4) temp[3] = temp[3] + 1;
